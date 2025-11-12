@@ -1,0 +1,325 @@
+/* @media (prefers-color-scheme: dark) {
+  .shadow {
+    fill: hsla(223, 10%, 50%, 0.25);
+  }
+} */
+
+.loader {
+  display: block;
+  margin: 0 auto;
+  width: 12rem;
+  height: 12rem;
+  color: currentColor;
+}
+
+.wrapper.small .loader {
+  width: 6rem;
+  height: 6rem;
+}
+
+.large.wrapper {
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring,
+.drop,
+.dropInner,
+.pan,
+.shadow {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.ring {
+  stroke-dasharray: 20 221;
+  stroke-dashoffset: 20;
+  stroke-linecap: round;
+  stroke-width: 4px;
+  animation-name: panLoaderRing;
+}
+
+.drop {
+  transform-origin: 13px 60px;
+}
+
+.dropInner {
+  animation-timing-function: cubic-bezier(0.33, 0.84, 0.67, 0.84);
+}
+
+.drop1 {
+  animation-name: panLoaderDrop1;
+}
+
+.drop1 .dropInner {
+  animation-name: panLoaderDropInner1;
+}
+
+.drop2 {
+  animation-name: panLoaderDrop2;
+}
+
+.drop2 .dropInner {
+  animation-name: panLoaderDropInner2;
+}
+
+.drop3,
+.drop4,
+.drop5 {
+  transform-origin: 67px 72px;
+}
+
+.drop3 {
+  animation-name: panLoaderDrop3;
+}
+
+.drop3 .dropInner {
+  animation-name: panLoaderDropInner3;
+}
+
+.drop4 {
+  animation-name: panLoaderDrop4;
+}
+
+.drop4 .dropInner {
+  animation-name: panLoaderDropInner4;
+}
+
+.drop5 {
+  animation-name: panLoaderDrop5;
+}
+
+.drop5 .dropInner {
+  animation-name: panLoaderDropInner5;
+}
+
+.pan {
+  transform-origin: 36px 74px;
+  animation-name: panLoaderPan;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.shadow {
+  fill: hsla(223, 10%, 50%, 0.2);
+  transform-origin: 36px 124.5px;
+  animation-name: panLoaderShadow;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes panLoaderRing {
+  0%,
+  27% {
+    stroke-dashoffset: 20;
+    stroke-width: 4px;
+  }
+  53.5% {
+    stroke-dashoffset: -100;
+    stroke-width: 10px;
+  }
+  80%,
+  100% {
+    stroke-dashoffset: -220;
+    stroke-width: 4px;
+  }
+}
+
+@keyframes panLoaderDrop1 {
+  0% {
+    visibility: hidden;
+    transform: translate(0, 0);
+  }
+  30% {
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+  50%,
+  100% {
+    transform: translate(-6px, 0);
+  }
+}
+
+@keyframes panLoaderDropInner1 {
+  0%,
+  30% {
+    fill: hsla(223, 10%, 70%, 1);
+    transform: translate(0, 0);
+  }
+  50%,
+  100% {
+    fill: hsla(223, 10%, 70%, 0);
+    transform: translate(0, -27px);
+  }
+}
+
+@keyframes panLoaderDrop2 {
+  0% {
+    visibility: hidden;
+    transform: translate(0, 0);
+  }
+  30% {
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+  50%,
+  100% {
+    transform: translate(-8px, 0);
+  }
+}
+
+@keyframes panLoaderDropInner2 {
+  0%,
+  30% {
+    fill: hsla(223, 10%, 70%, 1);
+    transform: translate(0, 0);
+  }
+  50%,
+  100% {
+    fill: hsla(223, 10%, 70%, 0);
+    transform: translate(0, -9px);
+  }
+}
+
+@keyframes panLoaderDrop3 {
+  0% {
+    visibility: hidden;
+    transform: translate(0, 0);
+  }
+  78% {
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+  98%,
+  100% {
+    transform: translate(-24px, 0);
+  }
+}
+
+@keyframes panLoaderDropInner3 {
+  0%,
+  78% {
+    fill: hsla(223, 10%, 70%, 1);
+    transform: translate(0, 0);
+  }
+  98%,
+  100% {
+    fill: hsla(223, 10%, 70%, 0);
+    transform: translate(0, -28px);
+  }
+}
+
+@keyframes panLoaderDrop4 {
+  0% {
+    visibility: hidden;
+    transform: translate(0, 0);
+  }
+  78% {
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+  98%,
+  100% {
+    transform: translate(-8px, 0);
+  }
+}
+
+@keyframes panLoaderDropInner4 {
+  0%,
+  78% {
+    fill: hsla(223, 10%, 70%, 1);
+    transform: translate(0, 0);
+  }
+  98%,
+  100% {
+    fill: hsla(223, 10%, 70%, 0);
+    transform: translate(0, -36px);
+  }
+}
+
+@keyframes panLoaderDrop5 {
+  0% {
+    visibility: hidden;
+    transform: translate(0, 0);
+  }
+  78% {
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+  98%,
+  100% {
+    transform: translate(8px, 0);
+  }
+}
+
+@keyframes panLoaderDropInner5 {
+  0%,
+  78% {
+    fill: hsla(223, 10%, 70%, 1);
+    transform: translate(0, 0);
+  }
+  98%,
+  100% {
+    fill: hsla(223, 10%, 70%, 0);
+    transform: translate(0, -32px);
+  }
+}
+
+@keyframes panLoaderPan {
+  0%,
+  88%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  20% {
+    animation-timing-function: cubic-bezier(0.33, 0.16, 0.67, 0.16);
+    transform: translate(-5px, 0) rotate(-30deg);
+  }
+  30% {
+    animation-timing-function: cubic-bezier(0.33, 0.84, 0.67, 0.84);
+    transform: translate(0, 0) rotate(20deg);
+  }
+  60%,
+  78% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  81.33% {
+    transform: translate(0, 4px) rotate(0deg);
+  }
+  84.67% {
+    transform: translate(0, -2px) rotate(0deg);
+  }
+}
+
+@keyframes panLoaderShadow {
+  0%,
+  88%,
+  100% {
+    transform: scaleX(1);
+    fill: hsla(223, 10%, 50%, 0.2);
+  }
+  20% {
+    animation-timing-function: cubic-bezier(0.33, 0.16, 0.67, 0.16);
+    transform: scaleX(0.77);
+  }
+  30% {
+    animation-timing-function: cubic-bezier(0.33, 0.84, 0.67, 0.84);
+    transform: scaleX(1);
+  }
+  60%,
+  78% {
+    transform: scaleX(1);
+  }
+  81.33% {
+    transform: scaleX(0.87);
+  }
+  84.67% {
+    transform: scaleX(1.065);
+  }
+}
