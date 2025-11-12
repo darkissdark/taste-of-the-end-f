@@ -1,0 +1,13 @@
+.main {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-x);
+  padding-right: var(--container-x);
+}
+
+.loading {
+  display: grid;
+  place-items: center;
+  min-height: 40vh;
+}

@@ -1,0 +1,57 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+.panel {
+  position: relative;
+  width: min(92vw, 420px);
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+.title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.text {
+  margin: 0 0 16px;
+  color: #6b7280;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+}
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.btnPrimary {
+  background: #111;
+  color: #fff;
+}
+.btnSecondary {
+  background: #f3f4f6;
+  color: #111;
+}
+.close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: 0;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}

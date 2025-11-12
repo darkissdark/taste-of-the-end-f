@@ -3,15 +3,12 @@ import { Footer } from "@/components/layout/Footer/Footer";
 import { Outlet } from "@/components/layout/Outlet/Outlet";
 import { Montserrat } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-
 import type { Metadata } from "next";
-
 import "modern-normalize/modern-normalize.css";
 import "./globals.css";
+import IconsSprite from "@/components/ui/icons/IconsSprite";
+import { defaultMetadata } from "@/lib/seo";
 
-// 400 Regular
-// 600 SemiBold
-// 700 Bold
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   display: "swap",
@@ -19,23 +16,7 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Базовий заголовок",
-  description: "Базовий опис",
-  icons: {
-    icon: "/favicon.svg",
-  },
-  // openGraph: {
-  //   images: [
-  //     {
-  //       url: "https://st2.depositphotos.com/3827765/5416/v/600/depositphotos_54165269-stock-illustration-stork-carrying-a-baby.jpg",
-  //       width: 600,
-  //       height: 446,
-  //       alt: "опис зображення",
-  //     },
-  //   ],
-  // },
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
@@ -45,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.variable}>
+        <IconsSprite />
         <Header />
         <Outlet children={children} />
         <Footer />
