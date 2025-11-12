@@ -19,8 +19,6 @@ const PanLoader = ({ size = "small" }: LoadingSpinnerProps) => {
       <svg
         className={styles.loader}
         viewBox="0 0 128 128"
-        width={size}
-        height={size}
         role="img"
         aria-label="Pan animation"
       >

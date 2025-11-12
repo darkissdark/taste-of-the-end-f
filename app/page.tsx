@@ -1,9 +1,8 @@
-export const metadata = {
-  title: "Головна",
-  description: "Головна сторінка"
-};
+import { pageMeta } from "@/lib/seo";
+
+export const generateMetadata = () =>
+  pageMeta({ title: "Home", description: "Browse all recipes" });
 
 export default function Page() {
   return <section>Головна сторінка</section>;
 }
-

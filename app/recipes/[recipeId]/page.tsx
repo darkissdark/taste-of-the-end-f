@@ -1,13 +1,16 @@
-export const metadata = {
-  title: "Рецепт",
-  description: "Рецепт",
-};
+import { pageMeta } from "@/lib/seo";
 
-type PageProps = {
-  params: Promise<{ recipeId: string }>;
-};
+type Props = { params: Promise<{ recipeId: string }> };
 
-export default async function RecipePage({ params }: PageProps) {
+export const generateMetadata = async ({ params }: Props) => {
   const { recipeId } = await params;
-  return <section>Рецепт: {recipeId}</section>;
+  return pageMeta({
+    title: `Recipe #${recipeId}`,
+    path: `/recipes/${recipeId}`,
+  });
+};
+
+export default async function RecipePage({ params }: Props) {
+  const { recipeId } = await params;
+  return <section>Recipe: {recipeId}</section>;
 }

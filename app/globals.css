@@ -1,3 +1,30 @@
+:root {
+  /* Container side paddings (desktop/tablet/mobile) */
+  --container-x: 16px;
+  --container-max: 1440px;
+}
+
+/* ≥768px */
+@media (min-width: 768px) {
+  :root {
+    --container-x: 32px;
+  }
+}
+
+/* ≥1440px */
+@media (min-width: 1440px) {
+  :root {
+    --container-x: 108px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
 body {
   font-family: var(--font-montserrat);
+  color: #111;
+  background: #fff;
 }
