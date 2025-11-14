@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import css from "./SignInPage.module.css";
 import { useState } from "react";
-import { login, RegisterOrLoginRequest } from "@/lib/api/clientApi";
+import { login, LoginRequest } from "@/lib/api/clientApi";
 import { isAxiosError } from "axios";
 import useAuthStore from "@/lib/store/authStore";
 
-const formDataToObject = (formData: FormData): RegisterOrLoginRequest => {
+const formDataToObject = (formData: FormData): LoginRequest => {
   return {
     email: formData.get("email")?.toString() || "",
     password: formData.get("password")?.toString() || "",

@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { register, RegisterOrLoginRequest } from "@/lib/api/clientApi";
+import { register, RegisterRequest } from "@/lib/api/clientApi";
 import css from "./SignUpPage.module.css";
 import { isAxiosError } from "axios";
 import useAuthStore from "@/lib/store/authStore";
 
-const formDataToObject = (formData: FormData): RegisterOrLoginRequest => {
+const formDataToObject = (formData: FormData): RegisterRequest => {
   return {
+    name: formData.get("name")?.toString() || "",
     email: formData.get("email")?.toString() || "",
     password: formData.get("password")?.toString() || "",
   };
@@ -25,7 +26,7 @@ const SignUpPage = () => {
       const res = await register(formValues);
       if (res) {
         setUser(res);
-        router.push("/profile");
+        router.push("/");
       }
     } catch (error) {
       if (isAxiosError(error)) {
@@ -42,6 +43,18 @@ const SignUpPage = () => {
     <main className={css.mainContent}>
       <form className={css.form} action={handleSubmit}>
         <h1 className={css.formTitle}>Sign up</h1>
+
+        <div className={css.formGroup}>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            className={css.input}
+            required
+          />
+        </div>
+
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input

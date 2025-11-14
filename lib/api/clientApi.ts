@@ -1,17 +1,23 @@
 import { api } from "@/lib/api/api";
 import type { User } from "@/types/user";
 
-export type RegisterOrLoginRequest = {
+export type RegisterRequest = {
+  name: string;
   email: string;
   password: string;
 };
 
-export const register = async (data: RegisterOrLoginRequest) => {
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export const register = async (data: RegisterRequest) => {
   const res = await api.post<User>("/auth/register", data);
   return res.data;
 };
 
-export const login = async (data: RegisterOrLoginRequest) => {
+export const login = async (data: LoginRequest) => {
   const res = await api.post<User>("/auth/login", data);
   return res.data;
 };
