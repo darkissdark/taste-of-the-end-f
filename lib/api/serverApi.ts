@@ -1,12 +1,16 @@
 import { cookies } from "next/headers";
-import { api } from "@/lib/api/api";
+import { api } from "./api";
 import type { User } from "@/types/user";
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
-  const res = await api.get("/auth/refresh", {
+  const cookieHeader = cookieStore
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+  const res = await api.post("/auth/refresh", {
     headers: {
-      Cookie: cookieStore.toString(),
+      Cookie: cookieHeader,
     },
   });
   return res;
@@ -21,4 +25,3 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
-

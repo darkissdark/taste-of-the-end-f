@@ -1,4 +1,4 @@
-import { api } from "@/lib/api/api";
+import { api } from "./api";
 import type { User } from "@/types/user";
 
 export type RegisterRequest = {
@@ -21,4 +21,3 @@ export const login = async (data: LoginRequest) => {
   const res = await api.post<User>("/auth/login", data);
   return res.data;
 };
-
