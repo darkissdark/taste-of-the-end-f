@@ -1,5 +1,4 @@
 import { pageMeta } from "@/lib/seo";
-import { AuthGuard } from "@/components/security/AuthGuard";
 
 type Props = { params: Promise<{ recipeType: "own" | "favorites" }> };
 
@@ -13,9 +12,5 @@ export const generateMetadata = async ({ params }: Props) => {
 
 export default async function ProfilePage({ params }: Props) {
   const { recipeType } = await params;
-  return (
-    <AuthGuard redirectTo="/auth/login">
-      <section>Profile: {recipeType}</section>
-    </AuthGuard>
-  );
+  return <section>Profile: {recipeType}</section>;
 }

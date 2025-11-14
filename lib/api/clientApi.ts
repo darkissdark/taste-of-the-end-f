@@ -32,8 +32,13 @@ type CheckSessionRequest = {
 };
 
 export const checkSession = async () => {
-  const res = await api.post("/auth/refresh");
-  return res.status === 200;
+  try {
+    const res = await api.post("/auth/refresh");
+    return res.data.authorized === true;
+  } catch (error) {
+    console.error("Session check error:", error);
+    return false;
+  }
 };
 
 export const logout = async (): Promise<void> => {
