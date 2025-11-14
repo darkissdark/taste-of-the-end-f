@@ -18,7 +18,7 @@ type CheckSessionRequest = {
 };
 
 export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>("/auth/refresh");
+  const res = await api.post<CheckSessionRequest>("/auth/refresh");
   return res.data.success;
 };
 
