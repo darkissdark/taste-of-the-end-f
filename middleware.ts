@@ -19,12 +19,6 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  console.log(
-    accessToken,
-    refreshToken,
-    "Middleware check: accessToken, refreshToken"
-  );
-
   if (!accessToken) {
     if (refreshToken) {
       // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для публічного маршруту,
@@ -73,7 +67,6 @@ export async function middleware(request: NextRequest) {
 
     // приватний маршрут — редірект на сторінку входу
     if (isPrivateRoute) {
-      console.log("Redirecting to login from middleware");
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
