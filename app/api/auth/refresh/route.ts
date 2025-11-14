@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     const next = request.nextUrl.searchParams.get("next") || "/";
 
     if (refreshToken) {
-      const apiRes = await api.get("auth/refresh", {
+      const apiRes = await api.post("auth/refresh", {
         headers: {
           Cookie: cookieStore.toString(),
         },
