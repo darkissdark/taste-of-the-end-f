@@ -18,25 +18,25 @@ export async function Header() {
 
         <nav className={styles.nav} aria-label="Primary">
           <Link className={styles.link} href="/">
-            <SvgIcon name="icon-recipes" size={18} /> Recipes
+            Recipes
           </Link>
           {!authed && (
             <>
               <Link className={styles.link} href="/auth/login">
-                <SvgIcon name="icon-login" size={18} /> Sign in
+                Sign in
               </Link>
               <Link className={styles.link} href="/auth/register">
-                <SvgIcon name="icon-user" size={18} /> Sign up
+                Sign up
               </Link>
             </>
           )}
           {authed && (
             <>
               <Link className={styles.link} href="/profile/own">
-                <SvgIcon name="icon-user" size={18} /> My profile
+                My profile
               </Link>
               <Link className={styles.link} href="/add-recipe">
-                <SvgIcon name="icon-add" size={18} /> Add recipe
+                Add recipe
               </Link>
             </>
           )}
@@ -45,13 +45,10 @@ export async function Header() {
         <div className={styles.right}>
           {authed && (
             <>
-              <span className={styles.userBadge}>
-                <SvgIcon name="icon-user" size={18} />
-                {userName}
-              </span>
+              <span className={styles.userBadge}>{userName}</span>
               <form action="/api/auth/logout" method="POST">
                 <button className={styles.link} type="submit">
-                  <SvgIcon name="icon-logout" size={18} /> Sign out
+                  Sign out
                 </button>
               </form>
             </>

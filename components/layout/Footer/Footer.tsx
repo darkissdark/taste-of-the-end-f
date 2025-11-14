@@ -28,7 +28,7 @@ export function Footer() {
         </div>
 
         <span className={styles.copy}>
-          © 2025 Tasteorama. All rights reserved.
+          © {new Date().getFullYear()} Tasteorama. All rights reserved.
         </span>
 
         <nav className={styles.nav} aria-label="Footer">
