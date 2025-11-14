@@ -21,3 +21,21 @@ export const login = async (data: LoginRequest) => {
   const res = await api.post<User>("/auth/login", data);
   return res.data;
 };
+
+export const getMe = async () => {
+  const { data } = await api.get<User>("/users/me");
+  return data;
+};
+
+type CheckSessionRequest = {
+  success: boolean;
+};
+
+export const checkSession = async () => {
+  const res = await api.post("/auth/refresh");
+  return res.status === 200;
+};
+
+export const logout = async (): Promise<void> => {
+  await api.post("/auth/logout");
+};
