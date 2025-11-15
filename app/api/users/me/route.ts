@@ -1,60 +1,96 @@
 export const dynamic = "force-dynamic";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { api } from "../../api";
-import { cookies } from "next/headers";
-import { logErrorResponse } from "../../_utils/utils";
-import { isAxiosError } from "axios";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
+    // Отримуємо кукі з клієнтського запиту
+    const cookies = request.headers.get("cookie") || "";
 
-    const res = await api.get("/users/me", {
+    // Проксуємо запит на Render бекенд через існуючу обгортку
+    const response = await api.get("/api/users/me", {
       headers: {
-        Cookie: cookieStore.toString(),
+        Cookie: cookies, // Передаємо кукі з клієнта до бекенду
       },
     });
-    return NextResponse.json(res.data, { status: res.status });
-  } catch (error) {
-    if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
-      return NextResponse.json(
-        { error: error.message, response: error.response?.data },
-        { status: error.status }
-      );
+
+    // Копіюємо Set-Cookie заголовки з відповіді бекенду
+    const setCookieHeaders = response.headers["set-cookie"];
+
+    // Створюємо нову відповідь з даними та кукі
+    const nextResponse = NextResponse.json(response.data, {
+      status: response.status,
+    });
+
+    // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
+    if (setCookieHeaders) {
+      const cookieArray = Array.isArray(setCookieHeaders)
+        ? setCookieHeaders
+        : [setCookieHeaders];
+      cookieArray.forEach((cookie) => {
+        // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
+        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, "");
+        nextResponse.headers.append("Set-Cookie", cookieWithoutDomain);
+      });
     }
-    logErrorResponse({ message: (error as Error).message });
+
+    return nextResponse;
+  } catch (error: any) {
+    console.error("Error proxying users/me GET request:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      {
+        error: "Internal server error",
+        response: error.response?.data,
+      },
+      { status: error.response?.status || 500 }
     );
   }
 }
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
     const body = await request.json();
 
-    const res = await api.patch("/users/me", body, {
+    // Отримуємо кукі з клієнтського запиту
+    const cookies = request.headers.get("cookie") || "";
+
+    // Проксуємо запит на Render бекенд через існуючу обгортку
+    const response = await api.patch("/api/users/me", body, {
       headers: {
-        Cookie: cookieStore.toString(),
+        Cookie: cookies, // Передаємо кукі з клієнта до бекенду
       },
     });
-    return NextResponse.json(res.data, { status: res.status });
-  } catch (error) {
-    if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
-      return NextResponse.json(
-        { error: error.message, response: error.response?.data },
-        { status: error.status }
-      );
+
+    // Копіюємо Set-Cookie заголовки з відповіді бекенду
+    const setCookieHeaders = response.headers["set-cookie"];
+
+    // Створюємо нову відповідь з даними та кукі
+    const nextResponse = NextResponse.json(response.data, {
+      status: response.status,
+    });
+
+    // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
+    if (setCookieHeaders) {
+      const cookieArray = Array.isArray(setCookieHeaders)
+        ? setCookieHeaders
+        : [setCookieHeaders];
+      cookieArray.forEach((cookie) => {
+        // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
+        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, "");
+        nextResponse.headers.append("Set-Cookie", cookieWithoutDomain);
+      });
     }
-    logErrorResponse({ message: (error as Error).message });
+
+    return nextResponse;
+  } catch (error: any) {
+    console.error("Error proxying users/me PATCH request:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      {
+        error: "Internal server error",
+        response: error.response?.data,
+      },
+      { status: error.response?.status || 500 }
     );
   }
 }
