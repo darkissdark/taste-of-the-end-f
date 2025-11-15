@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import css from "./AddRecipeForm.module.css";
-import { fetchIngredients } from "@/lib/api/serverApi";
+import { fetchIngredients } from "@/lib/api/clientApi";
 
 interface Ingredient {
   id: string; // або number
