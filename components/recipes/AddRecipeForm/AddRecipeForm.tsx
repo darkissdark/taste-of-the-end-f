@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import { useEffect, useState } from "react";
 import css from "./AddRecipeForm.module.css";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { fetchCategories } from "@/lib/api/serverApi";
+import Ingredients from "./Ingredients";
 
 interface AddRecipeFormValues {
   title: string;
@@ -21,6 +23,19 @@ const initialValues = {
   instructions: "",
 };
 const AddRecipeForm = () => {
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchCategories()
+      .then((data) => {
+        console.log("Categories:", data);
+        setCategories(data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch categories", error);
+      });
+  }, []);
+
   return (
     <div className={css.addRecipeContainer}>
       <h3 className={css.addRecipe}>Add Recipe</h3>
@@ -93,13 +108,22 @@ const AddRecipeForm = () => {
                   </label>
                   <Field
                     id="category"
-                    name="category"
                     as="select"
+                    name="category"
                     className={css.calories}
                   >
                     <option value="" disabled>
                       Soup
                     </option>
+                    {categories.length === 0 ? (
+                      <option disabled>Soup</option>
+                    ) : (
+                      categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
+                      ))
+                    )}
                   </Field>
                 </div>
               </div>
@@ -107,6 +131,7 @@ const AddRecipeForm = () => {
 
             <div>
               <p className={css.subtitle}>Ingredients</p>
+              <Ingredients />
             </div>
             <div>
               <p className={css.subtitle}>Instructions</p>

@@ -1,6 +1,7 @@
 .addRecipeContainer {
   padding: 0px 16px;
   width: 393px;
+  margin: 48px auto;
 }
 .photoContainer {
   width: 361px;
@@ -27,6 +28,12 @@
   max-height: 48px;
   margin-top: 8px;
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: var(--gray);
+  font-weight: 400;
+  font-size: 18px;
 }
 .fieldDescription {
   border: 1px solid var(--light-gray);
