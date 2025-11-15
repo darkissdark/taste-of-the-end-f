@@ -5,7 +5,7 @@ import { parse } from "cookie";
 import { isAxiosError } from "axios";
 import { logErrorResponse } from "../../_utils/utils";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
