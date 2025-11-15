@@ -16,7 +16,7 @@ export async function GET() {
     }
 
     if (refreshToken) {
-      const apiRes = await api.get("auth/refresh", {
+      const apiRes = await api.post("auth/refresh", {
         headers: {
           Cookie: cookieStore.toString(),
         },

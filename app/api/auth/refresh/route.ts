@@ -5,14 +5,14 @@ import { parse } from "cookie";
 import { isAxiosError } from "axios";
 import { logErrorResponse } from "../../_utils/utils";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
     const next = request.nextUrl.searchParams.get("next") || "/";
 
     if (refreshToken) {
-      const apiRes = await api.get("auth/refresh", {
+      const apiRes = await api.post("auth/refresh", {
         headers: {
           Cookie: cookieStore.toString(),
         },
