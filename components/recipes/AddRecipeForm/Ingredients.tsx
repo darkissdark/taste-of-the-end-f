@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import css from "./AddRecipeForm.module.css";
-import { fetchIngredients } from "@/lib/api/serverApi";
+import { fetchIngredients, type IngredientDto } from "@/lib/api/clientApi";
 
 interface Ingredient {
   id: string; // або number
@@ -19,15 +19,17 @@ const Ingredients = () => {
   const [quantity, setQuantity] = useState<string>("");
 
   useEffect(() => {
-    fetchIngredients().then(
-      (data: { _id: string; name: string; desc: string; img: string }[]) => {
+    fetchIngredients()
+      .then((data: IngredientDto[]) => {
         const ingredientsWithIds = data.map((item) => ({
           id: item._id,
           name: item.name,
         }));
         setIngredients(ingredientsWithIds);
-      }
-    );
+      })
+      .catch((error) =>
+        console.error("Failed to fetch ingredients", error)
+      );
   }, []);
 
   return (

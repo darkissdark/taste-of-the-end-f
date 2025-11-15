@@ -44,3 +44,20 @@ export const checkSession = async () => {
 export const logout = async (): Promise<void> => {
   await api.post("/auth/logout");
 };
+
+export const fetchCategories = async () => {
+  const { data } = await api.get<string[]>("/categories");
+  return data;
+};
+
+export type IngredientDto = {
+  _id: string;
+  name: string;
+  desc: string;
+  img: string;
+};
+
+export const fetchIngredients = async () => {
+  const { data } = await api.get<IngredientDto[]>("/ingredients");
+  return data;
+};

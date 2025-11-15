@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import css from "./AddRecipeForm.module.css";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { fetchCategories } from "@/lib/api/serverApi";
+import { fetchCategories } from "@/lib/api/clientApi";
 import Ingredients from "./Ingredients";
 
 interface AddRecipeFormValues {
