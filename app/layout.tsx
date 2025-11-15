@@ -8,6 +8,8 @@ import "modern-normalize/modern-normalize.css";
 import "./globals.css";
 import IconsSprite from "@/components/ui/icons/IconsSprite";
 import { defaultMetadata } from "@/lib/seo";
+import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -26,13 +28,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.variable}>
-        <IconsSprite />
-        <Header />
-        <Outlet children={children} />
-        <Footer />
-        <Toaster position="top-right" />
-        {/* toast.success("Saved successfully!");
+        <TanStackProvider>
+          <AuthProvider>
+            <IconsSprite />
+            <Header />
+            <Outlet children={children} />
+            <Footer />
+            <Toaster position="top-right" />
+            {/* toast.success("Saved successfully!");
         toast.error("Something went wrong!"); */}
+          </AuthProvider>
+        </TanStackProvider>
       </body>
     </html>
   );

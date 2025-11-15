@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
 
-type Context = {
-  params: {
-    recipeId: string;
-  };
-};
-
-export function GET(_request: Request, context: Context) {
+export async function GET(
+  _request: Request,
+  context: { params: Promise<{ recipeId: string }> }
+) {
+  const { recipeId } = await context.params;
   return NextResponse.json({
     message: "recipe detail placeholder",
-    recipeId: context.params.recipeId
+    recipeId
   });
 }
 

@@ -1,13 +1,14 @@
-import { cookies } from "next/headers";
+"use client";
+
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { SvgIcon } from "@/components/ui/icons/SvgIcon";
 import { Logo } from "@/components/ui/Logo/Logo";
+import useAuthStore from "@/lib/store/authStore";
 
-export async function Header() {
-  const cookieStore = await cookies();
-  const authed = cookieStore.has("token");
-  const userName = "John";
+export function Header() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <header className={styles.header}>
@@ -20,7 +21,7 @@ export async function Header() {
           <Link className={styles.link} href="/">
             Recipes
           </Link>
-          {!authed && (
+          {!isAuthenticated && (
             <>
               <Link className={styles.link} href="/auth/login">
                 Sign in
@@ -30,7 +31,7 @@ export async function Header() {
               </Link>
             </>
           )}
-          {authed && (
+          {isAuthenticated && (
             <>
               <Link className={styles.link} href="/profile/own">
                 My profile
@@ -43,9 +44,9 @@ export async function Header() {
         </nav>
 
         <div className={styles.right}>
-          {authed && (
+          {isAuthenticated && (
             <>
-              <span className={styles.userBadge}>{userName}</span>
+              <span className={styles.userBadge}>{user?.name}</span>
               <form action="/api/auth/logout" method="POST">
                 <button className={styles.link} type="submit">
                   Sign out

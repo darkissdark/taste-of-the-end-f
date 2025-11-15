@@ -6,15 +6,15 @@ import styles from "./Footer.module.css";
 import { useState } from "react";
 import { AuthDialog } from "../AuthDialog/AuthDialog";
 import { Logo } from "@/components/ui/Logo/Logo";
+import useAuthStore from "@/lib/store/authStore";
 
 export function Footer() {
   const [authOpen, setAuthOpen] = useState(false);
 
-  const isAuthed = () =>
-    typeof document !== "undefined" && document.cookie.includes("token=");
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const handleProfileClick = (e: React.MouseEvent) => {
-    if (!isAuthed()) {
+    if (!isAuthenticated) {
       e.preventDefault();
       setAuthOpen(true);
     }
