@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
       //   { protocol: "https", hostname: "st2.depositphotos.com" },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://taste-of-the-end-b.onrender.com/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

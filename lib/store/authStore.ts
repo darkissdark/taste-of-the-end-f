@@ -4,29 +4,25 @@ import type { User } from "@/types/user";
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  setUser: (user: User | Partial<User>) => void;
-  logout: () => void;
+  setUser: (user: User) => void;
+  clearIsAuthenticated: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>()((set) => ({
   user: null,
   isAuthenticated: false,
 
   setUser: (user) =>
-    set((state) => {
-      const updatedUser = state.user
-        ? { ...state.user, ...user }
-        : (user as User);
-
-      return {
-        user: updatedUser,
-        isAuthenticated: true,
-      };
+    set({
+      user,
+      isAuthenticated: true,
     }),
 
-  logout: () =>
+  clearIsAuthenticated: () =>
     set({
       user: null,
       isAuthenticated: false,
     }),
 }));
+
+export default useAuthStore;
