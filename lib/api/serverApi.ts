@@ -4,15 +4,11 @@ import type { User } from "@/types/user";
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
-  return await api.post(
-    `/auth/refresh`,
-    null,
-    {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    }
-  );
+  return await api.post(`/auth/refresh`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
 };
 
 export const getServerMe = async (): Promise<User> => {
