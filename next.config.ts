@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const backendRewriteTarget =
+  process.env.API_BASE_URL ?? "https://taste-of-the-end-b.onrender.com";
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -12,7 +15,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://taste-of-the-end-b.onrender.com/api/:path*",
+        destination: `${backendRewriteTarget.replace(/\/$/, "")}/api/:path*`,
       },
     ];
   },
