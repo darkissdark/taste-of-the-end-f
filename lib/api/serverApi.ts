@@ -20,3 +20,16 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
+
+export async function fetchCategories(): Promise<string[]> {
+  const { data } = await api.get<string[]>("/categories");
+  return data;
+}
+export async function fetchIngredients(): Promise<
+  { _id: string; name: string; desc: string; img: string }[]
+> {
+  const { data } = await api.get<
+    { _id: string; name: string; desc: string; img: string }[]
+  >("/ingredients");
+  return data;
+}
