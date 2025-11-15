@@ -32,5 +32,4 @@ export async function fetchIngredients(): Promise<
     { _id: string; name: string; desc: string; img: string }[]
   >("/ingredients");
   return data;
-};
-
+}
