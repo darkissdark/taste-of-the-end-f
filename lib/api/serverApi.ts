@@ -3,30 +3,12 @@ import { api } from "./api";
 import type { User } from "@/types/user";
 
 export const checkServerSession = async () => {
-  const cookieStore = cookies();
-
-  const cookieHeader = (await cookieStore)
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join("; ");
-
-  const res = await fetch(`${process.env.BACKEND_URL}/auth/refresh`, {
-    method: "POST",
+  const cookieStore = await cookies();
+  return await api.post(`/auth/refresh`, {
     headers: {
-      "Content-Type": "application/json",
-      Cookie: cookieHeader,
+      Cookie: cookieStore.toString(),
     },
-    credentials: "include",
   });
-
-  const setCookie = res.headers.get("set-cookie");
-  const data = await res.json();
-
-  return {
-    status: res.status,
-    data,
-    setCookie,
-  };
 };
 
 export const getServerMe = async (): Promise<User> => {
