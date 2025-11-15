@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://taste-of-the-end-b.onrender.com/:path*"
-    }
-  ]
-}
