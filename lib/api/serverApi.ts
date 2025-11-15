@@ -18,7 +18,8 @@ export const getServerMe = async (): Promise<User> => {
       Cookie: cookieStore.toString(),
     },
   });
-}
+  return data;
+};
 
 export async function fetchCategories(): Promise<string[]> {
   const { data } = await api.get<string[]>("/categories");
