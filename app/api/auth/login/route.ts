@@ -1,49 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
 import { api } from "../../api";
-import { cookies } from "next/headers";
-import { parse } from "cookie";
-import { isAxiosError } from "axios";
-import { logErrorResponse } from "../../_utils/utils";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    const apiRes = await api.post("/auth/login", body);
+    const body = await request.json();
 
-    const cookieStore = await cookies();
-    const setCookie = apiRes.headers["set-cookie"];
+    // Отримуємо кукі з клієнтського запиту
+    const cookies = request.headers.get("cookie") || "";
 
-    if (setCookie) {
-      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-      for (const cookieStr of cookieArray) {
-        const parsed = parse(cookieStr);
-        const options = {
-          expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path,
-          maxAge: Number(parsed["Max-Age"]),
-        };
-        if (parsed.accessToken)
-          cookieStore.set("accessToken", parsed.accessToken, options);
-        if (parsed.refreshToken)
-          cookieStore.set("refreshToken", parsed.refreshToken, options);
-      }
+    // Проксуємо запит на Render бекенд через існуючу обгортку
+    const response = await api.post("/api/auth/login", body, {
+      headers: {
+        Cookie: cookies, // Передаємо кукі з клієнта до бекенду
+      },
+    });
 
-      return NextResponse.json(apiRes.data, { status: apiRes.status });
+    // Копіюємо Set-Cookie заголовки з відповіді бекенду
+    const setCookieHeaders = response.headers["set-cookie"];
+
+    // Створюємо нову відповідь з даними та кукі
+    const nextResponse = NextResponse.json(response.data, {
+      status: response.status,
+    });
+
+    // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
+    if (setCookieHeaders) {
+      const cookieArray = Array.isArray(setCookieHeaders)
+        ? setCookieHeaders
+        : [setCookieHeaders];
+      cookieArray.forEach((cookie) => {
+        // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
+        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, "");
+        nextResponse.headers.append("Set-Cookie", cookieWithoutDomain);
+      });
     }
 
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  } catch (error) {
-    if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
-      return NextResponse.json(
-        { error: error.message, response: error.response?.data },
-        { status: error.status }
-      );
-    }
-    logErrorResponse({ message: (error as Error).message });
+    return nextResponse;
+  } catch (error: any) {
+    console.error("Error proxying login request:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      {
+        authorized: false,
+        error: "Internal server error",
+        response: error.response?.data,
+      },
+      { status: error.response?.status || 500 }
     );
   }
 }

@@ -1,41 +1,48 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { api } from "../../api";
-import { cookies } from "next/headers";
-import { isAxiosError } from "axios";
-import { logErrorResponse } from "../../_utils/utils";
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
+    // Отримуємо кукі з клієнтського запиту
+    const cookies = request.headers.get("cookie") || "";
 
-    const accessToken = cookieStore.get("accessToken")?.value;
-    const refreshToken = cookieStore.get("refreshToken")?.value;
-
-    await api.post("/auth/logout", null, {
+    // Проксуємо запит на Render бекенд через існуючу обгортку
+    const response = await api.post("/api/auth/logout", null, {
       headers: {
-        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+        Cookie: cookies, // Передаємо кукі з клієнта до бекенду
       },
     });
 
-    cookieStore.delete("accessToken");
-    cookieStore.delete("refreshToken");
+    // Копіюємо Set-Cookie заголовки з відповіді бекенду
+    const setCookieHeaders = response.headers["set-cookie"];
 
-    return NextResponse.json(
-      { message: "Logged out successfully" },
-      { status: 200 }
-    );
-  } catch (error) {
-    if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
-      return NextResponse.json(
-        { error: error.message, response: error.response?.data },
-        { status: error.status }
-      );
+    // Створюємо нову відповідь з даними та кукі
+    const nextResponse = NextResponse.json(response.data, {
+      status: response.status,
+    });
+
+    // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
+    if (setCookieHeaders) {
+      const cookieArray = Array.isArray(setCookieHeaders)
+        ? setCookieHeaders
+        : [setCookieHeaders];
+      cookieArray.forEach((cookie) => {
+        // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
+        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, "");
+        nextResponse.headers.append("Set-Cookie", cookieWithoutDomain);
+      });
     }
-    logErrorResponse({ message: (error as Error).message });
+
+    return nextResponse;
+  } catch (error: any) {
+    console.error("Error proxying logout request:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      {
+        authorized: false,
+        error: "Internal server error",
+        response: error.response?.data,
+      },
+      { status: error.response?.status || 500 }
     );
   }
 }
