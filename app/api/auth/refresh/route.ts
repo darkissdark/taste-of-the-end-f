@@ -9,45 +9,60 @@ export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
-    const next = request.nextUrl.searchParams.get("next") || "/";
 
-    if (refreshToken) {
-      const apiRes = await api.post("auth/refresh", {
-        headers: {
-          Cookie: cookieStore.toString(),
-        },
-      });
-      const setCookie = apiRes.headers["set-cookie"];
-      if (setCookie) {
-        const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-        let accessToken = "";
-        let refreshToken = "";
+    if (!refreshToken) {
+      return NextResponse.json({ success: false }, { status: 401 });
+    }
 
-        for (const cookieStr of cookieArray) {
-          const parsed = parse(cookieStr);
-          if (parsed.accessToken) accessToken = parsed.accessToken;
-          if (parsed.refreshToken) refreshToken = parsed.refreshToken;
-        }
+    const apiRes = await api.post("/auth/refresh", null, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
 
-        if (accessToken) cookieStore.set("accessToken", accessToken);
-        if (refreshToken) cookieStore.set("refreshToken", refreshToken);
+    const setCookie = apiRes.headers["set-cookie"];
+    if (!setCookie) {
+      return NextResponse.json({ success: false }, { status: 401 });
+    }
 
-        return NextResponse.redirect(new URL(next, request.url), {
-          headers: {
-            "set-cookie": cookieStore.toString(),
-          },
-        });
+    const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+    for (const cookieStr of cookieArray) {
+      const parsed = parse(cookieStr);
+      const options = {
+        expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
+        path: parsed.Path,
+        maxAge: parsed["Max-Age"] ? Number(parsed["Max-Age"]) : undefined,
+      };
+
+      if (parsed.accessToken) {
+        cookieStore.set("accessToken", parsed.accessToken, options);
+      }
+
+      if (parsed.refreshToken) {
+        cookieStore.set("refreshToken", parsed.refreshToken, options);
       }
     }
-    return NextResponse.redirect(new URL("/auth/login", request.url));
+
+    return NextResponse.json(
+      { success: true },
+      {
+        status: 200,
+        headers: {
+          "set-cookie": cookieStore.toString(),
+        },
+      }
+    );
   } catch (error) {
     if (isAxiosError(error)) {
       logErrorResponse(error.response?.data);
-      return NextResponse.redirect(new URL("/auth/login", request.url));
+      return NextResponse.json(
+        { success: false, error: error.message, response: error.response?.data },
+        { status: error.status ?? 500 }
+      );
     }
     logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, error: "Internal Server Error" },
       { status: 500 }
     );
   }
