@@ -1,0 +1,212 @@
+/* ==========================================
+   BASE BUTTON STYLES (Shared by all variants)
+   ========================================== */
+.btn {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* Space between icon & text */
+
+  /* Reset browser defaults */
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+
+  /* SAME FOR ALL */
+  font-family: var(--font-family);
+  font-weight: 600;
+  border-radius: 8px;
+
+  /* Smooth transitions */
+  transition: background-color 200ms ease, box-shadow 150ms ease,
+    transform 120ms ease, opacity 150ms ease, border-color 200ms ease;
+}
+
+/* Button text wrapper */
+.buttonText {
+  line-height: 1;
+}
+
+/* ==========================================
+   SIZE VARIANTS (Only padding & font-size)
+   ========================================== */
+.btnSm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.btnMd {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.btnLg {
+  padding: 12px 16px;
+  font-size: 16px;
+}
+
+.btnXl {
+  padding: 16px;
+  font-size: 18px;
+}
+
+/* ==========================================
+   VARIANT STYLES (3 color schemes)
+   ========================================== */
+
+/* --- BROWN VARIANT --- */
+.btnBrown {
+  background: var(--light-brown);
+  color: var(--white);
+}
+
+/* Hover/Focus state */
+.btnBrown:hover:not(:disabled),
+.btnBrown:focus:not(:disabled) {
+  background: var(--brown);
+  transform: translateY(-1px);
+}
+
+/* Active state (when clicking) */
+.btnBrown:active:not(:disabled) {
+  background: var(--light-brown);
+  transform: translateY(0);
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+}
+
+/* Disabled state */
+.btnBrown:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-brown);
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- WHITE VARIANT --- */
+.btnWhite {
+  background: transparent;
+  color: var(--main);
+  border: 1px solid var(--light-gray);
+}
+
+/* Hover/Focus state */
+.btnWhite:hover:not(:disabled),
+.btnWhite:focus:not(:disabled) {
+  background: var(--light-gray);
+  color: var(--black);
+  border: 1px solid var(--light-gray);
+  transform: translateY(-1px);
+}
+
+/* Active state */
+.btnWhite:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-gray);
+}
+
+/* Disabled state */
+.btnWhite:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-gray);
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+  color: var(--black);
+}
+
+/* --- TRANSPARENT VARIANT --- */
+
+.btnTransparent {
+  background: transparent;
+  color: var(--white);
+  border: none;
+  border-radius: 0;
+  padding: 0px 0px 4px;
+}
+
+/* Hover/Focus state */
+.btnTransparent:hover:not(:disabled):not(:active),
+.btnTransparent:focus:not(:disabled):not(:active) {
+  opacity: 0.5;
+  color: var(--white);
+  border-bottom: 1px solid var(--white);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Active state */
+.btnTransparent:active:not(:disabled) {
+  opacity: 1;
+  background: transparent;
+  border-bottom: 1px solid var(--white);
+  color: var(--white);
+  border-radius: 0;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Disabled state */
+.btnTransparent:disabled {
+  opacity: 0.2;
+  background: transparent;
+  cursor: not-allowed;
+  transform: none;
+  border: none;
+}
+
+/* ==========================================
+   ICON HELPERS (for SVG icons)
+   ========================================== */
+.iconLeft,
+.iconRight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* Scale icons based on button size */
+.btnSm .iconLeft,
+.btnSm .iconRight {
+  width: 24px;
+  height: 24px;
+}
+
+.btnMd .iconLeft,
+.btnMd .iconRight {
+  width: 24px;
+  height: 24px;
+}
+
+.btnLg .iconLeft,
+.btnLg .iconRight {
+  width: 24px;
+  height: 24px;
+}
+
+.btnXl .iconLeft,
+.btnXl .iconRight {
+  width: 24px;
+  height: 24px;
+}
+
+/* SVG styling inside icons */
+.iconLeft svg,
+.iconRight svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================
+   ACCESSIBILITY & FOCUS STYLES
+   ========================================== */
+.btn:focus-visible {
+  outline: 3px solid var(--button);
+  outline-offset: 2px;
+}
