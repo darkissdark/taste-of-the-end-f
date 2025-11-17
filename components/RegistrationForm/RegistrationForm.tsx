@@ -87,7 +87,7 @@ const RegistrationForm = ({ onSubmit }: Props) => {
                   id={`${fieldId}-password`}
                   type={showPassword ? 'text' : 'password'}
                   name="password"
-                  placeholder="****"
+                  placeholder="********"
                   required
                 />
                 <ErrorMessage name="password" component="span" className={css.errorMessage} />
@@ -109,7 +109,7 @@ const RegistrationForm = ({ onSubmit }: Props) => {
                   id={`${fieldId}-passwordConfirm`}
                   type={showConfirm ? 'text' : 'password'}
                   name="passwordConfirm"
-                  placeholder="****"
+                  placeholder="********"
                   required
                 />
                 <ErrorMessage
