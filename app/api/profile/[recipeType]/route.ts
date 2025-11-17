@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { api } from "../../api";
+import { NextRequest, NextResponse } from 'next/server';
+import { api } from '../../api';
 
 export async function GET(
   request: NextRequest,
@@ -9,13 +9,16 @@ export async function GET(
     const { recipeType } = await context.params;
 
     // Отримуємо кукі з клієнтського запиту
-    const cookies = request.headers.get("cookie") || "";
+    const cookies = request.headers.get('cookie') || '';
 
     // Додаємо query параметри якщо є
     const searchParams = request.nextUrl.searchParams.toString();
-    const url = searchParams
-      ? `/api/profile/${recipeType}?${searchParams}`
-      : `/api/profile/${recipeType}`;
+    let url;
+    if (recipeType === 'personal') {
+      url = searchParams ? `/recipes/personal?${searchParams}` : `/recipes/personal`;
+    } else {
+      url = searchParams ? `/recipes/favorites?${searchParams}` : `/recipes/favorites`;
+    }
 
     // Проксуємо запит на Render бекенд через існуючу обгортку
     const response = await api.get(url, {
@@ -25,7 +28,7 @@ export async function GET(
     });
 
     // Копіюємо Set-Cookie заголовки з відповіді бекенду
-    const setCookieHeaders = response.headers["set-cookie"];
+    const setCookieHeaders = response.headers['set-cookie'];
 
     // Створюємо нову відповідь з даними та кукі
     const nextResponse = NextResponse.json(response.data, {
@@ -34,22 +37,20 @@ export async function GET(
 
     // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
     if (setCookieHeaders) {
-      const cookieArray = Array.isArray(setCookieHeaders)
-        ? setCookieHeaders
-        : [setCookieHeaders];
+      const cookieArray = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders];
       cookieArray.forEach((cookie) => {
         // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
-        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, "");
-        nextResponse.headers.append("Set-Cookie", cookieWithoutDomain);
+        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, '');
+        nextResponse.headers.append('Set-Cookie', cookieWithoutDomain);
       });
     }
 
     return nextResponse;
   } catch (error: any) {
-    console.error("Error proxying profile recipes request:", error);
+    console.error('Error proxying profile recipes request:', error);
     return NextResponse.json(
       {
-        error: "Internal server error",
+        error: 'Internal server error',
         response: error.response?.data,
       },
       { status: error.response?.status || 500 }
