@@ -1,6 +1,9 @@
-//@todo it's fake type  --- replace to real one
 export interface User {
-  name: string;
+  avatar: string;
+  createdAt: string;
   email: string;
+  favorites: [];
+  name: string;
+  updatedAt: string;
   _id: string;
 }

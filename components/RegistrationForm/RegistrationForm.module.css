@@ -1,0 +1,139 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 522px;
+    width: 100%;
+    padding: 48px 32px;
+    background-color: var(--light-beige);
+    border-radius: 32px;
+}
+
+.formTitle {
+    font-weight: 600;
+    color: var(--black);
+    margin: 0;
+    text-align: center;
+}
+
+.formDecription {
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--black);
+    margin: 0;
+    text-align: center;
+}
+
+.wrapperInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 27px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--black);
+
+}
+
+.input {
+    margin-top: 4px;
+    padding: 8px;
+    font-size: 16px;
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    line-height: 1.55;
+
+    &:focus {
+        outline: transparent;
+        border: 1.50px solid var(--light-brown);
+        box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+    }
+}
+
+.formGroupPassword {
+    position: relative;
+}
+
+.inputPassword {
+    padding-right: 32px;
+}
+
+.iconBtn {
+    position: absolute;
+    top: 22px;
+    right: 1px;
+    padding: 5px;
+    line-height: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    /* 
+  &:focus {
+      outline: none;
+      border: 1px solid var(--light-brown);
+      border-radius: 8px;
+    } */
+}
+
+.icon {
+    stroke: black;
+    fill: none;
+}
+
+.submitButton {
+    width: 100%;
+}
+
+.submitButton span {
+    line-height: 1.3;
+}
+
+.qusetionLogIn {
+    line-height: 1.55;
+    color: var(--black);
+    text-align: center;
+}
+
+.qusetionLogInAccent {
+    font-weight: 600;
+    color: inherit;
+
+    &:focus {
+        outline: transparent;
+        border: 1.50px solid var(--light-brown);
+        box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+        border-radius: 8px;
+    }
+}
+
+.errorMessage {
+    color: var(--red);
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: center;
+}
+
+.errorInput {
+    border: 1px solid var(--red);
+    /* color: var(--red) */
+}
+
+@media (min-width: 768px) {
+    .form {
+        max-width: 522px;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1440px) {
+    .form {
+        max-width: 420px;
+        width: 100%;
+    }
+}
