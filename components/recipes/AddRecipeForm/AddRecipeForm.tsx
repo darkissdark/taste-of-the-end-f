@@ -1,10 +1,12 @@
-"use client";
-import { useEffect, useState } from "react";
-import css from "./AddRecipeForm.module.css";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { fetchCategories } from "@/lib/api/clientApi";
-import Ingredients from "./Ingredients";
+'use client';
+import { useEffect, useState } from 'react';
+import css from './AddRecipeForm.module.css';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { fetchCategories } from '@/lib/api/clientApi';
+import Ingredients from './Ingredients';
+import UploadPhoto from './UploadPhoto';
+import Button from '@/components/buttons/Buttons';
 
 interface AddRecipeFormValues {
   title: string;
@@ -15,12 +17,12 @@ interface AddRecipeFormValues {
   instructions: string;
 }
 const initialValues = {
-  title: "",
-  shortDescription: "",
-  cookingTime: "",
-  calories: "",
-  category: "",
-  instructions: "",
+  title: '',
+  shortDescription: '',
+  cookingTime: '',
+  calories: '',
+  category: '',
+  instructions: '',
 };
 const AddRecipeForm = () => {
   const [categories, setCategories] = useState<string[]>([]);
@@ -28,11 +30,11 @@ const AddRecipeForm = () => {
   useEffect(() => {
     fetchCategories()
       .then((data) => {
-        console.log("Categories:", data);
+        console.log('Categories:', data);
         setCategories(data);
       })
       .catch((error) => {
-        console.error("Failed to fetch categories", error);
+        console.error('Failed to fetch categories', error);
       });
   }, []);
 
@@ -42,11 +44,12 @@ const AddRecipeForm = () => {
       <div className={css.recipeContainer}>
         <div className={css.photoContainer}>
           <p className={css.subtitle}>Upload Photo</p>
+          <UploadPhoto />
         </div>
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
-            console.log("Publish Recipe:", values);
+            console.log('Publish Recipe:', values);
           }}
         >
           <Form className={css.form}>
@@ -106,12 +109,7 @@ const AddRecipeForm = () => {
                   <label htmlFor="category" className={css.label}>
                     Category
                   </label>
-                  <Field
-                    id="category"
-                    as="select"
-                    name="category"
-                    className={css.calories}
-                  >
+                  <Field id="category" as="select" name="category" className={css.calories}>
                     <option value="" disabled>
                       Soup
                     </option>
@@ -140,12 +138,12 @@ const AddRecipeForm = () => {
                 name="instructions"
                 as="textarea"
                 placeholder="Enter a text"
-                className={css.fieldDescription}
+                className={`${css.fieldDescription} ${css.fieldInstructions}`}
               />
             </div>
-            <button type="submit" className={css.button}>
+            <Button type="submit" variant="brown" size="lg" className="myCustomClass">
               Publish Recipe
-            </button>
+            </Button>
           </Form>
         </Formik>
       </div>
