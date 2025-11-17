@@ -1,8 +1,8 @@
-import React from "react";
-import css from "./Buttons.module.css";
+import React from 'react';
+import css from './Buttons.module.css';
 
-type Variant = "brown" | "white" | "transparent";
-type Size = "sm" | "md" | "lg" | "xl";
+type Variant = 'brown' | 'white' | 'transparent';
+type Size = 'sm' | 'md' | 'lg' | 'xl';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -14,42 +14,30 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({
   children,
-  variant = "brown",
-  size = "md",
+  variant = 'brown',
+  size = 'md',
   iconLeft,
   iconRight,
-  className = "",
+  className = '',
   ...rest
 }: ButtonProps) {
   // Map variant to CSS class
   const variantClass =
-    variant === "brown"
-      ? css.btnBrown
-      : variant === "white"
-      ? css.btnWhite
-      : css.btnTransparent;
+    variant === 'brown' ? css.btnBrown : variant === 'white' ? css.btnWhite : css.btnTransparent;
 
   // Map size to CSS class
   const sizeClass =
-    size === "sm"
-      ? css.btnSm
-      : size === "md"
-      ? css.btnMd
-      : size === "lg"
-      ? css.btnLg
-      : css.btnXl;
+    size === 'sm' ? css.btnSm : size === 'md' ? css.btnMd : size === 'lg' ? css.btnLg : css.btnXl;
 
-  const realSize = variant === "transparent" ? null : size;
+  const realSize = variant === 'transparent' ? null : size;
 
   const classes = `
   ${css.btn}
   ${css[variant]}
-  ${realSize ? css[realSize] : ""}
+  ${realSize ? css[realSize] : ''}
 `;
 
-  const buttonClasses = [css.btn, variantClass, sizeClass, className]
-    .filter(Boolean)
-    .join(" ");
+  const buttonClasses = [css.btn, variantClass, sizeClass, className].filter(Boolean).join(' ');
 
   return (
     <button className={buttonClasses} {...rest}>

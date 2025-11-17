@@ -1,9 +1,9 @@
-import { api } from "./api";
-import type { User } from "@/types/user";
+import { api } from './api';
+import type { User } from '@/types/user';
 
 export type RegisterRequest = {
-  name: string;
   email: string;
+  name: string;
   password: string;
 };
 
@@ -13,17 +13,17 @@ export type LoginRequest = {
 };
 
 export const register = async (data: RegisterRequest) => {
-  const res = await api.post<User>("/auth/register", data);
+  const res = await api.post<User>('/auth/register', data);
   return res.data;
 };
 
 export const login = async (data: LoginRequest) => {
-  const res = await api.post<User>("/auth/login", data);
+  const res = await api.post<User>('/auth/login', data);
   return res.data;
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>("/users/me");
+  const { data } = await api.get<User>('/users/me');
   return data;
 };
 
@@ -33,20 +33,20 @@ type CheckSessionRequest = {
 
 export const checkSession = async () => {
   try {
-    const res = await api.post("/auth/refresh");
+    const res = await api.post('/auth/refresh');
     return res.data.authorized === true;
   } catch (error) {
-    console.error("Session check error:", error);
+    console.error('Session check error:', error);
     return false;
   }
 };
 
 export const logout = async (): Promise<void> => {
-  await api.post("/auth/logout");
+  await api.post('/auth/logout');
 };
 
 export const fetchCategories = async () => {
-  const { data } = await api.get<string[]>("/categories");
+  const { data } = await api.get<string[]>('/categories');
   return data;
 };
 
@@ -58,6 +58,6 @@ export type IngredientDto = {
 };
 
 export const fetchIngredients = async () => {
-  const { data } = await api.get<IngredientDto[]>("/ingredients");
+  const { data } = await api.get<IngredientDto[]>('/ingredients');
   return data;
 };
