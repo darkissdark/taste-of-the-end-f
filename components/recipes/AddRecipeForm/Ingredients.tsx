@@ -4,7 +4,7 @@ import css from "./AddRecipeForm.module.css";
 import { fetchIngredients, type IngredientDto } from "@/lib/api/clientApi";
 
 interface Ingredient {
-  id: string; // або number
+  id: string;
   name: string;
 }
 interface SelectedIngredient {
@@ -27,9 +27,7 @@ const Ingredients = () => {
         }));
         setIngredients(ingredientsWithIds);
       })
-      .catch((error) =>
-        console.error("Failed to fetch ingredients", error)
-      );
+      .catch((error) => console.error("Failed to fetch ingredients", error));
   }, []);
 
   return (

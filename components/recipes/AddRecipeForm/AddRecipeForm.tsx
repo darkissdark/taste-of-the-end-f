@@ -5,6 +5,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { fetchCategories } from "@/lib/api/clientApi";
 import Ingredients from "./Ingredients";
+// import UploadPhoto from "./UploadPhoto";
 
 interface AddRecipeFormValues {
   title: string;
@@ -42,6 +43,7 @@ const AddRecipeForm = () => {
       <div className={css.recipeContainer}>
         <div className={css.photoContainer}>
           <p className={css.subtitle}>Upload Photo</p>
+          {/* <UploadPhoto /> */}
         </div>
         <Formik
           initialValues={initialValues}
