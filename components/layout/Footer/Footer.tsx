@@ -1,12 +1,11 @@
-// components/layout/Footer/Footer.tsx
-"use client";
+'use client';
 
-import Link from "next/link";
-import styles from "./Footer.module.css";
-import { useState } from "react";
-import { AuthDialog } from "../AuthDialog/AuthDialog";
-import { Logo } from "@/components/ui/Logo/Logo";
-import useAuthStore from "@/lib/store/authStore";
+import Link from 'next/link';
+import styles from './Footer.module.css';
+import { useState } from 'react';
+import { AuthDialog } from '../AuthDialog/AuthDialog';
+import { Logo } from '@/components/ui/Logo/Logo';
+import useAuthStore from '@/lib/store/authStore';
 
 export function Footer() {
   const [authOpen, setAuthOpen] = useState(false);
@@ -35,11 +34,7 @@ export function Footer() {
           <Link href="/" className={styles.link}>
             Recipes
           </Link>
-          <Link
-            href="/profile/own"
-            className={styles.link}
-            onClick={handleProfileClick}
-          >
+          <Link href="/profile/own" className={styles.link} onClick={handleProfileClick}>
             Profile
           </Link>
         </nav>
