@@ -15,9 +15,9 @@ export async function GET(
     const searchParams = request.nextUrl.searchParams.toString();
     let url;
     if (recipeType === 'personal') {
-      url = searchParams ? `/recipes/personal?${searchParams}` : `/recipes/personal`;
+      url = searchParams ? `/api/recipes/personal?${searchParams}` : `/api/recipes/personal`;
     } else {
-      url = searchParams ? `/recipes/favorites?${searchParams}` : `/recipes/favorites`;
+      url = searchParams ? `/api/recipes/favorites?${searchParams}` : `/api/recipes/favorites`;
     }
 
     // Проксуємо запит на Render бекенд через існуючу обгортку
