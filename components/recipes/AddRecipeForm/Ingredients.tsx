@@ -1,7 +1,8 @@
-"use client";
-import { useEffect, useState } from "react";
-import css from "./AddRecipeForm.module.css";
-import { fetchIngredients, type IngredientDto } from "@/lib/api/clientApi";
+'use client';
+import { useEffect, useState } from 'react';
+import css from './AddRecipeForm.module.css';
+import { fetchIngredients, type IngredientDto } from '@/lib/api/clientApi';
+import Button from '@/components/buttons/Buttons';
 
 interface Ingredient {
   id: string;
@@ -15,8 +16,8 @@ interface SelectedIngredient {
 
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [selectedIngredientId, setSelectedIngredientId] = useState<string>("");
-  const [quantity, setQuantity] = useState<string>("");
+  const [selectedIngredientId, setSelectedIngredientId] = useState<string>('');
+  const [quantity, setQuantity] = useState<string>('');
 
   useEffect(() => {
     fetchIngredients()
@@ -27,39 +28,49 @@ const Ingredients = () => {
         }));
         setIngredients(ingredientsWithIds);
       })
-      .catch((error) => console.error("Failed to fetch ingredients", error));
+      .catch((error) => console.error('Failed to fetch ingredients', error));
   }, []);
 
   return (
-    <div className={css.infoForm}>
-      <label className={css.label}>Name</label>
-      <select
-        className={css.field}
-        value={selectedIngredientId}
-        onChange={(e) => setSelectedIngredientId(e.target.value)}
+    <div className={css.addIngredient}>
+      <div className={css.ingredientForm}>
+        <div className={css.name}>
+          <label className={css.label}>Name</label>
+          <select
+            className={css.field}
+            value={selectedIngredientId}
+            onChange={(e) => setSelectedIngredientId(e.target.value)}
+          >
+            <option value="" disabled>
+              Broccoli
+            </option>
+            {ingredients.map((ing) => (
+              <option key={ing.id} value={ing.id}>
+                {ing.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className={css.amount}>
+          <label className={css.label}>Amount</label>
+          <input
+            className={css.field}
+            type="text"
+            value={quantity}
+            placeholder="100g"
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <Button
+        type="submit"
+        variant="brown"
+        size="lg"
+        className={`${css.myCustomClass} ${css.button}`}
       >
-        <option value="" disabled>
-          Broccoli
-        </option>
-        {ingredients.map((ing) => (
-          <option key={ing.id} value={ing.id}>
-            {ing.name}
-          </option>
-        ))}
-      </select>
-
-      <label className={css.label}>Amount</label>
-      <input
-        className={css.field}
-        type="text"
-        value={quantity}
-        placeholder="100g"
-        onChange={(e) => setQuantity(e.target.value)}
-      />
-
-      <button className={css.button} type="button">
         Add new Ingredient
-      </button>
+      </Button>
     </div>
   );
 };
