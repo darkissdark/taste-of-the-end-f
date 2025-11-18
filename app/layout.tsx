@@ -10,6 +10,7 @@ import IconsSprite from "@/components/ui/icons/IconsSprite";
 import { defaultMetadata } from "@/lib/seo";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
+import { MainPage } from "@/components/pages/MainPage/MainPage";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -32,6 +33,7 @@ export default function RootLayout({
           <AuthProvider>
             <IconsSprite />
             <Header />
+            <MainPage />
             <Outlet children={children} />
             <Footer />
             <Toaster position="top-right" />

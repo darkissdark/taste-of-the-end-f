@@ -61,3 +61,19 @@ export const fetchIngredients = async () => {
   const { data } = await api.get<IngredientDto[]>('/ingredients');
   return data;
 };
+
+export type RecipeDto = {
+  _id: string;
+  title: string;    
+  desc: string;       
+  img: string;       
+  category: string;  
+  difficulty: string;  
+  cookTime: number;    
+};
+
+export const fetchRecipes = async () => {
+  const { data } = await api.get<RecipeDto[]>('/recipes');
+  return data;
+};
+
