@@ -4,6 +4,7 @@
   margin-right: auto;
   padding-left: var(--container-x);
   padding-right: var(--container-x);
+  flex: 1;
 }
 
 .loading {
