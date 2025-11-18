@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { api } from "../../api";
+import { proxyRequest } from "../../_utils/utils";
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,37 +13,32 @@ export async function GET(request: NextRequest) {
 
     // Якщо немає accessToken, але є refreshToken, спробуємо оновити сесію
     if (cookies.includes("refreshToken")) {
-      // Проксуємо запит на Render бекенд для refresh через існуючу обгортку
-      const response = await api.post("/api/auth/refresh", null, {
-        headers: {
-          Cookie: cookies, // Передаємо кукі з клієнта до бекенду
-        },
-      });
-
-      // Копіюємо Set-Cookie заголовки з відповіді бекенду
-      const setCookieHeaders = response.headers["set-cookie"];
-
-      // Створюємо нову відповідь з даними та кукі
-      const nextResponse = NextResponse.json(
-        { success: true },
+      const response = await proxyRequest(
+        request,
+        "post",
+        "/api/auth/refresh",
+        null,
         {
-          status: response.status,
+          errorMessage: "Error proxying session refresh request:",
+          includeAuthorized: true,
         }
       );
 
-      // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
-      if (setCookieHeaders) {
-        const cookieArray = Array.isArray(setCookieHeaders)
-          ? setCookieHeaders
-          : [setCookieHeaders];
-        cookieArray.forEach((cookie) => {
-          // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
-          const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, "");
-          nextResponse.headers.append("Set-Cookie", cookieWithoutDomain);
+      // Якщо refresh успішний, повертаємо success: true з cookies з response
+      if (response.status === 200) {
+        // Копіюємо cookies з response
+        const setCookieHeaders = response.headers.getSetCookie();
+        const nextResponse = NextResponse.json({ success: true }, { status: 200 });
+        
+        // Копіюємо cookies з оригінального response
+        setCookieHeaders.forEach((cookie) => {
+          nextResponse.headers.append("Set-Cookie", cookie);
         });
+        
+        return nextResponse;
       }
 
-      return nextResponse;
+      return NextResponse.json({ success: false }, { status: 200 });
     }
 
     return NextResponse.json({ success: false }, { status: 200 });

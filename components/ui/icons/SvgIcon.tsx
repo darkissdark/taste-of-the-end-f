@@ -1,5 +1,3 @@
-'use client';
-
 type Props = {
   name: string;
   size?: number | string;
