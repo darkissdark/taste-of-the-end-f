@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies as nextCookies } from 'next/headers';
 import { api } from '../api';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { parse } from 'cookie';
 
 export function logErrorResponse(errorObj: unknown): void {
   const green = '\x1b[32m';
@@ -18,13 +20,7 @@ interface ProxyOptions {
 }
 
 /**
- * Проксує запит на бекенд з обробкою cookies
- * @param request - NextRequest об'єкт
- * @param method - HTTP метод (get, post, patch, delete)
- * @param url - URL для запиту (може містити query параметри)
- * @param body - Тіло запиту (для POST, PATCH)
- * @param options - Додаткові опції для обробки помилок
- * @returns NextResponse з даними та обробленими cookies
+ * Проксує запит на бекенд з обробкою cookies (SSR/Edge-friendly)
  */
 export async function proxyRequest(
   request: NextRequest,
@@ -34,14 +30,15 @@ export async function proxyRequest(
   options: ProxyOptions = {}
 ): Promise<NextResponse> {
   try {
-    // Отримуємо кукі з клієнтського запиту
-    const cookies = request.headers.get('cookie') || '';
+    // SSR-aware куки
+    const cookieStore = nextCookies();
+    const cookiesHeader = cookieStore.toString();
 
     // Виконуємо запит на бекенд
     let response: AxiosResponse;
     const requestConfig: AxiosRequestConfig = {
       headers: {
-        Cookie: cookies, // Передаємо кукі з клієнта до бекенду
+        Cookie: cookiesHeader,
       },
     };
 
@@ -60,23 +57,25 @@ export async function proxyRequest(
         break;
     }
 
-    // Створюємо нову відповідь з даними
-    const nextResponse = NextResponse.json(response.data, {
-      status: response.status,
-    });
-
-    // Проксуємо кукі з бекенду, видаляючи domain щоб воно встановилось для Vercel домену
+    // Проксіруємо куки з бекенду через cookieStore
     const setCookieHeaders = response.headers['set-cookie'];
     if (setCookieHeaders) {
       const cookieArray = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders];
-      cookieArray.forEach((cookie) => {
-        // Видаляємо domain з кукі, щоб воно встановилось для поточного домену (Vercel)
-        const cookieWithoutDomain = cookie.replace(/; domain=[^;]+/gi, '');
-        nextResponse.headers.append('Set-Cookie', cookieWithoutDomain);
-      });
+      for (const cookieStr of cookieArray) {
+        const parsed = parse(cookieStr);
+        if (parsed.accessToken) (await cookieStore).set('accessToken', parsed.accessToken);
+        if (parsed.refreshToken) (await cookieStore).set('refreshToken', parsed.refreshToken);
+        if (parsed.sessionId) (await cookieStore).set('sessionId', parsed.sessionId);
+      }
     }
 
-    return nextResponse;
+    // Повертаємо відповідь з оновленими куками
+    return NextResponse.json(response.data, {
+      status: response.status,
+      headers: {
+        'set-cookie': cookieStore.toString(),
+      },
+    });
   } catch (error: any) {
     console.error(options.errorMessage || `Error proxying ${method.toUpperCase()} request:`, error);
 
