@@ -1,27 +1,28 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.6);
   display: grid;
   place-items: center;
   z-index: 100;
 }
 .panel {
   position: relative;
-  width: min(92vw, 420px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(80vw, 420px);
   background: var(--white);
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 32px;
+  padding: 56px 32px 32px 32px;
 }
 .title {
-  margin: 0 0 6px;
-  font-size: 18px;
-  font-weight: 700;
+  margin-bottom: 20px;
+  font: var(--font-600-32);
 }
 .text {
-  margin: 0 0 16px;
-  color: #6b7280;
+  margin: 0 0 20px;
+  font: var(--font-400-16);
 }
 .actions {
   display: flex;
@@ -47,11 +48,9 @@
 }
 .close {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 16px;
+  right: 32px;
   background: transparent;
-  border: 0;
-  font-size: 18px;
-  line-height: 1;
   cursor: pointer;
+  stroke: var(--black);
 }
