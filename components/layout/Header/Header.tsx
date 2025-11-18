@@ -73,6 +73,7 @@ export function Header() {
             aria-label="Sign out"
           >
             <SvgIcon name="logout" aria-hidden />
+            <span className="visually-hidden">Sign out</span>
           </button>
         </form>
       </>
