@@ -1,0 +1,88 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  gap: 24px;
+  width: 1225px;
+}
+.listItem {
+  width: 288px;
+  border-radius: 16px;
+  padding: 12px;
+  background-color: var(--light-beige);
+}
+.image {
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.recipeHeader {
+  font-weight: 700;
+  font-size: 24px;
+  width: 203px;
+  height: 58px;
+  overflow: hidden; /* ховає те, що вилізає */
+  text-overflow: ellipsis;
+  display: -webkit-box; /* для мультистрокового обрізання */
+  -webkit-line-clamp: 2; /* скільки рядків залишити */
+  -webkit-box-orient: vertical;
+}
+.titleWrapper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.timeWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 2px 8px 2px 4px;
+  width: 53px;
+  height: 28px;
+  background-color: var(--white);
+}
+.icon {
+  fill: none;
+  stroke: black;
+}
+.describtion {
+  font-size: 16px;
+  line-height: 1.55;
+  height: 49px;
+  overflow: hidden; /* ховає те, що вилізає */
+  text-overflow: ellipsis;
+  display: -webkit-box; /* для мультистрокового обрізання */
+  -webkit-line-clamp: 2; /* скільки рядків залишити */
+  -webkit-box-orient: vertical;
+  margin-bottom: 8px;
+}
+.calories {
+  margin-bottom: 16px;
+}
+.link {
+  display: inline-block;
+  flex-grow: 1;
+}
+.button {
+  width: 100%;
+  height: 40px;
+  color: var(--black);
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid black;
+}
+.buttonsWrapper {
+  display: flex;
+  gap: 8px;
+}
+.favoriteButton {
+  border: 1px solid var(--black);
+  border-radius: 8px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  stroke: black;
+  fill: transparent;
+}
