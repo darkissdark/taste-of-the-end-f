@@ -35,8 +35,8 @@
   --red: #c80000;
 
   /* Fonts custom propertie */
-  --font-family: "Montserrat", sans-serif;
-  --second-family: "DM Sans", sans-serif;
+  --font-family: 'Montserrat', sans-serif;
+  --second-family: 'DM Sans', sans-serif;
 }
 
 /* ≥768px */

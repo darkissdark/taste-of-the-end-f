@@ -9,7 +9,7 @@
 .panel {
   position: relative;
   width: min(92vw, 420px);
-  background: #fff;
+  background: var(--white);
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -39,7 +39,7 @@
 }
 .btnPrimary {
   background: #111;
-  color: #fff;
+  color: var(--white);
 }
 .btnSecondary {
   background: #f3f4f6;
