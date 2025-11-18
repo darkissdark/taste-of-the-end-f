@@ -8,7 +8,7 @@ const SPRITE = `<svg aria-hidden="true" style="position: absolute; width: 0; hei
 <path fill="none" stroke="#fff" style="stroke: var(--color1, #fff)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.1429" d="M13.495 5.571h-3.132c-1.384 0-2.505 1.122-2.505 2.505v11.275c0 1.384 1.122 2.506 2.505 2.506h3.132M12.143 13.714h12.527M24.67 13.714l-3.758 3.758M24.67 13.714l-3.758-3.758"></path>
 </symbol>
 <symbol id="basket" viewBox="0 0 32 32">
-<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.3333" d="M16 21.846v-8.769M6.5 9.423h2.192M25.5 9.423h-2.192M19.654 9.423h-7.308M19.654 9.423v-1.462c0-0.807-0.654-1.462-1.462-1.462h-4.385c-0.807 0-1.462 0.654-1.462 1.462v1.462M19.654 9.423h3.654M12.346 9.423h-3.654M23.308 9.423v13.154c0 1.614-1.309 2.923-2.923 2.923h-8.769c-1.614 0-2.923-1.309-2.923-2.923v-13.154"></path>
+ <path d="M12 16.3846L12 9.80769M4.875 7.06731H6.51923M19.125 7.06731H17.4808M14.7404 7.06731H9.25962M14.7404 7.06731V5.97115C14.7404 5.36576 14.2496 4.875 13.6442 4.875H10.3558C9.75038 4.875 9.25962 5.36576 9.25962 5.97115V7.06731M14.7404 7.06731H17.4808M9.25962 7.06731H6.51923M17.4808 7.06731V16.9327C17.4808 18.1435 16.4992 19.125 15.2885 19.125H8.71154C7.50076 19.125 6.51923 18.1435 6.51923 16.9327V7.06731" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
 </symbol>
 <symbol id="burger" viewBox="0 0 32 32">
 <path stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M7.5 9.5h17M7.5 21.5h17M7.5 15.5h17"></path>
