@@ -33,7 +33,7 @@ export function AuthDialog({ open, onClose }: Props) {
         <div className={styles.actions}>
           <Button
             type="button"
-            variant="brown"
+            variant="white"
             size="md"
             className={styles.actionButton}
             onClick={handleSignIn}
@@ -43,7 +43,7 @@ export function AuthDialog({ open, onClose }: Props) {
 
           <Button
             type="button"
-            variant="white"
+            variant="brown"
             size="md"
             className={styles.actionButtonSecondary}
             onClick={handleSignUp}

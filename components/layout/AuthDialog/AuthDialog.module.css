@@ -12,9 +12,9 @@
   flex-direction: column;
   align-items: center;
   width: min(80vw, 420px);
-  background: var(--white);
+  background: var(--light-beige);
   border-radius: 32px;
-  padding: 56px 32px 32px 32px;
+  padding: 56px 32px;
 }
 .title {
   margin-bottom: 20px;
@@ -26,26 +26,19 @@
 }
 .actions {
   display: flex;
-  gap: 12px;
+  gap: 27px;
+  width: 100%;
 }
-.btnPrimary,
-.btnSecondary {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 14px;
-  border-radius: 10px;
-  text-decoration: none;
+.actionButton,
+.actionButtonSecondary {
+  flex: 1;
+  height: 36px;
 }
-.btnPrimary {
-  background: #111;
-  color: var(--white);
+
+.actions .actionButton {
+  border: 1px solid var(--black);
 }
-.btnSecondary {
-  background: #f3f4f6;
-  color: #111;
-}
+
 .close {
   position: absolute;
   top: 16px;
