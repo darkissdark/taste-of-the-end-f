@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import css from './AddRecipeForm.module.css';
 import { fetchIngredients, type IngredientDto } from '@/lib/api/clientApi';
 import Button from '@/components/buttons/Buttons';
+import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 
 interface Ingredient {
   id: string;
@@ -11,13 +12,15 @@ interface Ingredient {
 interface SelectedIngredient {
   id: string;
   name: string;
-  desc: string;
+  quantity: string;
+  desc?: string;
 }
 
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [selectedIngredientId, setSelectedIngredientId] = useState<string>('');
   const [quantity, setQuantity] = useState<string>('');
+  const [selectedIngredients, setSelectedIngredients] = useState<SelectedIngredient[]>([]);
 
   useEffect(() => {
     fetchIngredients()
@@ -31,6 +34,24 @@ const Ingredients = () => {
       .catch((error) => console.error('Failed to fetch ingredients', error));
   }, []);
 
+  const addIngredient = () => {
+    if (!selectedIngredientId || !quantity.trim()) return;
+
+    const ingredient = ingredients.find((ing) => ing.id === selectedIngredientId);
+    if (!ingredient) return;
+
+    setSelectedIngredients((prev) => {
+      const existIndex = prev.findIndex((ing) => ing.id === selectedIngredientId);
+      if (existIndex >= 0) {
+        return prev.map((ing, index) => (index === existIndex ? { ...ing, quantity } : ing));
+      }
+      return [...prev, { id: ingredient.id, name: ingredient.name, quantity }];
+    });
+  };
+
+  const removeIngredient = (id: string) => {
+    setSelectedIngredients((prev) => prev.filter((ing) => ing.id !== id));
+  };
   return (
     <div className={css.addIngredient}>
       <div className={css.ingredientForm}>
@@ -64,13 +85,32 @@ const Ingredients = () => {
       </div>
 
       <Button
-        type="submit"
+        type="button"
         variant="brown"
         size="lg"
         className={`${css.myCustomClass} ${css.button}`}
+        onClick={addIngredient}
       >
         Add new Ingredient
       </Button>
+      <div className={css.addIngredients}>
+        <div className={css.selectedIngredientItem}>
+          <p className={css.selectedIngredientName}>Name:</p>
+          <p className={css.selectedIngredientName}>Amount:</p>
+        </div>
+
+        <ul className={css.selectedIngredientsList}>
+          {selectedIngredients.map((ing) => (
+            <li key={ing.id} className={css.selectedIngredientItem}>
+              <span className={css.selectedIngredient}>{ing.name}</span>
+              <span className={css.selectedIngredient}>{ing.quantity}</span>
+              <button className={css.deleteButton} onClick={() => removeIngredient(ing.id)}>
+                <SvgIcon name="basket" aria-hidden />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
