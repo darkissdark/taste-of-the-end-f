@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import css from "./SignInPage.module.css";
-import { useState } from "react";
-import { login, LoginRequest } from "@/lib/api/clientApi";
-import { isAxiosError } from "axios";
-import useAuthStore from "@/lib/store/authStore";
+import { useRouter } from 'next/navigation';
+import css from './SignInPage.module.css';
+import { useState } from 'react';
+import { login, LoginRequest } from '@/lib/api/clientApi';
+import { isAxiosError } from 'axios';
+import useAuthStore from '@/lib/store/authStore';
 
 const formDataToObject = (formData: FormData): LoginRequest => {
   return {
-    email: formData.get("email")?.toString() || "",
-    password: formData.get("password")?.toString() || "",
+    email: formData.get('email')?.toString() || '',
+    password: formData.get('password')?.toString() || '',
   };
 };
 
 function SignInPage() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (formData: FormData) => {
@@ -25,15 +25,16 @@ function SignInPage() {
       const res = await login(formValues);
       if (res) {
         setUser(res);
-        router.push("/");
+        window.location.href = '/';
+        // router.push('/');
       }
     } catch (error) {
       if (isAxiosError(error)) {
-        console.log("Axios error:", error.response);
+        console.log('Axios error:', error.response);
         setError(
           error.response?.data?.response?.validation?.body?.message ||
             error.response?.data?.response?.message ||
-            "Login failed try again later."
+            'Login failed try again later.'
         );
       }
     }
@@ -46,24 +47,12 @@ function SignInPage() {
 
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            className={css.input}
-            required
-          />
+          <input id="email" type="email" name="email" className={css.input} required />
         </div>
 
         <div className={css.formGroup}>
           <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            className={css.input}
-            required
-          />
+          <input id="password" type="password" name="password" className={css.input} required />
         </div>
 
         <div className={css.actions}>
