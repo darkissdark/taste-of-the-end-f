@@ -4,8 +4,11 @@ export function IconsSprite() {
 
 const SPRITE = `<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
+<symbol id="back_to_home" viewBox="0 0 32 32">
+<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.3333" d="M22 16.004h-12M10 16.004l5.384 5.385M10 16.003l5.384-5.384"></path>
+</symbol>
 <symbol id="logout" viewBox="0 0 32 32">
-<path fill="none" stroke="#fff" style="stroke: var(--color1, #fff)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.1429" d="M13.495 5.571h-3.132c-1.384 0-2.505 1.122-2.505 2.505v11.275c0 1.384 1.122 2.506 2.505 2.506h3.132M12.143 13.714h12.527M24.67 13.714l-3.758 3.758M24.67 13.714l-3.758-3.758"></path>
+<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.1429" d="M13.495 5.571h-3.132c-1.384 0-2.505 1.122-2.505 2.505v11.275c0 1.384 1.122 2.506 2.505 2.506h3.132M12.143 13.714h12.527M24.67 13.714l-3.758 3.758M24.67 13.714l-3.758-3.758"></path>
 </symbol>
 <symbol id="basket" viewBox="0 0 32 32">
  <path d="M12 16.3846L12 9.80769M4.875 7.06731H6.51923M19.125 7.06731H17.4808M14.7404 7.06731H9.25962M14.7404 7.06731V5.97115C14.7404 5.36576 14.2496 4.875 13.6442 4.875H10.3558C9.75038 4.875 9.25962 5.36576 9.25962 5.97115V7.06731M14.7404 7.06731H17.4808M9.25962 7.06731H6.51923M17.4808 7.06731V16.9327C17.4808 18.1435 16.4992 19.125 15.2885 19.125H8.71154C7.50076 19.125 6.51923 18.1435 6.51923 16.9327V7.06731" stroke="black" stroke-linecap="round" stroke-linejoin="round" />

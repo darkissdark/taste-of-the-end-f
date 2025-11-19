@@ -18,9 +18,10 @@ export function Header() {
   const pathname = usePathname();
   const isRecipesActive = pathname === '/' || pathname.startsWith('/recipes');
   const isProfileActive = pathname.startsWith('/profile');
+  const isLoginActive = pathname === '/auth/login';
 
   const Nav = () => (
-    <ul>
+    <ul className={styles.navWrap}>
       <li>
         <Link
           href="/"
@@ -32,9 +33,13 @@ export function Header() {
       </li>
 
       {!isAuthenticated && (
-        <li>
-          <Link className={styles.link} href="/auth/login">
-            Sign in
+        <li className={styles.navWrapNotAuth}>
+          <Link
+            className={`${styles.link} ${isLoginActive ? styles.linkActive : ''}`}
+            href="/auth/login"
+            aria-current={isLoginActive ? 'page' : undefined}
+          >
+            Log in
           </Link>
           <Link href="/auth/register" className={`${styles.link} ${styles.linkOutlined}`}>
             Register
@@ -43,7 +48,7 @@ export function Header() {
       )}
 
       {isAuthenticated && (
-        <li>
+        <li className={styles.navWrapAuth}>
           <Link
             href="/profile/own"
             className={`${styles.link} ${isProfileActive ? styles.linkActive : ''}`}
