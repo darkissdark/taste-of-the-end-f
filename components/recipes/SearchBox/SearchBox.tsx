@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 import styles from "./SearchBox.module.css";
-import { fetchRecipes, RecipeDto } from "@lib/api/clientApi";
+import { RecipeDto, fetchRecipes } from '@/lib/api/clientApi';
 
 interface SearchBoxProps {
   onSearch: (results: RecipeDto[]) => void;
@@ -27,10 +27,8 @@ export function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        // Отримуємо всі рецепти
         let data = await fetchRecipes();
 
-        // Якщо користувач ввів текст, фільтруємо за назвою
         if (values.query.trim() !== "") {
           const queryLower = values.query.toLowerCase();
           data = data.filter((recipe) =>
@@ -40,9 +38,9 @@ export function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
 
         if (!data || data.length === 0) {
           toast("Рецептів не знайдено");
-          onSearch([]); // очищаємо результати
+          onSearch([]);
         } else {
-          onSearch(data); // передаємо результати у MainPage
+          onSearch(data);
           toast.success("Рецепти завантажено");
         }
       } catch (err) {
