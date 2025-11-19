@@ -63,6 +63,21 @@ export const fetchIngredients = async () => {
   return data;
 };
 
+export type RecipeDto = {
+  _id: string;
+  title: string;
+  desc: string;
+  img: string;
+  category: string;
+  difficulty: string;
+  cookTime: number;
+};
+
+export const fetchRecipesWithParam = async () => {
+  const { data } = await api.get<RecipeDto[]>('/recipes');
+  return data;
+};
+
 export interface RecipesRes {
   page: number;
   perPage: number;
@@ -70,25 +85,18 @@ export interface RecipesRes {
   totalPages: number;
   recipes: Recipe[];
 }
+
 export const fetchRecipes = async () => {
   const { data } = await api.get<RecipesRes>('/recipes');
   return data;
 };
 
-export interface AddRecipeDto {
-  title: string;
-  shortDescription: string;
-  cookingTime: string;
-  calories: string;
-  category: string;
-  instructions: string;
-}
-export const addRecipe = async (recipeData: AddRecipeDto) => {
-  try {
-    const { data } = await api.post<AddRecipeDto>('/recipes', recipeData);
-    return data;
-  } catch (error) {
-    console.error('addRecipe - Error:', error);
-    throw error;
-  }
+export const addToFavorites = async (id: string) => {
+  const { data } = await api.post(`/recipes/favorites/${id}`);
+  return data;
+};
+
+export const removeFromFavorites = async (id: string) => {
+  const { data } = await api.delete(`/recipes/favorites/${id}`);
+  return data;
 };

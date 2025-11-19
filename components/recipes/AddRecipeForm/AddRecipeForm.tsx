@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { fetchCategories, addRecipe, AddRecipeDto } from '@/lib/api/clientApi';
+import { fetchCategories } from '@/lib/api/clientApi';
 import Ingredients from './Ingredients/Ingredients';
 import UploadPhoto from './UploadPhoto/UploadPhoto';
 import Button from '@/components/buttons/Buttons';
@@ -89,16 +89,14 @@ const AddRecipeForm = () => {
       });
   }, []);
 
-  const handleSubmit = async (values: AddRecipeDto, actions: FormikHelpers<AddRecipeDto>) => {
-    try {
-      const addedRecipe = await addRecipe(values);
-
-      router.push(`/recipes/${addedRecipe}`);
-
-      actions.resetForm();
-    } catch (error) {
-      console.error('Failed to add recipe', error);
-    }
+  const handleSubmit = async () => {
+    // try {
+    //   const addedRecipe = await addRecipe(values);
+    //   router.push(`/recipes/${addedRecipe}`);
+    //   actions.resetForm();
+    // } catch (error) {
+    //   console.error('Failed to add recipe', error);
+    // }
   };
   return (
     <div className={css.addRecipeContainer}>
