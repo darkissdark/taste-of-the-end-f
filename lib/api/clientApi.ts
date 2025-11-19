@@ -73,10 +73,10 @@ export type RecipeDto = {
   cookTime: number;
 };
 
-// export const fetchRecipes = async () => {
-//   const { data } = await api.get<RecipeDto[]>('/recipes');
-//   return data;
-// };
+export const fetchRecipesWithParam = async () => {
+  const { data } = await api.get<RecipeDto[]>('/recipes');
+  return data;
+};
 
 export interface RecipesRes {
   page: number;
