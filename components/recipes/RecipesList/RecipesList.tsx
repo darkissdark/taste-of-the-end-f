@@ -12,7 +12,14 @@ interface RecipesListProps {
   data: RecipesRes;
 }
 const RecipesList = async ({ data }: RecipesListProps) => {
-  const { favorites } = await getServerMe();
+  let favorites: string[] = [];
+
+  try {
+    const me = await getServerMe();
+    favorites = me.favorites ?? [];
+  } catch (err) {
+    favorites = [];
+  }
 
   return (
     <ul className={css.list}>
