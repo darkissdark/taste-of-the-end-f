@@ -65,12 +65,12 @@ export const fetchIngredients = async () => {
 
 export type RecipeDto = {
   _id: string;
-  title: string;    
-  desc: string;       
-  img: string;       
-  category: string;  
-  difficulty: string;  
-  cookTime: number;    
+  title: string;
+  desc: string;
+  img: string;
+  category: string;
+  difficulty: string;
+  cookTime: number;
 };
 
 export const fetchRecipes = async () => {
@@ -85,7 +85,3 @@ export interface RecipesRes {
   totalPages: number;
   recipes: Recipe[];
 }
-export const fetchRecipes = async () => {
-  const { data } = await api.get<RecipesRes>('/recipes');
-  return data;
-};

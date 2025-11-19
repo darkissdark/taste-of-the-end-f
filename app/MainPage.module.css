@@ -4,7 +4,6 @@
 }
 
 .hero {
-  position: relative;
   width: 100%;
   height: clamp(450px, 60vw, 550px);
 }
@@ -25,6 +24,7 @@
 .heroImage {
   object-fit: cover;
   object-position: center;
+  z-index: -1;
 }
 
 .heroTitle {

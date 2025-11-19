@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from 'next/image';
 import { useState } from 'react';
@@ -9,14 +9,10 @@ import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 // import Pagination from '@/components/recipes/Pagination/Pagination';
 import styles from './MainPage.module.css';
 import { RecipeDto } from '@/lib/api/clientApi';
-import { pageMeta } from "@/lib/seo";
+// import { pageMeta } from '@/lib/seo';
 
-export const generateMetadata = () =>
-  pageMeta({ title: "Home", description: "Browse all recipes" });
-
-export default function Page() {
-  return <section>Головна сторінка</section>;
-}
+// export const generateMetadata = () =>
+//   pageMeta({ title: 'Home', description: 'Browse all recipes' });
 
 interface FilterState {
   category: string;
@@ -24,12 +20,12 @@ interface FilterState {
   cookTime: string;
 }
 
-export function MainPage() {
+export default function Page() {
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     category: '',
     difficulty: '',
-    cookTime: ''
+    cookTime: '',
   });
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [usePagination, setUsePagination] = useState<boolean>(false);
@@ -44,13 +40,12 @@ export function MainPage() {
     setCurrentPage(1);
   };
 
-  const handleLoadMore = () => setCurrentPage(prev => prev + 1);
+  const handleLoadMore = () => setCurrentPage((prev) => prev + 1);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
   return (
     <main className={styles.mainPage}>
       {/* HERO SECTION */}
@@ -89,36 +84,32 @@ export function MainPage() {
             />
           </picture>
 
-          <h1 className={styles.heroTitle}>
-            Plan, Cook, and Share Your Flavors
-          </h1>
+          <h1 className={styles.heroTitle}>Plan, Cook, and Share Your Flavors</h1>
 
           {/* SEARCH BOX */}
           <div className={styles.search}>
-            <SearchBox
-              onSearch={handleSearch}
-            />
+            <SearchBox onSearch={handleSearch} />
           </div>
         </div>
       </section>
 
       {/* FILTERS */}
       <section className={styles.filtersSection}>
-        <Filters filters={filters} onFilterChange={handleFilterChange} />
+        {/* <Filters filters={filters} onFilterChange={handleFilterChange} /> */}
       </section>
 
       {/* RECIPES LIST */}
       <section className={styles.recipesSection}>
-        <RecipesList
+        {/* <RecipesList
           recipes={recipes}
           currentPage={currentPage}
           usePagination={usePagination}
-        />
+        /> */}
       </section>
 
       {/* PAGINATION */}
       <section className={styles.paginationSection}>
-        {usePagination ? (
+        {/* {usePagination ? (
           <Pagination
             currentPage={currentPage}
             totalPages={5}
@@ -126,7 +117,7 @@ export function MainPage() {
           />
         ) : (
           <LoadMoreBtn onClick={handleLoadMore} isLoading={false} />
-        )}
+        )} */}
       </section>
     </main>
   );
