@@ -74,3 +74,21 @@ export const fetchRecipes = async () => {
   const { data } = await api.get<RecipesRes>('/recipes');
   return data;
 };
+
+export interface AddRecipeDto {
+  title: string;
+  shortDescription: string;
+  cookingTime: string;
+  calories: string;
+  category: string;
+  instructions: string;
+}
+export const addRecipe = async (recipeData: AddRecipeDto) => {
+  try {
+    const { data } = await api.post<AddRecipeDto>('/recipes', recipeData);
+    return data;
+  } catch (error) {
+    console.error('addRecipe - Error:', error);
+    throw error;
+  }
+};

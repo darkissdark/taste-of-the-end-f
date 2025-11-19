@@ -5,7 +5,6 @@ export interface Ingredient {
   measure: string;
 }
 export interface Recipe {
-  _id: string;
   title: string;
   category: string;
   owner: string;

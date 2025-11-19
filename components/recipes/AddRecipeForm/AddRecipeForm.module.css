@@ -40,18 +40,19 @@
   font-size: 18px;
   color: var(--black);
 }
+
 .field {
+  width: 100%;
+  padding: 12px;
   border: 1px solid var(--light-gray);
   border-radius: 8px;
-  padding: 12px;
-  width: 100%;
   height: 46px;
   max-height: 48px;
   margin-top: 8px;
   cursor: pointer;
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none;
   color: var(--gray);
   font-weight: 400;
   font-size: 18px;
@@ -70,23 +71,22 @@
 .fieldInstructions {
   margin-top: 16px;
 }
-.addIngredient {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 32px;
+.fieldError {
+  border-color: var(--red);
+  color: var(--red);
+  background-color: #fff0f0;
+}
+.errorMessage {
+  color: var(--red);
+  font-size: 14px;
+  margin-top: 4px;
 }
 .infoForm {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 32px;
 }
-.ingredientForm {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
+
 .caloriesCategory {
   height: 78px;
   display: flex;
@@ -109,20 +109,22 @@
   appearance: none;
   margin-top: 8px;
 }
-
-.upload {
-  cursor: pointer;
-  display: none;
-}
-.photo {
+.categoryForm {
+  position: relative;
   width: 100%;
-  max-width: 383px;
-  height: auto;
-  max-height: 361px;
-  margin-top: 4px;
-  object-fit: contain;
-  box-sizing: border-box;
-  cursor: pointer;
+  max-width: 392px;
+}
+.arrowIcon {
+  stroke: black;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+
+  position: absolute;
+  right: 12px;
+  top: 85%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 /* TABLET */
@@ -146,25 +148,7 @@
   .infoForm {
     gap: 32px;
   }
-  .addIngredient {
-    gap: 32px;
-  }
-  .ingredientForm {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-  }
-  .name {
-    width: 431px;
-  }
-  .amount {
-    width: 249px;
-  }
-  .button {
-    margin-left: auto;
-    padding: 8px;
-    width: 249px;
-  }
+
   .categoryForm {
     display: flex;
     flex-direction: column;
@@ -180,10 +164,6 @@
   .calories {
     width: 340px;
   }
-  .photo {
-    max-width: 704px;
-    max-height: 383px;
-  }
 }
 
 /* DESKTOP */
@@ -198,6 +178,9 @@
     gap: 34px;
     width: 1226px;
   }
+  .photoContainer {
+    width: 391px;
+  }
   .form {
     max-width: 809px;
     gap: 72px;
@@ -209,55 +192,4 @@
   .calories {
     width: 392px;
   }
-  .photo {
-    max-width: 374px;
-    max-height: 391px;
-  }
-  .name {
-    width: 497px;
-  }
-  .amount {
-    width: 288px;
-  }
-  .button {
-    margin-left: auto;
-    width: 258px;
-    height: 23px;
-  }
-}
-.addIngredients {
-  width: 332px;
-}
-
-.selectedIngredientsList {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.selectedIngredientItem {
-  display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--light-gray-3);
-  width: 332px;
-  height: 20px;
-}
-
-.selectedIngredientName {
-  font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--black);
-  width: 150px;
-}
-.selectedIngredient {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 155%;
-  color: var(--black);
-  width: 150px;
-}
-.deleteButton {
-  border: none;
-  fill: none;
 }

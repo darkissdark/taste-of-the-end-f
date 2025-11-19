@@ -1,0 +1,177 @@
+.label {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--black);
+}
+
+.field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  height: 46px;
+  max-height: 48px;
+  margin-top: 8px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  color: var(--gray);
+  font-weight: 400;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+.arrowIcon {
+  stroke: black;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+
+  position: absolute;
+  right: 12px;
+  top: 73%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.name {
+  position: relative;
+  width: 100%;
+}
+.addIngredient {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+.ingredientForm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.addIngredients {
+  width: 332px;
+}
+.addIngredientItem {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--light-gray-3);
+  padding: 16px 0px;
+  width: 373px;
+  height: 52px;
+  align-items: center;
+}
+.selectedIngredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+.selectedIngredientItem {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--light-gray-3);
+  width: 373px;
+  height: 60px;
+  align-items: center;
+  padding: 16px 0px;
+}
+
+.selectedIngredientName {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black);
+  width: 150px;
+}
+.selectedIngredient {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 155%;
+  color: var(--black);
+  width: 175px;
+}
+.selectedIngredientQ {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 155%;
+  color: var(--black);
+  width: 150px;
+}
+.deleteButton {
+  border: none;
+  fill: none;
+  stroke: black;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* TABLET */
+@media screen and (min-width: 767px) {
+  .field {
+    max-width: 704px;
+  }
+  .addIngredientItem {
+    width: 431px;
+    height: 36px;
+  }
+  .selectedIngredientName {
+    width: 150px;
+  }
+  .selectedIngredientItem {
+    width: 431px;
+    height: 44px;
+  }
+  .addIngredient {
+    gap: 32px;
+  }
+  .ingredientForm {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+  .name {
+    width: 431px;
+  }
+  .amount {
+    width: 249px;
+  }
+  .button {
+    margin-left: auto;
+    padding: 8px;
+    width: 249px;
+  }
+}
+
+/* DESKTOP */
+@media screen and (min-width: 1440px) {
+  .field {
+    max-width: 809px;
+  }
+  .name {
+    width: 497px;
+  }
+  .amount {
+    width: 288px;
+  }
+  .addIngredientItem {
+    width: 332px;
+    height: 20px;
+  }
+  .selectedIngredientItem {
+    width: 332px;
+    height: 28px;
+  }
+  .selectedIngredient {
+    width: 150px;
+  }
+  .selectedIngredientQ {
+    width: 150px;
+  }
+  .button {
+    margin-left: auto;
+    width: 258px;
+    height: 23px;
+  }
+}
