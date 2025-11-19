@@ -85,3 +85,18 @@ export interface RecipesRes {
   totalPages: number;
   recipes: Recipe[];
 }
+
+export const fetchRecipes = async () => {
+  const { data } = await api.get<RecipesRes>('/recipes');
+  return data;
+};
+
+export const addToFavorites = async (id: string) => {
+  const { data } = await api.post(`/recipes/favorites/${id}`);
+  return data;
+};
+
+export const removeFromFavorites = async (id: string) => {
+  const { data } = await api.delete(`/recipes/favorites/${id}`);
+  return data;
+};

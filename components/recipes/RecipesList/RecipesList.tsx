@@ -1,16 +1,23 @@
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
-import { RecipesRes } from '@/lib/api/clientApi';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import css from './RecipesList.module.css';
+import { getServerMe } from '@/lib/api/serverApi';
+import FavoriteButton from '../FavoriteButton/FavoriteButton';
+import { RecipesRes } from '@/lib/api/clientApi';
+
 interface RecipesListProps {
   data: RecipesRes;
 }
 const RecipesList = async ({ data }: RecipesListProps) => {
+  const { favorites } = await getServerMe();
+
   return (
     <ul className={css.list}>
       {data.recipes.map((recipe, idx) => {
+        const isFavorite = favorites.includes(recipe._id);
         return (
           <li key={`${recipe._id}${idx}`} className={css.listItem}>
             <Image
@@ -36,9 +43,7 @@ const RecipesList = async ({ data }: RecipesListProps) => {
                   Learn more
                 </Button>
               </Link>
-              <button className={css.favoriteButton}>
-                <SvgIcon name="save_tooth" />
-              </button>
+              <FavoriteButton initialIsFavorite={isFavorite} recipeId={recipe._id} />
             </div>
           </li>
         );

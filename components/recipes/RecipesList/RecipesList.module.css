@@ -76,13 +76,3 @@
   display: flex;
   gap: 8px;
 }
-.favoriteButton {
-  border: 1px solid var(--black);
-  border-radius: 8px;
-  padding: 8px;
-  width: 40px;
-  height: 40px;
-  background-color: transparent;
-  stroke: black;
-  fill: transparent;
-}

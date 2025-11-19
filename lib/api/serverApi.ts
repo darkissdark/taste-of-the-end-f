@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { api } from './api';
 import type { User } from '@/types/user';
+import { RecipesRes } from './clientApi';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
@@ -13,7 +14,7 @@ export const checkServerSession = async () => {
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await api.post(`/users/me`, null, {
+  const { data } = await api.get(`/users/me`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
