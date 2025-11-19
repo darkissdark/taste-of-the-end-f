@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, useRef } from 'react';
-import css from './AddRecipeForm.module.css';
+import css from './UploadPhoto.module.css';
 
 const defaultImages = {
   mobile: '/default-image-mobile.jpg',
