@@ -11,10 +11,9 @@
   padding-inline: var(--container-x);
   height: 74px;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 32px;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .logo {
@@ -22,16 +21,25 @@
   font-size: 18px;
 }
 
-.nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 32px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
 }
 
 .link {
@@ -39,6 +47,24 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
+  background-color: inherit;
+  border: none;
+}
+
+.linkActive {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+
+.linkOutlined {
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: var(--light-brown);
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
 }
 
 .userBadge {
@@ -47,4 +73,145 @@
   align-items: center;
   padding: 6px 10px;
   border-radius: 999px;
+}
+
+.userInfo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background-color: var(--light-brown);
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.logoutButton {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  border-left: 1px solid var(--white);
+  padding-left: 16px;
+}
+
+.navWrap,
+.user {
+  display: none;
+}
+
+.burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: none;
+  stroke: var(--white);
+  cursor: pointer;
+}
+
+.mobileMenu {
+  display: none;
+}
+.mobileMenuOpen {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 40;
+}
+.mobileInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+  background: var(--darck-brown, #3d2218);
+  color: var(--white);
+}
+
+.mobileInnerOpen {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileInner {
+    transition: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .navWrap,
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .burger {
+    display: none;
+  }
+  .mobileMenu,
+  .mobileMenuOpen {
+    display: none;
+  }
+}
+
+.mobileTop {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mobileBrand {
+  display: flex;
+  align-items: center;
+}
+
+.mobileClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: none;
+  stroke: var(--white);
+  fill: transparent;
+  cursor: pointer;
+}
+
+.mobileNav,
+.mobileUser {
+  display: grid;
+  gap: 12px;
+}
+
+.mobileNav :global(a),
+.mobileUser :global(a),
+.mobileUser :global(button) {
+  justify-self: start;
 }

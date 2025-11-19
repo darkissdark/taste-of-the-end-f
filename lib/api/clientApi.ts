@@ -1,3 +1,4 @@
+import { Recipe } from '@/types/recipe';
 import { api } from './api';
 import type { User } from '@/types/user';
 
@@ -77,3 +78,14 @@ export const fetchRecipes = async () => {
   return data;
 };
 
+export interface RecipesRes {
+  page: number;
+  perPage: number;
+  total: number;
+  totalPages: number;
+  recipes: Recipe[];
+}
+export const fetchRecipes = async () => {
+  const { data } = await api.get<RecipesRes>('/recipes');
+  return data;
+};

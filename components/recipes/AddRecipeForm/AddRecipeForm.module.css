@@ -225,3 +225,39 @@
     height: 23px;
   }
 }
+.addIngredients {
+  width: 332px;
+}
+
+.selectedIngredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.selectedIngredientItem {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--light-gray-3);
+  width: 332px;
+  height: 20px;
+}
+
+.selectedIngredientName {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black);
+  width: 150px;
+}
+.selectedIngredient {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 155%;
+  color: var(--black);
+  width: 150px;
+}
+.deleteButton {
+  border: none;
+  fill: none;
+}

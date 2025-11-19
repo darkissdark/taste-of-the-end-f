@@ -1,9 +1,12 @@
 .logo {
   display: inline-flex;
   align-items: center;
-
   text-decoration: none;
-  color: inherit;
+  justify-content: center;
+  color: var(--white);
+  width: 165px;
+  height: 46px;
+  gap: 5px;
 }
 
 .wordmark {

@@ -1,22 +1,20 @@
-// components/layout/Footer/Footer.tsx
-"use client";
+'use client';
 
-import Link from "next/link";
-import styles from "./Footer.module.css";
-import { useState } from "react";
-import { AuthDialog } from "../AuthDialog/AuthDialog";
-import { Logo } from "@/components/ui/Logo/Logo";
-import useAuthStore from "@/lib/store/authStore";
+import Link from 'next/link';
+import styles from './Footer.module.css';
+import type { MouseEvent } from 'react';
+import { Logo } from '@/components/ui/Logo/Logo';
+import useAuthStore from '@/lib/store/authStore';
+import { useAuthDialogStore } from '@/lib/store/authDialogStore';
 
 export function Footer() {
-  const [authOpen, setAuthOpen] = useState(false);
-
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const openAuthDialog = useAuthDialogStore((state) => state.open);
 
-  const handleProfileClick = (e: React.MouseEvent) => {
+  const handleProfileClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!isAuthenticated) {
       e.preventDefault();
-      setAuthOpen(true);
+      openAuthDialog();
     }
   };
 
@@ -35,17 +33,11 @@ export function Footer() {
           <Link href="/" className={styles.link}>
             Recipes
           </Link>
-          <Link
-            href="/profile/own"
-            className={styles.link}
-            onClick={handleProfileClick}
-          >
+          <Link href="/profile/own" className={styles.link} onClick={handleProfileClick}>
             Profile
           </Link>
         </nav>
       </div>
-
-      <AuthDialog open={authOpen} onClose={() => setAuthOpen(false)} />
     </footer>
   );
 }

@@ -20,10 +20,12 @@ const SignUpPage = () => {
     try {
       const { email, name, password } = values;
       const res = await register({ email, name, password });
+
       if (res) {
         setUser(res);
         actions.resetForm();
-        router.push('/');
+        // router.push('/');
+        window.location.href = '/';
       } else {
         setError('Invalid email or password');
       }

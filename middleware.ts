@@ -4,7 +4,7 @@ import { parse } from 'cookie';
 import { checkServerSession } from './lib/api/serverApi';
 
 const privateRoutes = ['/profile', '/add-recipe'];
-const publicRoutes = ['/login', '/auth/register'];
+const publicRoutes = ['/auth/login', '/auth/register'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
   const isPrivateRoute = privateRoutes.some((route) => pathname.startsWith(route));
 
+  console.log('accessToken:', accessToken, 'refreshToken:', refreshToken, 'pathname:', pathname);
   if (!accessToken) {
     if (refreshToken) {
       // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для публічного маршруту,
@@ -77,5 +78,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile/:path*', '/add-recipe/:path*', '/login', '/auth/register'],
+  matcher: ['/profile/:path*', '/add-recipe/:path*', '/auth/login', '/auth/register'],
 };
