@@ -4,7 +4,7 @@ import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import Image from 'next/image';
 import Link from 'next/link';
 import css from './RecipesList.module.css';
-import { getServerMe, getServerRecipes } from '@/lib/api/serverApi';
+import { getServerMe } from '@/lib/api/serverApi';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import { RecipesRes } from '@/lib/api/clientApi';
 
