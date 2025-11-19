@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--backdrop-overlay);
   display: grid;
   place-items: center;
   z-index: 100;
@@ -21,7 +21,7 @@
   font: var(--font-600-32);
 }
 .text {
-  margin: 0 0 20px;
+  margin-bottom: 20px;
   font: var(--font-400-16);
 }
 .actions {

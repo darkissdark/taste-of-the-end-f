@@ -16,11 +16,6 @@
   color: var(--white);
 }
 
-.logo {
-  font-weight: 700;
-  font-size: 18px;
-}
-
 .right {
   display: flex;
   justify-content: flex-end;

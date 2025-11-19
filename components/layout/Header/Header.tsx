@@ -20,28 +20,30 @@ export function Header() {
   const isProfileActive = pathname.startsWith('/profile');
 
   const Nav = () => (
-    <>
-      <Link
-        href="/"
-        className={`${styles.link} ${isRecipesActive ? styles.linkActive : ''}`}
-        aria-current={isRecipesActive ? 'page' : undefined}
-      >
-        Recipes
-      </Link>
+    <ul>
+      <li>
+        <Link
+          href="/"
+          className={`${styles.link} ${isRecipesActive ? styles.linkActive : ''}`}
+          aria-current={isRecipesActive ? 'page' : undefined}
+        >
+          Recipes
+        </Link>
+      </li>
 
       {!isAuthenticated && (
-        <>
+        <li>
           <Link className={styles.link} href="/auth/login">
             Sign in
           </Link>
           <Link href="/auth/register" className={`${styles.link} ${styles.linkOutlined}`}>
-            Sign up
+            Register
           </Link>
-        </>
+        </li>
       )}
 
       {isAuthenticated && (
-        <>
+        <li>
           <Link
             href="/profile/own"
             className={`${styles.link} ${isProfileActive ? styles.linkActive : ''}`}
@@ -52,9 +54,9 @@ export function Header() {
           <Link href="/add-recipe" className={`${styles.link} ${styles.linkOutlined}`}>
             Add recipe
           </Link>
-        </>
+        </li>
       )}
-    </>
+    </ul>
   );
 
   const UserBlock = () =>

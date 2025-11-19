@@ -30,12 +30,16 @@ export function Footer() {
         </span>
 
         <nav className={styles.nav} aria-label="Footer">
-          <Link href="/" className={styles.link}>
-            Recipes
-          </Link>
-          <Link href="/profile/own" className={styles.link} onClick={handleProfileClick}>
-            Profile
-          </Link>
+          <li>
+            <Link href="/" className={styles.link}>
+              Recipes
+            </Link>
+          </li>
+          <li>
+            <Link href="/profile/own" className={styles.link} onClick={handleProfileClick}>
+              Profile
+            </Link>
+          </li>
         </nav>
       </div>
     </footer>
