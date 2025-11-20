@@ -53,7 +53,9 @@ const RegistrationForm = ({ onSubmit }: Props) => {
           <div className={css.wrapper}>
             <div className={css.wrapperInputs}>
               <div className={css.formGroup}>
-                <label htmlFor={`${fieldId}-email`}>Enter your email address</label>
+                <label className={css.label} htmlFor={`${fieldId}-email`}>
+                  Enter your email address
+                </label>
                 <Field
                   className={`${css.input} ${errors.email && touched.email ? css.errorInput : ''}`}
                   id={`${fieldId}-email`}
@@ -66,7 +68,9 @@ const RegistrationForm = ({ onSubmit }: Props) => {
               </div>
 
               <div className={css.formGroup}>
-                <label htmlFor={`${fieldId}-name`}>Enter your name</label>
+                <label className={css.label} htmlFor={`${fieldId}-name`}>
+                  Enter your name
+                </label>
                 <Field
                   className={`${css.input} ${errors.name && touched.name ? css.errorInput : ''}`}
                   id={`${fieldId}-name`}
@@ -78,52 +82,67 @@ const RegistrationForm = ({ onSubmit }: Props) => {
                 <ErrorMessage name="name" component="span" className={css.errorMessage} />
               </div>
 
-              <div className={`${css.formGroup} ${css.formGroupPassword}`}>
-                <label htmlFor={`${fieldId}-password`}>Create a strong password</label>
-                <Field
-                  className={`${css.input} ${css.inputPassword} ${
-                    errors.password && touched.password ? css.errorInput : ''
-                  }`}
-                  id={`${fieldId}-password`}
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  placeholder="********"
-                  required
-                />
-                <ErrorMessage name="password" component="span" className={css.errorMessage} />
-                <button className={css.iconBtn} type="button" onClick={handleClickPassword}>
-                  {showPassword ? (
-                    <SvgIcon className={css.icon} name="eye_opened"></SvgIcon>
-                  ) : (
-                    <SvgIcon className={css.icon} name="eye_closed" />
-                  )}
-                </button>
+              <div className={css.formGroup}>
+                <label className={css.label} htmlFor={`${fieldId}-password`}>
+                  Create a strong password
+                </label>
+
+                <div className={css.formGroupPassword}>
+                  <Field
+                    className={`${css.input} ${css.inputPassword} ${
+                      errors.password && touched.password ? css.errorInput : ''
+                    }`}
+                    id={`${fieldId}-password`}
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    placeholder="********"
+                    required
+                  />
+
+                  <button className={css.iconBtn} type="button" onClick={handleClickPassword}>
+                    {showPassword ? (
+                      <SvgIcon className={css.icon} name="eye_opened"></SvgIcon>
+                    ) : (
+                      <SvgIcon className={css.icon} name="eye_closed" />
+                    )}
+                  </button>
+                  <ErrorMessage name="password" component="span" className={css.errorMessage} />
+                </div>
               </div>
 
-              <div className={`${css.formGroup} ${css.formGroupPassword}`}>
-                <label htmlFor={`${fieldId}-passwordConfirm`}>Repeat your password</label>
-                <Field
-                  className={`${css.input} ${css.inputPassword} ${
-                    errors.passwordConfirm && touched.passwordConfirm ? css.errorInput : ''
-                  }`}
-                  id={`${fieldId}-passwordConfirm`}
-                  type={showConfirm ? 'text' : 'password'}
-                  name="passwordConfirm"
-                  placeholder="********"
-                  required
-                />
+              <div className={css.formGroup}>
+                <label className={css.label} htmlFor={`${fieldId}-passwordConfirm`}>
+                  Repeat your password
+                </label>
+                <div className={css.formGroupPassword}>
+                  <Field
+                    className={`${css.input} ${css.inputPassword} ${
+                      errors.passwordConfirm && touched.passwordConfirm ? css.errorInput : ''
+                    }`}
+                    id={`${fieldId}-passwordConfirm`}
+                    type={showConfirm ? 'text' : 'password'}
+                    name="passwordConfirm"
+                    placeholder="********"
+                    required
+                  />
+
+                  <button
+                    className={css.iconBtn}
+                    type="button"
+                    onClick={handleClickPasswordConfirm}
+                  >
+                    {showConfirm ? (
+                      <SvgIcon className={css.icon} name="eye_opened"></SvgIcon>
+                    ) : (
+                      <SvgIcon className={css.icon} name="eye_closed" />
+                    )}
+                  </button>
+                </div>
                 <ErrorMessage
                   name="passwordConfirm"
                   component="span"
                   className={css.errorMessage}
                 />
-                <button className={css.iconBtn} type="button" onClick={handleClickPasswordConfirm}>
-                  {showConfirm ? (
-                    <SvgIcon className={css.icon} name="eye_opened"></SvgIcon>
-                  ) : (
-                    <SvgIcon className={css.icon} name="eye_closed" />
-                  )}
-                </button>
               </div>
             </div>
 
