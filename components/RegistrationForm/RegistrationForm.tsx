@@ -19,9 +19,10 @@ interface Props {
     values: ValuesRegister,
     actions: FormikHelpers<ValuesRegister>
   ) => void | Promise<void>;
+  isLoading: boolean;
 }
 
-const RegistrationForm = ({ onSubmit }: Props) => {
+const RegistrationForm = ({ onSubmit, isLoading }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const fieldId = useId();
@@ -146,9 +147,15 @@ const RegistrationForm = ({ onSubmit }: Props) => {
               </div>
             </div>
 
-            <Button type="submit" variant="brown" size="md" className={css.submitButton}>
-              Create account
-            </Button>
+            {isLoading ? (
+              <Button type="submit" variant="brown" size="md" className={css.submitButton} disabled>
+                Loading...
+              </Button>
+            ) : (
+              <Button type="submit" variant="brown" size="md" className={css.submitButton}>
+                Create account
+              </Button>
+            )}
           </div>
 
           <p className={css.qusetionLogIn}>
