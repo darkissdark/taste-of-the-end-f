@@ -105,6 +105,7 @@
 .qusetionLogInAccent {
     font-weight: 600;
     color: inherit;
+    text-decoration: underline;
 
     &:focus {
         outline: transparent;
