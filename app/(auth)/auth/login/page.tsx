@@ -1,12 +1,10 @@
 'use client';
 
 import useAuthStore from '@/lib/store/authStore';
-import { useRouter } from 'next/navigation';
-import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Link from 'next/link';
 import { login } from '@/lib/api/clientApi';
 import { loginValidationSchema } from '@/lib/validation/authSchemas';
-import 'izitoast/dist/css/iziToast.min.css';
 import { useState } from 'react';
 import styles from './LoginForm.module.css';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
@@ -18,8 +16,6 @@ interface LoginFormValues {
 }
 
 const LoginPage = () => {
-  const router = useRouter();
-
   const setUser = useAuthStore((s) => s.setUser);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -32,16 +28,7 @@ const LoginPage = () => {
   const handleSubmit = async (values: LoginFormValues, { setSubmitting }: any) => {
     try {
       const user = await login(values);
-
       setUser(user);
-
-      import('izitoast').then((iziToast) => {
-        iziToast.default.success({
-          title: 'Success',
-          message: 'You have successfully logged in!',
-          position: 'topRight',
-        });
-      });
       window.location.href = '/';
     } catch (err: any) {
       import('izitoast').then((iziToast) => {
@@ -111,11 +98,10 @@ const LoginPage = () => {
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
-                      {showPassword ? (
-                        <SvgIcon className={styles.icon} name="eye_opened"></SvgIcon>
-                      ) : (
-                        <SvgIcon className={styles.icon} name="eye_closed" />
-                      )}
+                      <SvgIcon
+                        className={styles.icon}
+                        name={showPassword ? 'eye_opened' : 'eye_closed'}
+                      />
                     </button>
                   </div>
                 </div>
@@ -127,7 +113,7 @@ const LoginPage = () => {
                   className={styles.submitButton}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Вхід...' : 'Увійти'}
+                  {isSubmitting ? 'Loading...' : 'Login'}
                 </Button>
               </div>
 

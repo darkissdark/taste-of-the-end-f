@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { register } from '@/lib/api/clientApi';
 import css from './SignUpPage.module.css';
 import { isAxiosError } from 'axios';
@@ -14,7 +13,6 @@ import { ValuesRegister } from '@/types/auth';
 const SignUpPage = () => {
   const [error, setError] = useState('');
   const setUser = useAuthStore((state) => state.setUser);
-  const router = useRouter();
 
   const handleSubmit = async (values: ValuesRegister, actions: FormikHelpers<ValuesRegister>) => {
     try {
