@@ -83,7 +83,7 @@ export interface RecipesRes {
   perPage: number;
   total: number;
   totalPages: number;
-  recipes: Recipe[];
+  recipes: RecipeDto[];
 }
 
 export const fetchRecipes = async () => {
