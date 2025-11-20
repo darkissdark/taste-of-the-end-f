@@ -63,31 +63,27 @@ export const fetchIngredients = async () => {
   return data;
 };
 
-export type RecipeDto = {
-  _id: string;
-  title: string;
-  desc: string;
-  img: string;
-  category: string;
-  difficulty: string;
-  cookTime: number;
-};
-
-export const fetchRecipesWithParam = async () => {
-  const { data } = await api.get<RecipeDto[]>('/recipes');
-  return data;
-};
+export interface FetchRecipesParams {
+  page?: number;
+  perPage?: number;
+  category?: string;
+  ingredient?: string;
+  search?: string;
+}
 
 export interface RecipesRes {
   page: number;
   perPage: number;
   total: number;
   totalPages: number;
-  recipes: RecipeDto[];
+  recipes: Recipe[];
 }
 
-export const fetchRecipes = async () => {
-  const { data } = await api.get<RecipesRes>('/recipes');
+export const fetchRecipes = async (params: FetchRecipesParams = {}) => {
+  const { data } = await api.get<RecipesRes>('/recipes', {
+    params,
+  });
+
   return data;
 };
 

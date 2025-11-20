@@ -1,46 +1,53 @@
-import { pageMeta } from "@/lib/seo";
-import { getServerRecipes } from "@/lib/api/serverApi";
-import type { RecipeDto } from "@/lib/api/clientApi";
-import { SearchBox } from "@/components/recipes/SearchBox/SearchBox";
-// import { Filters } from "@/components/recipes/Filters/Filters";
-// import RecipesList from "@/components/recipes/RecipesList/RecipesList";
-// import Pagination from "@/components/recipes/Pagination/Pagination";
-import styles from "./MainPage.module.css";
-import { Metadata } from "next";
+import { pageMeta } from '@/lib/seo';
+import { getServerRecipes } from '@/lib/api/serverApi';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import type { Metadata } from 'next';
+import styles from './MainPage.module.css';
+
+import RecipesList from '@/components/recipes/RecipesList/RecipesList';
+import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 
 export const generateMetadata = (): Metadata =>
-  pageMeta({ title: "Home", description: "Browse all recipes" });
+  pageMeta({ title: 'Home', description: 'Browse all recipes' });
 
 interface PageProps {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<{
+    search?: string | string[];
+    category?: string | string[];
+    page?: string | string[];
+  }>;
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const query = typeof searchParams?.query === "string" ? searchParams.query : "";
-  const category = typeof searchParams?.category === "string" ? searchParams.category : "";
-  const pageNum = parseInt(typeof searchParams?.page === "string" ? searchParams.page : "1");
+  const resolvedSearchParams = searchParams ? await searchParams : {};
 
-  const res = await getServerRecipes();
-  const allRecipes: RecipeDto[] = res.recipes;
+  const { search: rawSearch, category: rawCategory, page: rawPage } = resolvedSearchParams || {};
 
-  const filteredRecipes = allRecipes.filter((recipe) => {
-    const matchesQuery =
-      !query ||
-      recipe.title.toLowerCase().includes(query.toLowerCase()) ||
-      recipe.desc?.toLowerCase().includes(query.toLowerCase());
-    const matchesCategory = !category || recipe.category === category;
-    return matchesQuery && matchesCategory;
+  const search = typeof rawSearch === 'string' && rawSearch.trim() ? rawSearch.trim() : undefined;
+  const category =
+    typeof rawCategory === 'string' && rawCategory.trim() ? rawCategory.trim() : undefined;
+
+  const page = rawPage && typeof rawPage === 'string' ? parseInt(rawPage) : 1;
+
+  const safePage = isNaN(page) || page < 1 ? 1 : page;
+
+  const queryClient = new QueryClient();
+
+  const params: Parameters<typeof getServerRecipes>[0] = {
+    page: safePage,
+    perPage: 12,
+  };
+  if (search) params.search = search;
+  if (category) params.category = category;
+
+  const data = await queryClient.fetchQuery({
+    queryKey: ['recipes', { search, category, page: safePage }],
+    queryFn: () => getServerRecipes(params),
   });
 
-  const recipesPerPage = 12;
-  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
-  const startIndex = (pageNum - 1) * recipesPerPage;
-  const paginatedRecipes = filteredRecipes.slice(startIndex, startIndex + recipesPerPage);
-
   return (
-    <main className={styles.mainPage}>
-      {/* HERO SECTION */}
-      <section className={styles.hero}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <section className={styles.MainPage}>
         <div className={styles.heroContainer}>
           <picture>
             <source
@@ -71,31 +78,11 @@ export default async function Page({ searchParams }: PageProps) {
           <h1 className={styles.heroTitle}>Plan, Cook, and Share Your Flavors</h1>
 
           <div className={styles.search}>
-            <SearchBox/>
+            <SearchBox />
           </div>
         </div>
+        <RecipesList data={data} />
       </section>
-
-      {/* FILTERS SECTION (можеш раскоментити) */}
-      {/* <section className={styles.filtersSection}>
-        <Filters defaultCategory={category} />
-      </section> */}
-
-      {/* RECIPES LIST */}
-      {/* <section className={styles.recipesSection}>
-        <RecipesList
-          recipes={paginatedRecipes}
-          currentPage={pageNum}
-          usePagination={false} // або true, якщо хочеш компонент пагінації
-        />
-      </section> */}
-
-      {/* PAGINATION */}
-      {/* {totalPages > 1 && (
-        <section className={styles.paginationSection}>
-          <Pagination currentPage={pageNum} totalPages={totalPages} />
-        </section>
-      )} */}
-    </main>
+    </HydrationBoundary>
   );
 }
