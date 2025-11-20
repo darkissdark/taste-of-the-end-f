@@ -23,46 +23,49 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
   };
 
   return (
-    <ul className={css.list}>
-      {recipes.map((recipe) => {
-        const isFavorite = favorites.includes(recipe._id);
+    <>
+      <p className={css.recTotal}>{recipes.length} recipes</p>
+      <ul className={css.list}>
+        {recipes.map((recipe) => {
+          const isFavorite = favorites.includes(recipe._id);
 
-        return (
-          <li key={recipe._id} className={css.listItem}>
-            <Image
-              src={recipe.thumb}
-              alt={recipe.description}
-              width={264}
-              height={178}
-              className={css.image}
-            />
-
-            <div className={css.titleWrapper}>
-              <h3 className={css.recipeHeader}>{recipe.title}</h3>
-
-              <div className={css.timeWrapper}>
-                <SvgIcon name="clock" aria-hidden className={css.icon} />
-                <p>{recipe.time}</p>
-              </div>
-            </div>
-
-            <p className={css.describtion}>{recipe.description}</p>
-            <p className={css.calories}>{`~${recipe.calories} cals`}</p>
-
-            <div className={css.buttonsWrapper}>
-              <Link href={`/recipes/${recipe._id}`} className={css.link}>
-                <button className={css.button}>Learn more</button>
-              </Link>
-
-              <FavoriteButton
-                recipeId={recipe._id}
-                initialIsFavorite={isFavorite}
-                onUnlike={handleUnlike}
+          return (
+            <li key={recipe._id} className={css.listItem}>
+              <Image
+                src={recipe.thumb}
+                alt={recipe.description}
+                width={264}
+                height={178}
+                className={css.image}
               />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+
+              <div className={css.titleWrapper}>
+                <h3 className={css.recipeHeader}>{recipe.title}</h3>
+
+                <div className={css.timeWrapper}>
+                  <SvgIcon name="clock" aria-hidden className={css.icon} />
+                  <p>{recipe.time}</p>
+                </div>
+              </div>
+
+              <p className={css.describtion}>{recipe.description}</p>
+              <p className={css.calories}>{`~${recipe.calories} cals`}</p>
+
+              <div className={css.buttonsWrapper}>
+                <Link href={`/recipes/${recipe._id}`} className={css.link}>
+                  <button className={css.button}>Learn more</button>
+                </Link>
+
+                <FavoriteButton
+                  recipeId={recipe._id}
+                  initialIsFavorite={isFavorite}
+                  onUnlike={handleUnlike}
+                />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 }

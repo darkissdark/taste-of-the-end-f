@@ -1,3 +1,10 @@
+.recTotal {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--black);
+  margin-bottom: 29.5px;
+}
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -14,6 +21,11 @@
 .image {
   border-radius: 8px;
   margin-bottom: 16px;
+  width: 264px;
+  height: 178px;
+
+  object-fit: cover;
+  object-position: center;
 }
 .recipeHeader {
   font-weight: 700;

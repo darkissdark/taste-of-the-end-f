@@ -1,4 +1,5 @@
 import ProfileNavigation from '@/components/profile/ProfileNavigation/ProfileNavigation';
+import css from '@/components/profile/ProfileNavigation/ProfileNavigation.module.css';
 import RecipesList from '@/components/recipes/RecipesList/RecipesList';
 import { getServerFavoriteRecipes, getServerOwnRecipes } from '@/lib/api/serverApi';
 import { pageMeta } from '@/lib/seo';
@@ -35,7 +36,7 @@ export default async function ProfilePage({ params }: Props) {
   // Якщо рецепти є → рендеримо список
   return (
     <section>
-      <h1>My Profile</h1>
+      <h1 className={css.profTitle}>My Profile</h1>
       <ProfileNavigation />
       <RecipesList data={data} />
     </section>
