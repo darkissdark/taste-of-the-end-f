@@ -43,8 +43,8 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
             </div>
 
             <button className={css.saveButton}>
-              {/* Save */}
-              Unsave
+              Save
+              {/* Unsave */}
               <SvgIcon name="save_tooth" className={css.icon} />
             </button>
           </div>
