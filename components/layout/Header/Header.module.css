@@ -11,14 +11,9 @@
   padding-inline: var(--container-x);
   height: 74px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 200px 1fr;
   align-items: center;
   color: var(--white);
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 18px;
 }
 
 .right {
@@ -35,31 +30,44 @@
   gap: 32px;
 }
 
+.userBlockMobile {
+  display: flex;
+  gap: 16px;
+}
+
 .user {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
+  display: none;
 }
 
 .link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: inherit;
   background-color: inherit;
   border: none;
+  font: var(--font-600-16);
+}
+
+.linkOutlined {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: var(--light-brown);
+  height: 44px;
+  width: auto;
 }
 
 .linkActive {
   text-decoration: underline;
-  text-underline-offset: 8px;
-}
-
-.linkOutlined {
-  border-radius: 8px;
-  padding: 12px 16px;
-  background-color: var(--light-brown);
+  text-underline-offset: 9px;
 }
 
 .buttonWrapper {
@@ -89,20 +97,19 @@
   height: 32px;
   border-radius: 999px;
   background-color: var(--light-brown);
-  font-weight: 600;
-  font-size: 16px;
+  font: var(--font-600-12);
   text-transform: uppercase;
 }
 
 .userName {
-  font-size: 14px;
-  font-weight: 500;
+  font: var(--font-600-12);
   color: var(--white);
 }
 
 .logoutButton {
   display: inline-grid;
   place-items: center;
+  stroke: var(--white);
   width: 36px;
   height: 36px;
   border: 0;
@@ -113,9 +120,15 @@
   padding-left: 16px;
 }
 
-.navWrap,
-.user {
+.navWrap {
   display: none;
+}
+
+.navWrapNotAuth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 .burger {
@@ -137,7 +150,7 @@
   display: block;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--backdrop-overlay);
   z-index: 40;
 }
 .mobileInner {
@@ -148,12 +161,25 @@
   width: 100%;
   height: auto;
   overflow: auto;
-  background: var(--darck-brown, #3d2218);
+  background: var(--darck-brown);
   color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 14px 16px 40px 16px;
 }
 
 .mobileInnerOpen {
   transform: translateY(0);
+}
+
+.mobileTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 32px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -163,12 +189,25 @@
 }
 
 @media (min-width: 768px) {
+  .navWrapAuth,
   .navWrap,
   .user {
     display: flex;
     align-items: center;
+    gap: 32px;
+  }
+
+  .user {
     gap: 16px;
   }
+
+  .navWrapNotAuth {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
   .burger {
     display: none;
   }
@@ -176,14 +215,40 @@
   .mobileMenuOpen {
     display: none;
   }
-}
 
-.mobileTop {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  .link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    border: none;
+    font: var(--font-600-12);
+  }
+
+  .linkOutlined {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background-color: var(--light-brown);
+    font: var(--font-600-16);
+    height: 44px;
+  }
+
+  .linkActive {
+    text-decoration: underline;
+    text-underline-offset: 7px;
+  }
+
+  .mobileTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 32px;
+  }
 }
 
 .mobileBrand {
@@ -195,8 +260,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border: 0;
   background: none;
   stroke: var(--white);
@@ -206,8 +271,30 @@
 
 .mobileNav,
 .mobileUser {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+.mobileNav .navWrapNotAuth {
+  width: 100%;
+  max-width: 361px;
+  margin-inline: auto;
+}
+
+.mobileNav .navWrapNotAuth .linkOutlined {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.mobileUser .linkOutlined {
+  display: flex;
+  width: 100%;
+  max-width: 361px;
+  margin-inline: auto;
+  justify-content: center;
 }
 
 .mobileNav :global(a),

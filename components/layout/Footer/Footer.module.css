@@ -15,10 +15,6 @@
   color: var(--white);
 }
 
-.logo {
-  font-weight: 700;
-  font-size: 18px;
-}
 .nav {
   display: flex;
 }

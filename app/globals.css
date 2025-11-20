@@ -34,6 +34,11 @@
   --light-beige-3: #e1d7c6;
   --red: #c80000;
 
+  --backdrop-overlay: rgba(0, 0, 0, 0.6);
+
+  --transition-default: background-color 200ms ease, box-shadow 150ms ease, transform 120ms ease,
+    opacity 150ms ease, border-color 200ms ease;
+
   /* Fonts custom propertie */
   --font-family-base: var(
     --font-montserrat,
@@ -43,6 +48,8 @@
     'Segoe UI',
     sans-serif
   );
+
+  --font-family: var(--font-family-base);
 
   --font-600-48: 600 48px/1.2 var(--font-family-base);
   --font-600-40: 600 40px/1.2 var(--font-family-base);
@@ -82,6 +89,8 @@ body {
   font-family: var(--font-montserrat);
   color: var(--black);
   background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -105,7 +114,7 @@ ul,
 ol {
   margin: 0;
   padding: 0;
-  list-style: none;
+  list-style-type: none;
 }
 
 button {

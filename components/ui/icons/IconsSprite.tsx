@@ -4,8 +4,11 @@ export function IconsSprite() {
 
 const SPRITE = `<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
+<symbol id="back_to_home" viewBox="0 0 32 32">
+<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.3333" d="M22 16.004h-12M10 16.004l5.384 5.385M10 16.003l5.384-5.384"></path>
+</symbol>
 <symbol id="logout" viewBox="0 0 32 32">
-<path fill="none" stroke="#fff" style="stroke: var(--color1, #fff)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.1429" d="M13.495 5.571h-3.132c-1.384 0-2.505 1.122-2.505 2.505v11.275c0 1.384 1.122 2.506 2.505 2.506h3.132M12.143 13.714h12.527M24.67 13.714l-3.758 3.758M24.67 13.714l-3.758-3.758"></path>
+<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.1429" d="M13.495 5.571h-3.132c-1.384 0-2.505 1.122-2.505 2.505v11.275c0 1.384 1.122 2.506 2.505 2.506h3.132M12.143 13.714h12.527M24.67 13.714l-3.758 3.758M24.67 13.714l-3.758-3.758"></path>
 </symbol>
 <symbol id="basket" viewBox="0 0 32 32">
 <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.3333" d="M16 21.846v-8.769M6.5 9.423h2.192M25.5 9.423h-2.192M19.654 9.423h-7.308M19.654 9.423v-1.462c0-0.807-0.654-1.462-1.462-1.462h-4.385c-0.807 0-1.462 0.654-1.462 1.462v1.462M19.654 9.423h3.654M12.346 9.423h-3.654M23.308 9.423v13.154c0 1.614-1.309 2.923-2.923 2.923h-8.769c-1.614 0-2.923-1.309-2.923-2.923v-13.154"></path>
