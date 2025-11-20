@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { api } from './api';
 import type { User } from '@/types/user';
 import type { Recipe } from '@/types/recipe';
+import type { RecipesRes } from './clientApi';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
