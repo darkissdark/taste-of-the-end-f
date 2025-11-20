@@ -1,50 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast, { Toaster } from 'react-hot-toast';
 import styles from './SearchBox.module.css';
-import { RecipeDto, fetchRecipesWithParam } from '@/lib/api/clientApi';
 
 interface SearchBoxProps {
-  onSearch: (results: RecipeDto[]) => void;
   placeholder?: string;
 }
 
 const validationSchema = Yup.object().shape({
-  query: Yup.string().required('Введіть текст для пошуку').min(2, 'Мінімум 2 символи'),
+  query: Yup.string().min(2, 'Мінімум 2 символи'),
 });
 
-export function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
-  const [isLoading, setIsLoading] = useState(false);
+export function SearchBox({ placeholder }: SearchBoxProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+  const initialQuery = searchParams.get('query') || '';
 
   const formik = useFormik({
-    initialValues: { query: '' },
+    initialValues: { query: initialQuery },
     validationSchema,
     onSubmit: async (values) => {
-      setIsLoading(true);
-      try {
-        let data = await fetchRecipesWithParam();
-
-        if (values.query.trim() !== '') {
-          const queryLower = values.query.toLowerCase();
-          data = data.filter((recipe) => recipe.title.toLowerCase().includes(queryLower));
-        }
-
-        if (!data || data.length === 0) {
-          toast('Рецептів не знайдено');
-          onSearch([]);
-        } else {
-          onSearch(data);
-          toast.success('Рецепти завантажено');
-        }
-      } catch (err) {
-        console.error(err);
-        toast.error('Помилка запиту. Спробуйте ще раз.');
-      } finally {
-        setIsLoading(false);
+      const params = new URLSearchParams(searchParams.toString());
+      
+      if (values.query.trim()) {
+        params.set('query', values.query.trim());
+      } else {
+        params.delete('query');
       }
+      params.delete('page');
+      
+      startTransition(() => {
+        router.push(`/?${params.toString()}`);
+        toast.success('Пошук виконано');
+      });
     },
   });
 
@@ -62,8 +55,12 @@ export function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
             formik.touched.query && formik.errors.query ? styles.inputError : ''
           }`}
         />
-        <button type="submit" className={styles.searchButton} disabled={isLoading}>
-          {isLoading ? 'Завантаження...' : 'Пошук'}
+        <button 
+          type="submit" 
+          className={styles.searchButton} 
+          disabled={isPending}
+        >
+          {isPending ? 'Завантаження...' : 'Пошук'}
         </button>
       </form>
 
