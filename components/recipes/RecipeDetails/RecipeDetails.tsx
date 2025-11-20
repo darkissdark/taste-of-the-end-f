@@ -37,8 +37,8 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
                 {data.time} minutes
               </p>
               <p className={css.text}>
-                <span className={css.textSpan}>Caloric content: </span>Approximately 200 kcal per
-                serving
+                <span className={css.textSpan}>Caloric content: </span>Approximately {data.calories}{' '}
+                kcal per serving
               </p>
             </div>
 
