@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { api } from './api';
 import type { User } from '@/types/user';
-import type { RecipesRes } from './clientApi';
+import type { Recipe } from '@/types/recipe';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
@@ -34,6 +34,37 @@ export const getServerRecipes = async (params: GetRecipesParams = {}): Promise<R
 
   const { data } = await api.get<RecipesRes>('/recipes', {
     params,
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return data;
+};
+
+export const getServerFavoriteRecipes = async (): Promise<RecipesRes> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get(`/recipes/favorites`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+export const getServerOwnRecipes = async (): Promise<RecipesRes> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get(`/recipes/personal`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get<Recipe>(`/recipes/${recipeId}`, {
     headers: {
       Cookie: cookieStore.toString(),
     },

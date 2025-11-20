@@ -10,7 +10,6 @@
 }
 
 .wordmark {
-  font-size: 16px;
-  letter-spacing: 0.2px;
-  list-style-type: none;
+  font: var(--font-600-18);
+  letter-spacing: -0.03em;
 }
