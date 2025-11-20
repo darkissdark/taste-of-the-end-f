@@ -22,6 +22,26 @@ export const getServerMe = async (): Promise<User> => {
   return data;
 };
 
+export const getServerFavoriteRecipes = async (): Promise<RecipesRes> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get(`/recipes/favorites`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+export const getServerOwnRecipes = async (): Promise<RecipesRes> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get(`/recipes/personal`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
 export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
   const cookieStore = await cookies();
   const { data } = await api.get<Recipe>(`/recipes/${recipeId}`, {

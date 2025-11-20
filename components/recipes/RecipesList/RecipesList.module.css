@@ -35,7 +35,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  /* gap: 8px; */
   border-radius: 8px;
   padding: 2px 8px 2px 4px;
   width: 53px;
@@ -45,6 +45,7 @@
 .icon {
   fill: none;
   stroke: black;
+  flex-shrink: 0;
 }
 .describtion {
   font-size: 16px;
