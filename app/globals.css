@@ -36,6 +36,9 @@
 
   --backdrop-overlay: rgba(0, 0, 0, 0.6);
 
+  --transition-default: background-color 200ms ease, box-shadow 150ms ease, transform 120ms ease,
+    opacity 150ms ease, border-color 200ms ease;
+
   /* Fonts custom propertie */
   --font-family-base: var(
     --font-montserrat,
