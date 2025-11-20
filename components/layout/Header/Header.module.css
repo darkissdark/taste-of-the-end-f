@@ -165,7 +165,7 @@
   color: var(--white);
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   padding: 14px 16px 40px 16px;
 }
