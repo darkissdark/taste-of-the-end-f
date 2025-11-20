@@ -17,7 +17,7 @@
   color: #1a1a1a;
   background-color: #fff;
   outline: none;
-  transition: box-shadow 0.2s ease;
+  transition: var(--transition-default);
 }
 
 .searchInput::placeholder {
@@ -45,7 +45,7 @@
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: var(--transition-default);
 }
 
 .searchButton:hover:not(:disabled) {
