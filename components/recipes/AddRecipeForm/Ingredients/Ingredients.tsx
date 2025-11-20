@@ -15,12 +15,17 @@ interface SelectedIngredient {
   quantity: string;
   desc?: string;
 }
-
-const Ingredients = () => {
+interface IngredientsProps {
+  selectedIngredients: SelectedIngredient[];
+  setSelectedIngredients: React.Dispatch<React.SetStateAction<SelectedIngredient[]>>;
+}
+const Ingredients: React.FC<IngredientsProps> = ({
+  selectedIngredients,
+  setSelectedIngredients,
+}) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [selectedIngredientId, setSelectedIngredientId] = useState<string>('');
   const [quantity, setQuantity] = useState<string>('');
-  const [selectedIngredients, setSelectedIngredients] = useState<SelectedIngredient[]>([]);
 
   useEffect(() => {
     fetchIngredients()
@@ -35,7 +40,19 @@ const Ingredients = () => {
   }, []);
 
   const addIngredient = () => {
-    if (!selectedIngredientId || !quantity.trim()) return;
+    if (!selectedIngredientId) {
+      alert('Ingredient is required');
+      return;
+    }
+    if (!quantity.trim()) {
+      alert('Ingredient amount is required');
+      return;
+    }
+    const quantityNumber = Number(quantity);
+    if (isNaN(quantityNumber) || quantityNumber < 2 || quantityNumber > 16) {
+      alert('Ingredient amount must be at least 2 and at most 16');
+      return;
+    }
 
     const ingredient = ingredients.find((ing) => ing.id === selectedIngredientId);
     if (!ingredient) return;
