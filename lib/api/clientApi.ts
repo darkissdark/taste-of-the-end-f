@@ -102,3 +102,17 @@ export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
 
   return data;
 };
+export type AddRecipeRequest = {
+  title: string;
+  shortDescription: string;
+  cookingTime: number;
+  calories?: number;
+  category: string;
+  instructions: string;
+  ingredients: { id: string; name: string; quantity: string }[];
+  recipeImg?: File;
+};
+export const addRecipe = async (data: AddRecipeRequest) => {
+  const { data: responseData } = await api.post('/recipes', data);
+  return responseData;
+};
