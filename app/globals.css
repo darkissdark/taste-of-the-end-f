@@ -49,6 +49,8 @@
     sans-serif
   );
 
+  --font-family: var(--font-family-base);
+
   --font-600-48: 600 48px/1.2 var(--font-family-base);
   --font-600-40: 600 40px/1.2 var(--font-family-base);
   --font-600-32: 600 32px/1.25 var(--font-family-base);
@@ -86,6 +88,8 @@ body {
   font: var(--font-400-16);
   color: var(--black);
   background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
