@@ -1,4 +1,7 @@
-import { pageMeta } from "@/lib/seo";
+import RecipeDetails from '@/components/recipes/RecipeDetails/RecipeDetails';
+import RecipeNotFound from '@/components/recipes/RecipeNotFound/RecipeNotFound';
+import { getRecipeById } from '@/lib/api/serverApi';
+import { pageMeta } from '@/lib/seo';
 
 type Props = { params: Promise<{ recipeId: string }> };
 
@@ -12,5 +15,16 @@ export const generateMetadata = async ({ params }: Props) => {
 
 export default async function RecipePage({ params }: Props) {
   const { recipeId } = await params;
-  return <section>Recipe: {recipeId}</section>;
+
+  try {
+    const data = await getRecipeById(recipeId);
+
+    if (!data) {
+      return <RecipeNotFound />;
+    }
+
+    return <RecipeDetails data={data} />;
+  } catch (err) {
+    return <RecipeNotFound />;
+  }
 }

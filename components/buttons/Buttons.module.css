@@ -19,8 +19,7 @@
   border-radius: 8px;
 
   /* Smooth transitions */
-  transition: background-color 200ms ease, box-shadow 150ms ease,
-    transform 120ms ease, opacity 150ms ease, border-color 200ms ease;
+  transition: var(--transition-default);
 }
 
 /* Button text wrapper */
