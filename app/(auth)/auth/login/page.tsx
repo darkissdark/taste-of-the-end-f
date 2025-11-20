@@ -42,8 +42,7 @@ const LoginPage = () => {
           position: 'topRight',
         });
       });
-
-      router.push('/');
+      window.location.href = '/';
     } catch (err: any) {
       import('izitoast').then((iziToast) => {
         iziToast.default.error({

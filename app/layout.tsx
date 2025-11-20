@@ -23,8 +23,8 @@ export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={montserrat.variable}>
-      <body className={montserrat.className}>
+    <html lang="en">
+      <body>
         <TanStackProvider>
           <AuthProvider>
             <IconsSprite />
