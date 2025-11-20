@@ -24,8 +24,7 @@ const SignUpPage = () => {
       if (res) {
         setUser(res);
         actions.resetForm();
-        // router.push('/');
-        window.location.href = '/';
+        router.push('/');
       } else {
         setError('Invalid email or password');
       }
