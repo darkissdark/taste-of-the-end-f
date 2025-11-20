@@ -18,3 +18,17 @@ export const RegistrationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Passwords must match')
     .required('Confirm your password'),
 });
+
+export const loginValidationSchema = Yup.object({
+  email: Yup.string()
+    .trim()
+    .email('Invalid email')
+    .max(128, 'Email is too long')
+    .required('Email is required'),
+
+  password: Yup.string()
+    .trim()
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password is too long')
+    .required('Password is required'),
+});
