@@ -1,5 +1,5 @@
 'use client';
-
+import css from './SearchBox.module.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -17,7 +17,7 @@ export function SearchBox({ onSearch, value }: { onSearch: (v: string) => void; 
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} className={css.form}>
       <input
         type="text"
         name="search"
