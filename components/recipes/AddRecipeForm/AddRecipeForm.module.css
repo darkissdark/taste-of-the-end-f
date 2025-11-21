@@ -126,6 +126,14 @@
   transform: translateY(-50%);
   pointer-events: none;
 }
+.instructions {
+  margin-top: 40px;
+}
+.button {
+  margin-top: 40px;
+  width: 361px;
+  height: 44px;
+}
 /* MOBILE 393px */
 
 .addRecipeContainer {
@@ -180,6 +188,9 @@
   .calories {
     width: 340px;
   }
+  .button {
+    width: 704px;
+  }
 }
 
 /* DESKTOP */
@@ -208,5 +219,8 @@
   }
   .calories {
     width: 392px;
+  }
+  .button {
+    width: 809px;
   }
 }

@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation';
 
 interface AddRecipeFormValues {
   title: string;
-  shortDescription: string;
-  cookingTime: string;
+  description: string;
+  time: string;
   calories: string;
   category: string;
   instructions: string;
@@ -26,8 +26,8 @@ interface SelectedIngredient {
 }
 const initialValues: AddRecipeFormValues = {
   title: '',
-  shortDescription: '',
-  cookingTime: '',
+  description: '',
+  time: '',
   calories: '',
   category: '',
   instructions: '',
@@ -38,14 +38,14 @@ const ValidationSchema = Yup.object().shape({
   title: Yup.string()
     .required('Recipe title is required')
     .max(64, 'Title must be at most 64 characters'),
-  shortDescription: Yup.string()
+  description: Yup.string()
     .required('Description is required')
     .max(200, 'Description must be at most 200 characters'),
-  cookingTime: Yup.string()
+  time: Yup.number()
     .min(1, 'Cooking time must be at least 1 minute')
     .max(360, 'Cooking time must be at most 360 minutes')
     .required('Cooking time is required'),
-  calories: Yup.string()
+  calories: Yup.number()
     .min(1, 'Calories must be at least 1')
     .max(10000, 'Calories must be at most 10000')
     .notRequired(),
@@ -95,34 +95,64 @@ const AddRecipeForm = () => {
 
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('shortDescription', values.shortDescription);
-    formData.append('cookingTime', values.cookingTime);
-    if (values.calories) formData.append('calories', values.calories);
+    formData.append('description', values.description);
+    formData.append('time', values.time.toString());
+    if (values.calories) formData.append('calories', values.calories.toString());
     formData.append('category', values.category);
     formData.append('instructions', values.instructions);
     formData.append(
       'ingredients',
       JSON.stringify(
-        selectedIngredients.map(({ id, name, quantity }) => ({
+        selectedIngredients.map(({ id, quantity }) => ({
           id,
-          name,
-          quantity,
+          measure: quantity,
         }))
       )
     );
-
     if (values.recipeImg) {
       formData.append('recipePhoto', values.recipeImg);
     }
 
+    // Логування для перевірки FormData
+    console.log('FormData content:');
+    for (let [key, val] of formData.entries()) {
+      console.log(key, val);
+    }
+
     try {
       const createdRecipe = await addRecipe(formData);
-      router.push(`/recipe/${createdRecipe.id}`);
-    } catch (error) {
-      console.error('Failed to add recipe:', error);
-      alert('Failed to add recipe. Please try again.');
+
+      console.log('Response from server:', createdRecipe);
+      console.log('Response from server:', createdRecipe);
+      console.log('Recipe object:', createdRecipe.recipe);
+      console.log('Recipe ID:', createdRecipe.recipe?._id);
+
+      const recipeId = createdRecipe.recipe?._id || createdRecipe.id || createdRecipe._id;
+
+      if (!recipeId) {
+        alert('Recipe ID not returned from server');
+        return;
+      }
+      router.push(`/recipes/${recipeId}`);
+    } catch (error: any) {
+      if (error.response) {
+        // Лог помилки з сервера
+        console.error('Server error data:', error.response.data);
+        console.error('Server error status:', error.response.status);
+        console.error('Server error headers:', error.response.headers);
+        alert(`Failed to add recipe: ${error.response.data.message || 'Unknown error'}`);
+      } else if (error.request) {
+        // Запит був зроблений, але відповіді не отримано
+        console.error('No response received:', error.request);
+        alert('No response from server. Please try again later.');
+      } else {
+        // Інші помилки
+        console.error('Error creating request:', error.message);
+        alert('Failed to add recipe. Please try again.');
+      }
     }
   };
+
   return (
     <div className={css.addRecipeContainer}>
       <h3 className={css.addRecipe}>Add Recipe</h3>
@@ -155,34 +185,30 @@ const AddRecipeForm = () => {
                     <ErrorMessage name="title" component="div" className={css.errorMessage} />
                   </div>
                   <div>
-                    <label htmlFor="shortDescription" className={css.label}>
+                    <label htmlFor="description" className={css.label}>
                       Recipe Description
                     </label>
                     <Field
-                      id="shortDescription"
-                      name="shortDescription"
+                      id="description"
+                      name="description"
                       as="textarea"
                       placeholder="Enter a brief description of your recipe"
                       className={css.fieldDescription}
                     />
-                    <ErrorMessage
-                      name="shortDescription"
-                      component="div"
-                      className={css.errorMessage}
-                    />
+                    <ErrorMessage name="description" component="div" className={css.errorMessage} />
                   </div>
                   <div>
-                    <label htmlFor="cookingTime" className={css.label}>
+                    <label htmlFor="time" className={css.label}>
                       Cooking time in minutes
                     </label>
                     <Field
-                      id="cookingTime"
-                      name="cookingTime"
+                      id="time"
+                      name="time"
                       type="number"
                       placeholder="10"
                       className={css.field}
                     />
-                    <ErrorMessage name="cookingTime" component="div" className={css.errorMessage} />
+                    <ErrorMessage name="time" component="div" className={css.errorMessage} />
                   </div>
 
                   <div className={css.caloriesCategory}>
@@ -229,7 +255,7 @@ const AddRecipeForm = () => {
                 setSelectedIngredients={setSelectedIngredients}
               />
               {
-                <div>
+                <div className={css.instructions}>
                   <p className={css.subtitle}>Instructions</p>
                   <Field
                     id="instructions"
@@ -241,7 +267,12 @@ const AddRecipeForm = () => {
                   <ErrorMessage name="instructions" component="div" className={css.errorMessage} />
                 </div>
               }
-              <Button type="submit" variant="brown" size="xl" className="myCustomClass">
+              <Button
+                type="submit"
+                variant="brown"
+                size="xl"
+                className={`${'myCustomClass'} ${css.button}`}
+              >
                 Publish Recipe
               </Button>
             </div>

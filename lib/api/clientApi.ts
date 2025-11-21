@@ -110,8 +110,6 @@ export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
 };
 
 export const addRecipe = async (formData: FormData) => {
-  const { data } = await api.post('/recipes', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
+  const { data } = await api.post('/recipes', formData);
   return data;
 };
