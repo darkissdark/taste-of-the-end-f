@@ -1,9 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, type FormEvent } from 'react';
 import styles from './LogoutDialog.module.css';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import { useRouter } from 'next/navigation';
+import useAuthStore from '@/lib/store/authStore';
+import { api } from '@/lib/api/api';
+import toast from 'react-hot-toast';
 
 type LogoutDialogProps = {
   open: boolean;
@@ -11,6 +15,9 @@ type LogoutDialogProps = {
 };
 
 export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
+  const router = useRouter();
+  const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated);
+
   useEffect(() => {
     if (!open) return;
 
@@ -30,6 +37,22 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
     onClose();
   };
 
+  const handleLogout = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Something went wrong while logging out. Please try again.');
+    } finally {
+      clearIsAuthenticated();
+      onClose();
+      router.push('/');
+      router.refresh();
+    }
+  };
+
   return (
     <div
       className={styles.backdrop}
@@ -46,7 +69,7 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
 
         <div className={styles.actionsWrapper}>
           <div className={styles.actionsColumn}>
-            <form className={styles.actions} method="POST" action="/api/auth/logout">
+            <form className={styles.actions} onSubmit={handleLogout}>
               <Button type="submit" variant="white" className={styles.actionButton}>
                 Log out
               </Button>
