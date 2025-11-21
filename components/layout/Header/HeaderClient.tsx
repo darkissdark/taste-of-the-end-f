@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
@@ -23,6 +23,19 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
   const storeIsAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const effectiveIsAuthenticated = storeUser ? true : storeIsAuthenticated ?? isAuthenticated;
   const effectiveUserName = storeUser?.name ?? userName ?? '';
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [open]);
 
   const isRecipesActive = pathname === '/' || pathname.startsWith('/recipes');
   const isProfileActive = pathname.startsWith('/profile');

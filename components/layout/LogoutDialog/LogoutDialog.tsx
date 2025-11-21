@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import styles from './LogoutDialog.module.css';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
@@ -10,6 +11,19 @@ type LogoutDialogProps = {
 };
 
 export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   const handleCancel = () => {
@@ -17,8 +31,14 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
   };
 
   return (
-    <div className={styles.backdrop} role="dialog" aria-modal="true" aria-labelledby="logout-title">
-      <div className={styles.panel}>
+    <div
+      className={styles.backdrop}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="logout-title"
+      onClick={onClose}
+    >
+      <div className={styles.panel} onClick={(event) => event.stopPropagation()}>
         <h3 id="logout-title" className={styles.title}>
           Are you sure?
         </h3>
@@ -32,7 +52,6 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
               </Button>
             </form>
           </div>
-
           <div className={styles.actionsColumn}>
             <Button
               type="button"
