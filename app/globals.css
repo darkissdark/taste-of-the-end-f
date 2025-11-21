@@ -85,7 +85,8 @@ main {
 }
 
 body {
-  font: var(--font-400-16);
+  /* font: var(--font-400-16); */
+  font-family: var(--font-montserrat);
   color: var(--black);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
