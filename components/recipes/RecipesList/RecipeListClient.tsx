@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import css from './RecipesList.module.css';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
-import { Recipe } from '@/types/recipe';
 import { RecipesRes } from '@/lib/api/clientApi';
 
 interface recipesListClientProps {
@@ -17,6 +16,10 @@ interface recipesListClientProps {
 
 export default function RecipesListClient({ data, favorites }: recipesListClientProps) {
   const [recipes, setRecipes] = useState(data.recipes);
+
+  useEffect(() => {
+    setRecipes(data.recipes);
+  }, [data]);
 
   const handleUnlike = (recipeId: string) => {
     // це тимчасове рішення треба інвалідувати апі щоб перезатягнути дані

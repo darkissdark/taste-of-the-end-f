@@ -7,7 +7,6 @@ import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
 import Filters from '@/components/recipes/Filters/Filters';
 import { Ingredient } from '@/types/recipe';
-import { useRouter } from 'next/navigation';
 
 interface FiltersState {
   search: string;
@@ -22,7 +21,6 @@ interface SearchRecipesProps {
 }
 
 export default function SearchRecipes({ favorites, categories, ingredients }: SearchRecipesProps) {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const [filters, setFilters] = useState<FiltersState>({
     search: '',
@@ -41,10 +39,7 @@ export default function SearchRecipes({ favorites, categories, ingredients }: Se
 
   const handleReset = () => {
     setFilters({ search: '', category: '', ingredient: '' });
-    queryClient.invalidateQueries({
-      queryKey: ['recipes'],
-    });
-    router.push('/');
+    queryClient.invalidateQueries({ queryKey: ['recipes'] });
   };
 
   return (
