@@ -12,15 +12,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(80vw, 420px);
+  justify-content: center;
+  width: min(90vw, 420px);
   background: var(--light-beige);
   border-radius: 32px;
   padding: 56px 32px;
 }
 
+@media (max-width: 393px) {
+  .panel {
+    padding: 56px 24px 32px;
+  }
+}
+
 .title {
   margin-bottom: 20px;
   font: var(--font-600-32);
+  text-align: center;
 }
 
 .text {

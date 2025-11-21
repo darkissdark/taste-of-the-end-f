@@ -49,7 +49,7 @@ export function AuthDialog({ open, onClose }: Props) {
     >
       <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
         <h3 id="auth-dialog-title" className={styles.title}>
-          Sign in to continue
+          Log in to continue
         </h3>
         <p className={styles.text}>Choose an option:</p>
 
@@ -61,7 +61,7 @@ export function AuthDialog({ open, onClose }: Props) {
             className={styles.actionButton}
             onClick={handleSignIn}
           >
-            Login
+            Log in
           </Button>
 
           <Button
