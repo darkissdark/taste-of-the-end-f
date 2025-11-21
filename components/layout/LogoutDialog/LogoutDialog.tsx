@@ -25,20 +25,24 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
         <p className={styles.text}>We will miss you!</p>
 
         <div className={styles.actionsWrapper}>
-          <form className={styles.actions} method="POST" action="/api/auth/logout">
-            <Button type="submit" variant="white" className={styles.actionButton}>
-              Log out
-            </Button>
-          </form>
+          <div className={styles.actionsColumn}>
+            <form className={styles.actions} method="POST" action="/api/auth/logout">
+              <Button type="submit" variant="white" className={styles.actionButton}>
+                Log out
+              </Button>
+            </form>
+          </div>
 
-          <Button
-            type="button"
-            variant="white"
-            className={styles.actionButtonSecondary}
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
+          <div className={styles.actionsColumn}>
+            <Button
+              type="button"
+              variant="white"
+              className={styles.actionButtonSecondary}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
 
         <button className={styles.close} onClick={onClose} aria-label="Close">
