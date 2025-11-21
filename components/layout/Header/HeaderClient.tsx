@@ -7,6 +7,7 @@ import styles from './Header.module.css';
 import { Logo } from '@/components/ui/Logo/Logo';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import useAuthStore from '@/lib/store/authStore';
+import { LogoutDialog } from '@/components/layout/LogoutDialog/LogoutDialog';
 
 type HeaderClientProps = {
   isAuthenticated: boolean;
@@ -15,6 +16,7 @@ type HeaderClientProps = {
 
 export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
   const [open, setOpen] = useState(false);
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   const pathname = usePathname();
 
   const storeUser = useAuthStore((state) => state.user);
@@ -108,104 +110,116 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
           </span>
           <span className={styles.userName}>{effectiveUserName}</span>
         </div>
-        <form className={styles.buttonWrapper} action="/api/auth/logout" method="POST">
+
+        <div className={styles.buttonWrapper}>
           <button
             className={`${styles.link} ${styles.logoutButton}`}
-            type="submit"
+            type="button"
             aria-label="Sign out"
+            onClick={() => {
+              setOpen(false);
+              setIsLogoutDialogOpen(true);
+            }}
           >
             <SvgIcon name="logout" aria-hidden />
             <span className="visually-hidden">Sign out</span>
           </button>
-        </form>
+        </div>
       </div>
     ) : null;
 
   return (
-    <header className={styles.header}>
-      <div className={styles.inner}>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
-
-        <div className={styles.right}>
-          <button
-            type="button"
-            className={styles.burger}
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            <SvgIcon name={open ? 'close_in_circle' : 'burger'} />
-          </button>
-
-          {/* Desktop */}
-          <div className={styles.rightDesktop}>
-            <nav className={styles.nav} aria-label="Primary">
-              <ul className={styles.navWrap}>
-                <NavItems />
-              </ul>
-            </nav>
-            <div className={styles.user}>
-              <UserBlock />
-            </div>
+    <>
+      <header className={styles.header}>
+        <div className={styles.inner}>
+          <div className={styles.logo}>
+            <Logo />
           </div>
-        </div>
-      </div>
 
-      {/* Mobile menu */}
-      <div
-        id="mobile-menu"
-        className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}
-        onClick={() => setOpen(false)}
-      >
-        <div
-          className={`${styles.mobileInner} ${open ? styles.mobileInnerOpen : ''}`}
-          onClick={(e) => e.stopPropagation()}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Primary navigation"
-        >
-          <div className={styles.mobileTop}>
-            <div className={styles.mobileBrand}>
-              <Logo />
-            </div>
+          <div className={styles.right}>
             <button
               type="button"
-              className={styles.mobileClose}
-              aria-label="Close menu"
-              onClick={() => setOpen(false)}
+              className={styles.burger}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen((v) => !v)}
             >
-              <SvgIcon name="close_in_circle" />
+              <SvgIcon name={open ? 'close_in_circle' : 'burger'} />
             </button>
-          </div>
 
-          <nav
-            className={`${styles.mobileNavWrapper} ${
-              effectiveIsAuthenticated ? styles.mobileNavWrapperAuth : ''
-            }`}
-            aria-label="Mobile primary"
-          >
-            <ul className={styles.mobileNav}>
-              <NavItems showAddRecipe={false} onNavigate={() => setOpen(false)} />
-            </ul>
-          </nav>
-
-          <div className={styles.mobileUser}>
-            <UserBlock />
-            {effectiveIsAuthenticated && (
-              <Link
-                href="/add-recipe"
-                className={`${styles.link} ${styles.linkOutlined} ${styles.linkAddRecipe}`}
-                onClick={() => setOpen(false)}
-              >
-                Add recipe
-              </Link>
-            )}
+            {/* Desktop */}
+            <div className={styles.rightDesktop}>
+              <nav className={styles.nav} aria-label="Primary">
+                <ul
+                  className={`${styles.navWrap} ${
+                    effectiveIsAuthenticated ? styles.navWrapAuth : ''
+                  }`}
+                >
+                  <NavItems />
+                </ul>
+              </nav>
+              <div className={styles.user}>
+                <UserBlock />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+
+        {/* Mobile menu */}
+        <div
+          id="mobile-menu"
+          className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}
+          onClick={() => setOpen(false)}
+        >
+          <div
+            className={`${styles.mobileInner} ${open ? styles.mobileInnerOpen : ''}`}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Primary navigation"
+          >
+            <div className={styles.mobileTop}>
+              <div className={styles.mobileBrand}>
+                <Logo />
+              </div>
+              <button
+                type="button"
+                className={styles.mobileClose}
+                aria-label="Close menu"
+                onClick={() => setOpen(false)}
+              >
+                <SvgIcon name="close_in_circle" />
+              </button>
+            </div>
+
+            <nav
+              className={`${styles.mobileNavWrapper} ${
+                effectiveIsAuthenticated ? styles.mobileNavWrapperAuth : ''
+              }`}
+              aria-label="Mobile primary"
+            >
+              <ul className={styles.mobileNav}>
+                <NavItems showAddRecipe={false} onNavigate={() => setOpen(false)} />
+              </ul>
+            </nav>
+
+            <div className={styles.mobileUser}>
+              <UserBlock />
+              {effectiveIsAuthenticated && (
+                <Link
+                  href="/add-recipe"
+                  className={`${styles.link} ${styles.linkOutlined} ${styles.linkAddRecipe}`}
+                  onClick={() => setOpen(false)}
+                >
+                  Add recipe
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+      <LogoutDialog open={isLogoutDialogOpen} onClose={() => setIsLogoutDialogOpen(false)} />
+    </>
   );
 }

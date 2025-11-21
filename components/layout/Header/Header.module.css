@@ -22,6 +22,10 @@
   align-items: center;
 }
 
+.rightDesktop {
+  display: none;
+}
+
 .nav {
   display: flex;
   justify-content: center;
@@ -49,7 +53,6 @@
   text-decoration: none;
   color: inherit;
   background-color: inherit;
-  border: none;
   font: var(--font-600-16);
 }
 
@@ -191,8 +194,20 @@
     margin-right: 16px;
   }
 
+  .navWrapAuth > li:nth-child(2) {
+    margin-right: 16px;
+  }
+
   .user {
     gap: 16px;
+  }
+
+  .rightDesktop {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
   }
 
   .burger {
@@ -209,7 +224,6 @@
     text-decoration: none;
     color: inherit;
     background-color: inherit;
-    border: none;
     font: var(--font-600-12);
   }
 

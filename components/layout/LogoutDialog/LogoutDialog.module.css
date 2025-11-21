@@ -15,7 +15,7 @@
   width: min(80vw, 420px);
   background: var(--light-beige);
   border-radius: 32px;
-  padding: 56px 32px;
+  padding: 56px 32px 32px 32px;
 }
 
 .title {
@@ -28,19 +28,29 @@
   font: var(--font-400-16);
 }
 
-.actions {
+.actionsWrapper {
   display: flex;
-  gap: 27px;
   width: 100%;
+  gap: 27px;
+}
+
+.actionsWrapper > * {
+  flex: 1;
 }
 
 .actionButton,
 .actionButtonSecondary {
-  flex: 1;
-  height: 36px;
+  height: 44px;
+  width: 100%;
 }
 
-.actions .actionButton {
+.actionButton {
+  border: none;
+  color: var(--white);
+  background-color: var(--red);
+}
+
+.actionButtonSecondary {
   border: 1px solid var(--black);
 }
 
