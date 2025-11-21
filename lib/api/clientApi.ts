@@ -78,12 +78,18 @@ export interface RecipesRes {
   totalPages: number;
   recipes: Recipe[];
 }
+export const fetchRecipes = async ({
+  search,
+  category,
+  ingredient,
+  page = 1,
+}: FetchRecipesParams) => {
+  const params: any = { page, perPage: 12 };
+  if (search) params.search = search;
+  if (category) params.category = category;
+  if (ingredient) params.ingredient = ingredient;
 
-export const fetchRecipes = async (params: FetchRecipesParams = {}) => {
-  const { data } = await api.get<RecipesRes>('/recipes', {
-    params,
-  });
-
+  const { data } = await api.get('/recipes', { params });
   return data;
 };
 
