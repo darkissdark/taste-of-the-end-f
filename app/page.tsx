@@ -2,7 +2,7 @@ import { pageMeta } from '@/lib/seo';
 import { getServerCategories, getServerIngredients, getServerMe } from '@/lib/api/serverApi';
 import type { Metadata } from 'next';
 import styles from './MainPage.module.css';
-import SearchRecipes from './SearchRecipes';
+import SearchRecipes from '../components/recipes/SearchRecipes/SearchRecipes';
 
 export const generateMetadata = (): Metadata =>
   pageMeta({ title: 'Home', description: 'Browse all recipes' });
