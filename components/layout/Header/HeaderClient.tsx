@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
 import { Logo } from '@/components/ui/Logo/Logo';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import useAuthStore from '@/lib/store/authStore';
 
 type HeaderClientProps = {
   isAuthenticated: boolean;
@@ -14,12 +15,18 @@ type HeaderClientProps = {
 
 export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
   const [open, setOpen] = useState(false);
-  const userInitial = userName?.trim()?.charAt(0).toUpperCase() ?? '';
-
   const pathname = usePathname();
+
+  const storeUser = useAuthStore((state) => state.user);
+  const storeIsAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const effectiveIsAuthenticated = storeUser ? true : storeIsAuthenticated ?? isAuthenticated;
+  const effectiveUserName = storeUser?.name ?? userName ?? '';
+
   const isRecipesActive = pathname === '/' || pathname.startsWith('/recipes');
   const isProfileActive = pathname.startsWith('/profile');
   const isLoginActive = pathname === '/auth/login';
+
+  const userInitial = effectiveUserName.trim().charAt(0).toUpperCase() ?? '';
 
   type NavItemsProps = {
     showAddRecipe?: boolean;
@@ -39,65 +46,67 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
         </Link>
       </li>
 
-      {!isAuthenticated && (
-        <li className={styles.navWrapNotAuth}>
-          <Link
-            href="/auth/login"
-            className={`${styles.link} ${isLoginActive ? styles.linkActive : ''}`}
-            aria-current={isLoginActive ? 'page' : undefined}
-            onClick={onNavigate}
-          >
-            Log in
-          </Link>
-          <Link
-            href="/auth/register"
-            className={`${styles.link} ${styles.linkOutlined}`}
-            onClick={onNavigate}
-          >
-            Register
-          </Link>
-        </li>
-      )}
-
-      {isAuthenticated && (
-        <li className={styles.navWrapAuth}>
-          <Link
-            href="/profile/own"
-            className={`${styles.link} ${isProfileActive ? styles.linkActive : ''}`}
-            aria-current={isProfileActive ? 'page' : undefined}
-            onClick={onNavigate}
-          >
-            My profile
-          </Link>
-
-          {showAddRecipe && (
+      {!effectiveIsAuthenticated && (
+        <>
+          <li>
             <Link
-              href="/add-recipe"
+              href="/auth/login"
+              className={`${styles.link} ${isLoginActive ? styles.linkActive : ''}`}
+              aria-current={isLoginActive ? 'page' : undefined}
+              onClick={onNavigate}
+            >
+              Log in
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/auth/register"
               className={`${styles.link} ${styles.linkOutlined}`}
               onClick={onNavigate}
             >
-              Add recipe
+              Register
             </Link>
+          </li>
+        </>
+      )}
+
+      {effectiveIsAuthenticated && (
+        <>
+          <li>
+            <Link
+              href="/profile/own"
+              className={`${styles.link} ${isProfileActive ? styles.linkActive : ''}`}
+              aria-current={isProfileActive ? 'page' : undefined}
+              onClick={onNavigate}
+            >
+              My profile
+            </Link>
+          </li>
+
+          {showAddRecipe && (
+            <li>
+              <Link
+                href="/add-recipe"
+                className={`${styles.link} ${styles.linkOutlined}`}
+                onClick={onNavigate}
+              >
+                Add recipe
+              </Link>
+            </li>
           )}
-        </li>
+        </>
       )}
     </>
   );
 
-  const Nav = () => (
-    <ul className={styles.navWrap}>
-      <NavItems />
-    </ul>
-  );
-
   const UserBlock = () =>
-    isAuthenticated ? (
+    effectiveIsAuthenticated ? (
       <div className={styles.userBlockMobile}>
         <div className={styles.userInfo}>
           <span className={styles.userAvatar} aria-hidden="true">
             {userInitial}
           </span>
-          <span className={styles.userName}>{userName}</span>
+          <span className={styles.userName}>{effectiveUserName}</span>
         </div>
         <form className={styles.buttonWrapper} action="/api/auth/logout" method="POST">
           <button
@@ -132,9 +141,11 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
           </button>
 
           {/* Desktop */}
-          <div className={styles.navWrap}>
+          <div className={styles.rightDesktop}>
             <nav className={styles.nav} aria-label="Primary">
-              <Nav />
+              <ul className={styles.navWrap}>
+                <NavItems />
+              </ul>
             </nav>
             <div className={styles.user}>
               <UserBlock />
@@ -143,7 +154,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
         </div>
       </div>
 
-      {/* Mobile modal */}
+      {/* Mobile menu */}
       <div
         id="mobile-menu"
         className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ''}`}
@@ -170,7 +181,12 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
             </button>
           </div>
 
-          <nav aria-label="Mobile primary">
+          <nav
+            className={`${styles.mobileNavWrapper} ${
+              effectiveIsAuthenticated ? styles.mobileNavWrapperAuth : ''
+            }`}
+            aria-label="Mobile primary"
+          >
             <ul className={styles.mobileNav}>
               <NavItems showAddRecipe={false} onNavigate={() => setOpen(false)} />
             </ul>
@@ -178,7 +194,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
 
           <div className={styles.mobileUser}>
             <UserBlock />
-            {isAuthenticated && (
+            {effectiveIsAuthenticated && (
               <Link
                 href="/add-recipe"
                 className={`${styles.link} ${styles.linkOutlined} ${styles.linkAddRecipe}`}

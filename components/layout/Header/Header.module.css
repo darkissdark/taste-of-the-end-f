@@ -20,7 +20,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 32px;
 }
 
 .nav {
@@ -62,7 +61,6 @@
   padding: 12px 16px;
   background-color: var(--light-brown);
   height: 44px;
-  width: auto;
 }
 
 .linkActive {
@@ -73,14 +71,6 @@
 .buttonWrapper {
   display: flex;
   align-items: center;
-}
-
-.userBadge {
-  display: inline-grid;
-  grid-auto-flow: column;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 999px;
 }
 
 .userInfo {
@@ -124,13 +114,6 @@
   display: none;
 }
 
-.navWrapNotAuth {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-}
-
 .burger {
   display: inline-flex;
   align-items: center;
@@ -165,7 +148,7 @@
   color: var(--white);
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   padding: 14px 16px 40px 16px;
 }
@@ -182,6 +165,14 @@
   margin-bottom: 32px;
 }
 
+.mobileNavWrapper {
+  width: 100%;
+}
+
+.mobileNavWrapperAuth {
+  margin-bottom: 32px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mobileInner {
     transition: none;
@@ -189,29 +180,25 @@
 }
 
 @media (min-width: 768px) {
-  .navWrapAuth,
   .navWrap,
   .user {
     display: flex;
     align-items: center;
-    gap: 32px;
-  }
-
-  .user {
     gap: 16px;
   }
 
-  .navWrapNotAuth {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .navWrap > li:first-child {
+    margin-right: 16px;
+  }
+
+  .user {
     gap: 16px;
   }
 
   .burger {
     display: none;
   }
-  .mobileMenu,
+
   .mobileMenuOpen {
     display: none;
   }
@@ -271,30 +258,29 @@
 
 .mobileNav,
 .mobileUser {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
+  gap: 32px;
 }
 
-.mobileNav .navWrapNotAuth {
+.mobileNav > li {
   width: 100%;
   max-width: 361px;
   margin-inline: auto;
-}
-
-.mobileNav .navWrapNotAuth .linkOutlined {
   display: flex;
-  width: 100%;
   justify-content: center;
 }
 
+.mobileNav .linkOutlined,
 .mobileUser .linkOutlined {
   display: flex;
+  justify-content: center;
   width: 100%;
   max-width: 361px;
   margin-inline: auto;
-  justify-content: center;
+  align-self: stretch;
 }
 
 .mobileNav :global(a),
