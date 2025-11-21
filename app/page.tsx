@@ -3,6 +3,7 @@ import { getServerCategories, getServerIngredients, getServerMe } from '@/lib/ap
 import type { Metadata } from 'next';
 import styles from './MainPage.module.css';
 import SearchRecipes from '../components/recipes/SearchRecipes/SearchRecipes';
+import Image from 'next/image';
 
 export const generateMetadata = (): Metadata =>
   pageMeta({ title: 'Home', description: 'Browse all recipes' });
@@ -20,10 +21,8 @@ export default async function Page() {
   } catch {}
 
   return (
-    <section className={styles.MainPage}>
-      <div className={styles.heroContainer}>{/* Banner / Header */}</div>
-
+    <div>
       <SearchRecipes favorites={favorites} categories={categories} ingredients={ingredients} />
-    </section>
+    </div>
   );
 }
