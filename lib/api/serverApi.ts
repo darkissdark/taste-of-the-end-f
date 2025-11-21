@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { api } from './api';
 import type { User } from '@/types/user';
-import type { Recipe } from '@/types/recipe';
+import type { Ingredient, Recipe } from '@/types/recipe';
 import type { RecipesRes } from './clientApi';
 
 export const checkServerSession = async () => {
@@ -66,6 +66,26 @@ export const getServerOwnRecipes = async (): Promise<RecipesRes> => {
 export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
   const cookieStore = await cookies();
   const { data } = await api.get<Recipe>(`/recipes/${recipeId}`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return data;
+};
+export const getServerCategories = async () => {
+  const cookieStore = await cookies();
+  const { data } = await api.get<string[]>(`/categories`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return data;
+};
+export const getServerIngredients = async () => {
+  const cookieStore = await cookies();
+  const { data } = await api.get<Ingredient[]>(`/ingredients`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
