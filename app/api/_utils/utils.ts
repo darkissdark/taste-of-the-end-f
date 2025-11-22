@@ -57,33 +57,52 @@ export async function proxyRequest(
         break;
     }
 
+    // Створюємо відповідь
+    const nextResponse = NextResponse.json(response.data, {
+      status: response.status,
+    });
+
+    // Обробляємо cookies з бекенду
     const setCookieHeaders = response.headers['set-cookie'];
     if (setCookieHeaders) {
       const cookieArray = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders];
+      
       for (const cookieStr of cookieArray) {
         const parsed = parse(cookieStr);
 
+        // Формуємо опції для cookies
         const cookieOptions: Parameters<typeof cookieStore.set>[2] = {};
         if (parsed.Expires) cookieOptions.expires = new Date(parsed.Expires);
         if (parsed['Max-Age']) cookieOptions.maxAge = Number(parsed['Max-Age']);
         if (parsed.Path) cookieOptions.path = parsed.Path;
-        if (parsed.Domain) cookieOptions.domain = parsed.Domain;
-        if (parsed.Secure) cookieOptions.secure = true;
-        if (parsed.SameSite) cookieOptions.sameSite = parsed.SameSite as 'lax' | 'strict' | 'none';
-
-        if (parsed.accessToken) cookieStore.set('accessToken', parsed.accessToken, cookieOptions);
-        if (parsed.refreshToken)
+        // Не встановлюємо Domain для cross-domain cookies на Vercel
+        // if (parsed.Domain) cookieOptions.domain = parsed.Domain;
+        
+        // Для cross-domain (фронтенд на Vercel, бекенд на Render) потрібні Secure та SameSite=None
+        const isProduction = process.env.NODE_ENV === 'production';
+        // Secure обов'язковий для SameSite=None
+        cookieOptions.secure = isProduction || parsed.Secure === 'true';
+        // Для cross-domain використовуємо SameSite=None (обов'язково з Secure=true)
+        cookieOptions.sameSite = (parsed.SameSite as 'lax' | 'strict' | 'none') || (isProduction ? 'none' : 'lax');
+        
+        // Встановлюємо cookies через cookieStore (для серверного доступу)
+        if (parsed.accessToken) {
+          cookieStore.set('accessToken', parsed.accessToken, cookieOptions);
+          // Також встановлюємо через response cookies (для клієнта)
+          nextResponse.cookies.set('accessToken', parsed.accessToken, cookieOptions);
+        }
+        if (parsed.refreshToken) {
           cookieStore.set('refreshToken', parsed.refreshToken, cookieOptions);
-        if (parsed.sessionId) cookieStore.set('sessionId', parsed.sessionId, cookieOptions);
+          nextResponse.cookies.set('refreshToken', parsed.refreshToken, cookieOptions);
+        }
+        if (parsed.sessionId) {
+          cookieStore.set('sessionId', parsed.sessionId, cookieOptions);
+          nextResponse.cookies.set('sessionId', parsed.sessionId, cookieOptions);
+        }
       }
     }
 
-    return NextResponse.json(response.data, {
-      status: response.status,
-      headers: {
-        'set-cookie': cookieStore.toString(),
-      },
-    });
+    return nextResponse;
   } catch (error: any) {
     console.error(options.errorMessage || `Error proxying ${method.toUpperCase()} request:`, error);
 
