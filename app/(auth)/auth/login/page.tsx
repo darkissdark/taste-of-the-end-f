@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { login } from '@/lib/api/clientApi';
 import { loginValidationSchema } from '@/lib/validation/authSchemas';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.css';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import Button from '@/components/buttons/Buttons';
+import toast from 'react-hot-toast';
 
 interface LoginFormValues {
   email: string;
@@ -38,14 +38,7 @@ const LoginForm = () => {
       window.location.href = '/';
     } catch (err: any) {
       const message = err?.response?.data?.message || 'Login error. Please check your credentials.';
-
-      import('izitoast').then((iziToast) => {
-        iziToast.default.error({
-          title: 'Error',
-          message,
-          position: 'topRight',
-        });
-      });
+      toast.error(message);
     } finally {
       setSubmitting(false);
     }
