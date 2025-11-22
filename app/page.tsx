@@ -10,7 +10,7 @@ import SearchRecipes from '@/components/recipes/SearchRecipes/SearchRecipes';
 export const generateMetadata = (): Metadata =>
   pageMeta({ title: 'Home', description: 'Browse all recipes' });
 
-export default async function Page({ searchParams }: { searchParams?: { page?: string } }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const [categories, ingredients] = await Promise.all([
     getServerCategories(),
     getServerIngredients(),
@@ -22,7 +22,8 @@ export default async function Page({ searchParams }: { searchParams?: { page?: s
     favorites = me.favorites ?? [];
   } catch {}
 
-  const initialPage = Number(searchParams?.page) || 1;
+  const params = await searchParams;
+  const initialPage = Number(params?.page) || 1;
 
   return (
     <div>
