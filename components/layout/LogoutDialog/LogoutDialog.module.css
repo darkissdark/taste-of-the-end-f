@@ -12,11 +12,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: min(90vw, 420px);
   background: var(--light-beige);
   border-radius: 32px;
-  padding: 56px 32px;
+  padding: 56px 32px 32px;
 }
 
 @media (max-width: 393px) {
@@ -36,19 +35,37 @@
   font: var(--font-400-16);
 }
 
-.actions {
+.actionsWrapper {
   display: flex;
+  width: 100%;
   gap: 27px;
+}
+
+.actionsColumn {
+  flex: 1;
+  display: flex;
+}
+
+.actionsColumn > * {
   width: 100%;
 }
 
 .actionButton,
 .actionButtonSecondary {
-  flex: 1;
-  height: 36px;
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.actions .actionButton {
+.actionButton {
+  border: none;
+  color: var(--white);
+  background-color: var(--red);
+}
+
+.actionButtonSecondary {
   border: 1px solid var(--black);
 }
 
