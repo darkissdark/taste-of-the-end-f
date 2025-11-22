@@ -25,8 +25,7 @@ function SignInPage() {
       const res = await login(formValues);
       if (res) {
         setUser(res);
-        window.location.href = '/';
-        // router.push('/');
+        router.push('/');
       }
     } catch (error) {
       if (isAxiosError(error)) {
