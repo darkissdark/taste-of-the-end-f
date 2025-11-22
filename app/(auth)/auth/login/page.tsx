@@ -1,42 +1,53 @@
 'use client';
 
 import useAuthStore from '@/lib/store/authStore';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import Link from 'next/link';
 import { login } from '@/lib/api/clientApi';
 import { loginValidationSchema } from '@/lib/validation/authSchemas';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.css';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import Button from '@/components/buttons/Buttons';
-	@@ -17,6 +18,7 @@ interface LoginFormValues {
 
-const LoginPage = () => {
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+const LoginForm = () => {
   const setUser = useAuthStore((s) => s.setUser);
-
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
-	@@ -25,26 +27,28 @@ const LoginPage = () => {
+  const initialValues: LoginFormValues = {
+    email: '',
     password: '',
   };
 
-  const handleSubmit = async (values: LoginFormValues, { setSubmitting }: any) => {
+  const handleSubmit = async (
+    values: LoginFormValues,
+    { setSubmitting }: FormikHelpers<LoginFormValues>
+  ) => {
     try {
-      const formValues = formDataToObject(formData);
-      const res = await login(formValues);
-      if (res) {
-        setUser(res);
-        router.push('/');
-      }
-    } catch (error) {
-      if (isAxiosError(error)) {
-        console.log('Axios error:', error.response);
-        setError(
-          error.response?.data?.response?.validation?.body?.message ||
-            error.response?.data?.response?.message ||
-            'Login failed try again later.'
-        );
-      }
+      const user = await login(values);
+      setUser(user);
+      router.push('/');
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.message ||
+        'Login error. Please check your credentials.';
+
+      import('izitoast').then((iziToast) => {
+        iziToast.default.error({
+          title: 'Error',
+          message,
+          position: 'topRight',
+        });
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
