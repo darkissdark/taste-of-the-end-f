@@ -6,45 +6,37 @@ import Link from 'next/link';
 import { login } from '@/lib/api/clientApi';
 import { loginValidationSchema } from '@/lib/validation/authSchemas';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.css';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import Button from '@/components/buttons/Buttons';
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+	@@ -17,6 +18,7 @@ interface LoginFormValues {
 
 const LoginPage = () => {
   const setUser = useAuthStore((s) => s.setUser);
-  const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const initialValues: LoginFormValues = {
-    email: '',
+	@@ -25,26 +27,28 @@ const LoginPage = () => {
     password: '',
   };
 
-  const handleSubmit = async (values: LoginFormValues, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
+  const handleSubmit = async (values: LoginFormValues, { setSubmitting }: any) => {
     try {
-      const user = await login(values);
-      setUser(user);
-      router.push('/');
-    } catch (err: any) {
-      import('izitoast').then((iziToast) => {
-        iziToast.default.error({
-          title: 'Error',
-          message:
-            err?.response?.data?.message ||
-            'Login error. Please check your credentials.',
-          position: 'topRight',
-        });
-      });
-    } finally {
-      setSubmitting(false);
+      const formValues = formDataToObject(formData);
+      const res = await login(formValues);
+      if (res) {
+        setUser(res);
+        router.push('/');
+      }
+    } catch (error) {
+      if (isAxiosError(error)) {
+        console.log('Axios error:', error.response);
+        setError(
+          error.response?.data?.response?.validation?.body?.message ||
+            error.response?.data?.response?.message ||
+            'Login failed try again later.'
+        );
+      }
     }
   };
 
