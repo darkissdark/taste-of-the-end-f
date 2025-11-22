@@ -59,7 +59,7 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
               </div>
 
               <p className={css.description}>{recipe.description}</p>
-              <p className={css.calories}>{`~${recipe.calories} cals`}</p>
+              <p className={css.calories}>{recipe.calories ? `~${recipe.calories} cals` : ''}</p>
 
               <div className={css.buttonsWrapper}>
                 <Link href={`/recipes/${recipe._id}`} className={css.link}>
@@ -70,12 +70,13 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
                   recipeId={recipe._id}
                   initialIsFavorite={isFavorite}
                   variant="icon"
-                onUnlike={handleUnlike}
-              />
-            </div>
-          </li>
-        );
-      })}
-    </ul></>
+                  onUnlike={handleUnlike}
+                />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 }
