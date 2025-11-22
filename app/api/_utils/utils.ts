@@ -14,20 +14,85 @@ export function logErrorResponse(errorObj: unknown): void {
 }
 
 /**
+ * Отримує опції для cookies залежно від середовища
+ */
+function getCookieOptions(parsedCookie: ReturnType<typeof parse>, requestUrl?: string) {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  // Визначаємо чи використовується HTTPS
+  // На Vercel завжди HTTPS, на Render теж зазвичай HTTPS
+  const isHttps = isProduction || requestUrl?.startsWith('https://') || process.env.VERCEL === '1';
+
+  const baseOptions: {
+    path?: string;
+    expires?: Date;
+    maxAge?: number;
+    httpOnly?: boolean;
+    secure?: boolean;
+    sameSite?: 'strict' | 'lax' | 'none';
+  } = {
+    path: parsedCookie.Path || '/',
+    httpOnly: false, // Дозволяємо доступ з JS для клієнтської частини
+  };
+
+  // Додаємо expires або maxAge якщо вони є в оригінальному cookie
+  if (parsedCookie.Expires) {
+    baseOptions.expires = new Date(parsedCookie.Expires);
+  } else if (parsedCookie['Max-Age']) {
+    baseOptions.maxAge = Number(parsedCookie['Max-Age']);
+  }
+
+  // Для production з HTTPS використовуємо cross-domain cookies
+  if (isHttps) {
+    baseOptions.secure = true;
+    baseOptions.sameSite = 'none'; // Дозволяє cross-domain cookies (Vercel <-> Render)
+  } else {
+    // Для development використовуємо lax для локальної розробки
+    baseOptions.sameSite = 'lax';
+    baseOptions.secure = false;
+  }
+
+  return baseOptions;
+}
+
+/**
+ * Формує Set-Cookie header з правильними атрибутами для cross-domain
+ */
+function formatSetCookieHeader(
+  name: string,
+  value: string,
+  options: ReturnType<typeof getCookieOptions>
+): string {
+  const parts: string[] = [`${name}=${value}`];
+
+  if (options.path) parts.push(`Path=${options.path}`);
+  if (options.maxAge !== undefined) parts.push(`Max-Age=${options.maxAge}`);
+  if (options.expires) parts.push(`Expires=${options.expires.toUTCString()}`);
+  if (options.secure) parts.push('Secure');
+  if (options.sameSite) parts.push(`SameSite=${options.sameSite}`);
+  if (options.httpOnly) parts.push('HttpOnly');
+
+  return parts.join('; ');
+}
+
+/**
  * Оновлює cookies з set-cookie headers відповіді
  */
 function updateCookiesFromHeaders(
   cookieStore: Awaited<ReturnType<typeof nextCookies>>,
-  setCookieHeaders: string | string[] | undefined
+  setCookieHeaders: string | string[] | undefined,
+  requestUrl?: string
 ): void {
   if (!setCookieHeaders) return;
 
   const cookieArray = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders];
   for (const cookieStr of cookieArray) {
     const parsed = parse(cookieStr);
+    const cookieOptions = getCookieOptions(parsed, requestUrl);
+
     if (Object.prototype.hasOwnProperty.call(parsed, 'accessToken')) {
       if (parsed.accessToken) {
-        cookieStore.set('accessToken', parsed.accessToken);
+        cookieStore.set('accessToken', parsed.accessToken, cookieOptions);
       } else {
         cookieStore.delete('accessToken');
       }
@@ -35,7 +100,7 @@ function updateCookiesFromHeaders(
 
     if (Object.prototype.hasOwnProperty.call(parsed, 'refreshToken')) {
       if (parsed.refreshToken) {
-        cookieStore.set('refreshToken', parsed.refreshToken);
+        cookieStore.set('refreshToken', parsed.refreshToken, cookieOptions);
       } else {
         cookieStore.delete('refreshToken');
       }
@@ -43,12 +108,61 @@ function updateCookiesFromHeaders(
 
     if (Object.prototype.hasOwnProperty.call(parsed, 'sessionId')) {
       if (parsed.sessionId) {
-        cookieStore.set('sessionId', parsed.sessionId);
+        cookieStore.set('sessionId', parsed.sessionId, cookieOptions);
       } else {
         cookieStore.delete('sessionId');
       }
     }
   }
+}
+
+/**
+ * Отримує Set-Cookie headers з cookieStore з правильними атрибутами
+ */
+function getSetCookieHeaders(
+  cookieStore: Awaited<ReturnType<typeof nextCookies>>,
+  requestUrl?: string
+): string[] {
+  const headers: string[] = [];
+  const isProduction = process.env.NODE_ENV === 'production';
+  const isHttps = isProduction || requestUrl?.startsWith('https://') || process.env.VERCEL === '1';
+
+  // Створюємо базові опції для cookies
+  const cookieOptions: {
+    path?: string;
+    expires?: Date;
+    maxAge?: number;
+    httpOnly?: boolean;
+    secure?: boolean;
+    sameSite?: 'strict' | 'lax' | 'none';
+  } = {
+    path: '/',
+    httpOnly: false,
+  };
+
+  if (isHttps) {
+    cookieOptions.secure = true;
+    cookieOptions.sameSite = 'none';
+  } else {
+    cookieOptions.sameSite = 'lax';
+    cookieOptions.secure = false;
+  }
+
+  const accessToken = cookieStore.get('accessToken');
+  const refreshToken = cookieStore.get('refreshToken');
+  const sessionId = cookieStore.get('sessionId');
+
+  if (accessToken) {
+    headers.push(formatSetCookieHeader('accessToken', accessToken.value, cookieOptions));
+  }
+  if (refreshToken) {
+    headers.push(formatSetCookieHeader('refreshToken', refreshToken.value, cookieOptions));
+  }
+  if (sessionId) {
+    headers.push(formatSetCookieHeader('sessionId', sessionId.value, cookieOptions));
+  }
+
+  return headers;
 }
 
 interface ProxyOptions {
@@ -69,7 +183,7 @@ export async function proxyRequest(
 ): Promise<NextResponse> {
   // SSR-aware куки (винесено за межі try блоку для доступу в catch)
   const cookieStore = await nextCookies();
-  
+
   try {
     const cookiesHeader = cookieStore.toString();
 
@@ -97,24 +211,50 @@ export async function proxyRequest(
     }
 
     // Проксіруємо куки з бекенду через cookieStore
-    updateCookiesFromHeaders(cookieStore, response.headers['set-cookie']);
+    updateCookiesFromHeaders(cookieStore, response.headers['set-cookie'], request.url);
+
+    // Перевіряємо чи є accessToken після оновлення (ознака успішної авторизації)
+    // Якщо бекенд повернув accessToken в cookies, це означає що авторизація успішна
+    const hasAccessToken = !!cookieStore.get('accessToken')?.value;
+    const isAuthorized = hasAccessToken;
 
     // Повертаємо відповідь з оновленими куками
+    const setCookieHeaders = getSetCookieHeaders(cookieStore, request.url);
+    const responseHeaders = new Headers();
+    setCookieHeaders.forEach((header) => {
+      responseHeaders.append('Set-Cookie', header);
+    });
 
     if (response.status === 204) {
+      // Для 204 статусу, якщо потрібно додати authorized, повертаємо JSON
+      if (options.includeAuthorized) {
+        return NextResponse.json(
+          { authorized: isAuthorized },
+          {
+            status: 200,
+            headers: responseHeaders,
+          }
+        );
+      }
       return new NextResponse(null, {
         status: 204,
-        headers: {
-          'set-cookie': cookieStore.toString(),
-        },
+        headers: responseHeaders,
       });
     }
 
-    return NextResponse.json(response.data, {
+    // Додаємо authorized до response data якщо потрібно
+    const responseData = response.data || {};
+    if (options.includeAuthorized) {
+      // Якщо бекенд явно вказав authorized, використовуємо його значення
+      // Інакше визначаємо за наявністю accessToken
+      if (responseData.authorized === undefined) {
+        responseData.authorized = isAuthorized;
+      }
+    }
+
+    return NextResponse.json(responseData, {
       status: response.status,
-      headers: {
-        'set-cookie': cookieStore.toString(),
-      },
+      headers: responseHeaders,
     });
   } catch (error: any) {
     // Якщо отримали 401 і це не запит на refresh, спробуємо оновити токен і повторити запит
@@ -132,11 +272,15 @@ export async function proxyRequest(
               response: error.response?.data,
             };
 
+        const errorSetCookieHeaders = getSetCookieHeaders(cookieStore, request.url);
+        const errorHeaders = new Headers();
+        errorSetCookieHeaders.forEach((header) => {
+          errorHeaders.append('Set-Cookie', header);
+        });
+
         return NextResponse.json(errorResponseData, {
           status: 401,
-          headers: {
-            'set-cookie': cookieStore.toString(),
-          },
+          headers: errorHeaders,
         });
       }
 
@@ -149,7 +293,7 @@ export async function proxyRequest(
         });
 
         // Оновлюємо cookies з refresh response
-        updateCookiesFromHeaders(cookieStore, refreshResponse.headers['set-cookie']);
+        updateCookiesFromHeaders(cookieStore, refreshResponse.headers['set-cookie'], request.url);
 
         // Повторюємо оригінальний запит з оновленими cookies
         const retryConfig: AxiosRequestConfig = {
@@ -175,7 +319,11 @@ export async function proxyRequest(
         }
 
         // Оновлюємо cookies з retry response
-        updateCookiesFromHeaders(cookieStore, retryResponse.headers['set-cookie']);
+        updateCookiesFromHeaders(cookieStore, retryResponse.headers['set-cookie'], request.url);
+
+        // Перевіряємо чи є accessToken після retry (ознака успішної авторизації)
+        const retryHasAccessToken = cookieStore.get('accessToken')?.value;
+        const retryIsAuthorized = !!retryHasAccessToken;
 
         // Якщо retry також повернув 401, повертаємо помилку (захист від циклу)
         if (retryResponse.status === 401) {
@@ -188,39 +336,68 @@ export async function proxyRequest(
                 response: retryResponse.data,
               };
 
+          const retryErrorSetCookieHeaders = getSetCookieHeaders(cookieStore, request.url);
+          const retryErrorHeaders = new Headers();
+          retryErrorSetCookieHeaders.forEach((header) => {
+            retryErrorHeaders.append('Set-Cookie', header);
+          });
+
           return NextResponse.json(errorResponseData, {
             status: 401,
-            headers: {
-              'set-cookie': cookieStore.toString(),
-            },
+            headers: retryErrorHeaders,
           });
         }
 
         // Повертаємо успішну відповідь з оновленими cookies
+        const retrySetCookieHeaders = getSetCookieHeaders(cookieStore, request.url);
+        const retryHeaders = new Headers();
+        retrySetCookieHeaders.forEach((header) => {
+          retryHeaders.append('Set-Cookie', header);
+        });
+
         if (retryResponse.status === 204) {
+          // Для 204 статусу, якщо потрібно додати authorized, повертаємо JSON
+          if (options.includeAuthorized) {
+            return NextResponse.json(
+              { authorized: retryIsAuthorized },
+              {
+                status: 200,
+                headers: retryHeaders,
+              }
+            );
+          }
           return new NextResponse(null, {
             status: 204,
-            headers: {
-              'set-cookie': cookieStore.toString(),
-            },
+            headers: retryHeaders,
           });
         }
 
-        return NextResponse.json(retryResponse.data, {
+        // Додаємо authorized до retry response data якщо потрібно
+        const retryResponseData = retryResponse.data || {};
+        if (options.includeAuthorized) {
+          // Якщо бекенд явно вказав authorized, використовуємо його значення
+          // Інакше визначаємо за наявністю accessToken
+          if (retryResponseData.authorized === undefined) {
+            retryResponseData.authorized = retryIsAuthorized;
+          }
+        }
+
+        return NextResponse.json(retryResponseData, {
           status: retryResponse.status,
-          headers: {
-            'set-cookie': cookieStore.toString(),
-          },
+          headers: retryHeaders,
         });
       } catch (refreshError: any) {
         // Якщо refresh не вдався, повертаємо оригінальну помилку
-        console.error('Token refresh failed:', refreshError?.response?.data || refreshError?.message || refreshError);
-        
+        console.error(
+          'Token refresh failed:',
+          refreshError?.response?.data || refreshError?.message || refreshError
+        );
+
         // Очищаємо cookies якщо refresh не вдався
         cookieStore.delete('accessToken');
         cookieStore.delete('refreshToken');
         cookieStore.delete('sessionId');
-        
+
         // Продовжуємо до обробки помилки нижче
       }
     }
@@ -235,11 +412,15 @@ export async function proxyRequest(
           response: error.response?.data,
         };
 
+    const finalSetCookieHeaders = getSetCookieHeaders(cookieStore, request.url);
+    const finalHeaders = new Headers();
+    finalSetCookieHeaders.forEach((header) => {
+      finalHeaders.append('Set-Cookie', header);
+    });
+
     return NextResponse.json(errorResponseData, {
       status: error.response?.status || 500,
-      headers: {
-        'set-cookie': cookieStore.toString(),
-      },
+      headers: finalHeaders,
     });
   }
 }
