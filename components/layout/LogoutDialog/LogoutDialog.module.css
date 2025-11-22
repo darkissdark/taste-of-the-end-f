@@ -59,13 +59,13 @@
   justify-content: center;
 }
 
-.actionButton {
+.actionsWrapper .actionsColumn .actionButton {
   border: none;
   color: var(--white);
   background-color: var(--red);
 }
 
-.actionButtonSecondary {
+.actionsWrapper .actionsColumn .actionButtonSecondary {
   border: 1px solid var(--black);
 }
 

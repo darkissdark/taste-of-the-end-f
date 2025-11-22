@@ -115,6 +115,9 @@
 .fieldError::placeholder {
   color: red;
 }
+.hasValue {
+  color: black;
+}
 /* TABLET */
 @media screen and (min-width: 767px) {
   .field {

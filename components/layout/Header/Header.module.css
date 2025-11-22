@@ -2,7 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: #3d2218;
+  background-color: var(--darck-brown);
+}
+
+.headerDialogOpen .linkActive {
+  text-decoration: none;
 }
 
 .inner {

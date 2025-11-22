@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { register } from '@/lib/api/clientApi';
 import css from './SignUpPage.module.css';
 import { isAxiosError } from 'axios';
-import useAuthStore from '@/lib/store/authStore';
 import toast from 'react-hot-toast';
 import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
 import { FormikHelpers } from 'formik';
@@ -13,7 +12,6 @@ import { ValuesRegister } from '@/types/auth';
 const SignUpPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (values: ValuesRegister, actions: FormikHelpers<ValuesRegister>) => {
     setError('');
@@ -24,7 +22,6 @@ const SignUpPage = () => {
       const res = await register({ email, name, password });
 
       if (res) {
-        setUser(res);
         actions.resetForm();
         // не треба це міняти...
         // треба повне перезавантаження щоб мідлвера
