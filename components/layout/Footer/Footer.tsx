@@ -40,7 +40,7 @@ export function Footer() {
             <li>
               <Link
                 href="/"
-                className={`${styles.link} ${isRecipesActive ? styles.linkActive : ''}`}
+                className={styles.link}
                 aria-current={isRecipesActive ? 'page' : undefined}
               >
                 Recipes
@@ -50,7 +50,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/profile/own"
-                  className={`${styles.link} ${isProfileActive ? styles.linkActive : ''}`}
+                  className={styles.link}
                   aria-current={isProfileActive ? 'page' : undefined}
                   onClick={handleProfileClick}
                 >
