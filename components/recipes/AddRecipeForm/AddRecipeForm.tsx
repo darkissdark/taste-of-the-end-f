@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react';
 import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { setNestedObjectValues } from 'formik';
 import { fetchCategories, addRecipe } from '@/lib/api/clientApi';
 import Ingredients from './Ingredients/Ingredients';
 import UploadPhoto from './UploadPhoto/UploadPhoto';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface AddRecipeFormValues {
   title: string;
@@ -87,13 +90,37 @@ const AddRecipeForm = () => {
       });
   }, []);
 
-  const handleSubmit = async (values: AddRecipeFormValues) => {
-    if (selectedIngredients.length < 2) {
-      alert('You need to select at least 2 ingredients');
+  const handleSubmit = async (values: AddRecipeFormValues, formikHelpers: any) => {
+    const { setTouched, setSubmitting, validateForm } = formikHelpers;
+
+    const errors = await validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      setTouched(setNestedObjectValues(errors, true));
+      toast.error('Please fill in all required fields');
+      setSubmitting(false);
       return;
     }
+
+    if (selectedIngredients.length < 2) {
+      toast.error('You need to select at least 2 ingredients');
+      setSubmitting(false);
+      return;
+    }
+
     if (selectedIngredients.length > 16) {
-      alert('You can select at most 16 ingredients');
+      toast.error('You can select at most 16 ingredients');
+      setSubmitting(false);
+      return;
+    }
+
+    const hasInvalidQuantity = selectedIngredients.some(
+      (ing) => !ing.quantity || ing.quantity.trim() === ''
+    );
+
+    if (hasInvalidQuantity) {
+      toast.error('Please specify quantity for all selected ingredients');
+      setSubmitting(false);
       return;
     }
     const formData = new FormData();
@@ -115,43 +142,25 @@ const AddRecipeForm = () => {
     if (values.recipeImg) {
       formData.append('recipePhoto', values.recipeImg);
     }
-
-    // Логування для перевірки FormData
-    console.log('FormData content:');
     for (let [key, val] of formData.entries()) {
-      console.log(key, val);
     }
 
     try {
       const createdRecipe = await addRecipe(formData);
-
-      console.log('Response from server:', createdRecipe);
-      console.log('Response from server:', createdRecipe);
-      console.log('Recipe object:', createdRecipe.recipe);
-      console.log('Recipe ID:', createdRecipe.recipe?._id);
-
       const recipeId = createdRecipe.recipe?._id || createdRecipe.id || createdRecipe._id;
 
       if (!recipeId) {
-        alert('Recipe ID not returned from server');
+        toast.error('Recipe ID not returned from server');
         return;
       }
       router.push(`/recipes/${recipeId}`);
     } catch (error: any) {
       if (error.response) {
-        // Лог помилки з сервера
-        console.error('Server error data:', error.response.data);
-        console.error('Server error status:', error.response.status);
-        console.error('Server error headers:', error.response.headers);
-        alert(`Failed to add recipe: ${error.response.data.message || 'Unknown error'}`);
+        toast.error(`Failed to add recipe: ${error.response.data.message || 'Unknown error'}`);
       } else if (error.request) {
-        // Запит був зроблений, але відповіді не отримано
-        console.error('No response received:', error.request);
-        alert('No response from server. Please try again later.');
+        toast.error('No response from server. Please try again later.');
       } else {
-        // Інші помилки
-        console.error('Error creating request:', error.message);
-        alert('Failed to add recipe. Please try again.');
+        toast.error('Failed to add recipe. Please try again.');
       }
     }
   };
@@ -162,112 +171,108 @@ const AddRecipeForm = () => {
       <Formik
         initialValues={{ ...initialValues, recipeImg: null }}
         validationSchema={ValidationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={(values, formikHelpers) => handleSubmit(values, formikHelpers)}
       >
         {({ setFieldValue, errors, touched, values, setFieldTouched }) => (
-          <Form className={css.form}>
+          <Form className={css.formWithPhoto}>
             <div className={css.photoContainer}>
-              <p className={css.subtitle}>Upload Photo</p>
+              <p className={css.subtitlePhoto}>Upload Photo</p>
               <UploadPhoto setFieldValue={setFieldValue} />
             </div>
-            <div>
-              {
-                <div className={css.infoForm}>
-                  <p className={css.subtitle}>General Information</p>
-                  <div>
-                    <label htmlFor="title" className={css.label}>
-                      Recipe Title
-                    </label>
-                    <Field
-                      id="title"
-                      name="title"
-                      type="text"
-                      placeholder="Enter the name of your recipe"
-                      className={`${css.field} ${
-                        errors.title && touched.title ? css.fieldError : ''
-                      }`}
-                    />
-                    <ErrorMessage name="title" component="div" className={css.errorMessage} />
-                  </div>
-                  <div>
-                    <label htmlFor="description" className={css.label}>
-                      Recipe Description
-                    </label>
-                    <Field
-                      id="description"
-                      name="description"
-                      as="textarea"
-                      placeholder="Enter a brief description of your recipe"
-                      className={`${css.fieldDescription} ${
-                        errors.description && touched.description ? css.fieldError : ''
-                      }`}
-                    />
-                    <ErrorMessage name="description" component="div" className={css.errorMessage} />
-                  </div>
-                  <div>
-                    <label htmlFor="time" className={css.label}>
-                      Cooking time in minutes
-                    </label>
-                    <Field
-                      id="time"
-                      name="time"
-                      type="number"
-                      placeholder="10"
-                      className={`${css.field} ${
-                        errors.time && touched.time ? css.fieldError : ''
-                      }`}
-                    />
-                    <ErrorMessage name="time" component="div" className={css.errorMessage} />
-                  </div>
+            <div className={css.formContainer}>
+              <div className={css.infoForm}>
+                <p className={css.subtitle}>General Information</p>
+                <div>
+                  <label htmlFor="title" className={css.label}>
+                    Recipe Title
+                  </label>
+                  <Field
+                    id="title"
+                    name="title"
+                    type="text"
+                    placeholder="Enter the name of your recipe"
+                    className={`${css.field} ${
+                      errors.title && touched.title ? css.fieldError : ''
+                    }`}
+                  />
+                  <ErrorMessage name="title" component="div" className={css.errorMessage} />
+                </div>
+                <div>
+                  <label htmlFor="description" className={css.label}>
+                    Recipe Description
+                  </label>
+                  <Field
+                    id="description"
+                    name="description"
+                    as="textarea"
+                    placeholder="Enter a brief description of your recipe"
+                    className={`${css.fieldDescription} ${
+                      errors.description && touched.description ? css.fieldError : ''
+                    }`}
+                  />
+                  <ErrorMessage name="description" component="div" className={css.errorMessage} />
+                </div>
+                <div>
+                  <label htmlFor="time" className={css.label}>
+                    Cooking time in minutes
+                  </label>
+                  <Field
+                    id="time"
+                    name="time"
+                    type="number"
+                    placeholder="10"
+                    className={`${css.field} ${errors.time && touched.time ? css.fieldError : ''}`}
+                  />
+                  <ErrorMessage name="time" component="div" className={css.errorMessage} />
+                </div>
 
-                  <div className={css.caloriesCategory}>
-                    <div className={css.categoryForm}>
-                      <label htmlFor="calories" className={css.label}>
-                        Calories
-                      </label>
-                      <Field
-                        id="calories"
-                        name="calories"
-                        type="number"
-                        placeholder="150 cals"
-                        className={`${css.calories} ${
-                          errors.calories && touched.calories ? css.fieldError : ''
-                        }`}
-                      />
-                      <ErrorMessage name="calories" component="div" className={css.errorMessage} />
-                    </div>
-                    <div className={css.categoryForm}>
-                      <label htmlFor="category" className={css.label}>
-                        Category
-                      </label>
-                      <Field
-                        as="select"
-                        name="category"
-                        id="category"
-                        value={values.category}
-                        className={`${css.calories} ${
-                          errors.category && touched.category ? css.fieldError : ''
-                        }`}
-                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                          setFieldValue('category', e.target.value);
-                          setFieldTouched('category', true);
-                        }}
-                      >
-                        <option value="" disabled>
-                          Soup
+                <div className={css.caloriesCategory}>
+                  <div className={css.categoryForm}>
+                    <label htmlFor="calories" className={css.label}>
+                      Calories
+                    </label>
+                    <Field
+                      id="calories"
+                      name="calories"
+                      type="number"
+                      placeholder="150 cals"
+                      className={`${css.calories} ${
+                        errors.calories && touched.calories ? css.fieldError : ''
+                      }`}
+                    />
+                    <ErrorMessage name="calories" component="div" className={css.errorMessage} />
+                  </div>
+                  <div className={css.categoryForm}>
+                    <label htmlFor="category" className={css.label}>
+                      Category
+                    </label>
+                    <Field
+                      as="select"
+                      name="category"
+                      id="category"
+                      value={values.category}
+                      className={`${css.calories} ${
+                        errors.category && touched.category ? css.fieldError : ''
+                      } ${values.category ? css.hasValue : ''}`}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        setFieldValue('category', e.target.value);
+                        setFieldTouched('category', true);
+                      }}
+                    >
+                      <option value="" disabled>
+                        Soup
+                      </option>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
                         </option>
-                        {categories.map((cat) => (
-                          <option key={cat} value={cat}>
-                            {cat}
-                          </option>
-                        ))}
-                      </Field>
-                      <SvgIcon name="open_dropdown" aria-hidden className={css.arrowIcon} />
-                      <ErrorMessage name="category" component="div" className={css.errorMessage} />
-                    </div>
+                      ))}
+                    </Field>
+                    <SvgIcon name="open_dropdown" aria-hidden className={css.arrowIcon} />
+                    <ErrorMessage name="category" component="div" className={css.errorMessage} />
                   </div>
                 </div>
-              }
+              </div>
 
               <Ingredients
                 selectedIngredients={selectedIngredients}
@@ -275,21 +280,21 @@ const AddRecipeForm = () => {
                 errors={errors}
                 touched={touched}
               />
-              {
-                <div className={css.instructions}>
-                  <p className={css.subtitle}>Instructions</p>
-                  <Field
-                    id="instructions"
-                    name="instructions"
-                    as="textarea"
-                    placeholder="Enter a text"
-                    className={`${css.fieldDescription} ${css.fieldInstructions} ${
-                      errors.instructions && touched.instructions ? css.fieldError : ''
-                    }`}
-                  />
-                  <ErrorMessage name="instructions" component="div" className={css.errorMessage} />
-                </div>
-              }
+
+              <div className={css.instructions}>
+                <p className={css.subtitle}>Instructions</p>
+                <Field
+                  id="instructions"
+                  name="instructions"
+                  as="textarea"
+                  placeholder="Enter a text"
+                  className={`${css.fieldDescription} ${css.fieldInstructions} ${
+                    errors.instructions && touched.instructions ? css.fieldError : ''
+                  }`}
+                />
+                <ErrorMessage name="instructions" component="div" className={css.errorMessage} />
+              </div>
+
               <Button
                 type="submit"
                 variant="brown"
@@ -302,6 +307,7 @@ const AddRecipeForm = () => {
           </Form>
         )}
       </Formik>
+      <ToastContainer />
     </div>
   );
 };
