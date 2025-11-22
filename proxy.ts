@@ -6,7 +6,7 @@ import { checkServerSession } from './lib/api/serverApi';
 const privateRoutes = ['/profile', '/add-recipe'];
 const publicRoutes = ['/auth/login', '/auth/register'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
               },
             });
           }
-        } else if (response.data?.authorized === false) {
+        } else if (response.data?.authorized !== true) {
           // Якщо authorized: false, очищаємо cookies для синхронізації
           cookieStore.delete('accessToken');
           cookieStore.delete('refreshToken');
@@ -69,9 +69,33 @@ export async function middleware(request: NextRequest) {
           console.log('Session not authorized, clearing cookies');
         }
         // Якщо authorized: false або сесія неактивна, обробляємо як відсутність авторизації
-      } catch (error) {
-        // Якщо помилка при перевірці сесії, обробляємо як відсутність авторизації
-        console.error('Error checking server session:', error);
+      } catch (error: any) {
+        // Якщо помилка при перевірці сесії (наприклад "Session not found"), очищаємо cookies
+        const errorMessage = error?.response?.data?.message || error?.message || 'Unknown error';
+        console.error('Error checking server session:', errorMessage);
+        
+        // Очищаємо cookies при помилці сесії
+        cookieStore.delete('accessToken');
+        cookieStore.delete('refreshToken');
+        cookieStore.delete('sessionId');
+        
+        // Якщо це публічний маршрут, дозволяємо доступ з очищеними cookies
+        if (isPublicRoute) {
+          return NextResponse.next({
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+        }
+        
+        // Якщо це приватний маршрут, редіректимо на логін з очищеними cookies
+        if (isPrivateRoute) {
+          return NextResponse.redirect(new URL('/auth/login', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+        }
       }
     }
     // Якщо refreshToken або сесії немає:
@@ -100,3 +124,4 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/profile/:path*', '/add-recipe/:path*', '/auth/login', '/auth/register'],
 };
+
