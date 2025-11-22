@@ -1,14 +1,23 @@
 import { Recipe } from '@/types/recipe';
 import css from './RecipeDetails.module.css';
 import Image from 'next/image';
-import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+// import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import FavoriteButton from '../FavoriteButtons/FavoriteButton';
+import { getServerMe } from '@/lib/api/serverApi';
 
 interface RecipeDetailsProps {
   data: Recipe;
 }
 
 export default async function RecipeDetails({ data }: RecipeDetailsProps) {
-  console.log(data);
+  let favorites: string[] = [];
+  try {
+    const me = await getServerMe();
+    favorites = me.favorites ?? [];
+  } catch {
+    favorites = [];
+  }
+  const isFavorite = favorites.includes(data._id);
 
   return (
     <section className={css.recipeDetailsSection}>
@@ -42,11 +51,13 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
               </p>
             </div>
 
-            <button className={css.saveButton}>
-              Save
-              {/* Unsave */}
-              <SvgIcon name="save_tooth" className={css.icon} />
-            </button>
+            <FavoriteButton recipeId={data._id} initialIsFavorite={isFavorite} variant="wide" />
+
+            {/* <button className={css.saveButton}>
+              Save */}
+            {/* Unsave */}
+            {/* <SvgIcon name="save_tooth" className={css.icon} />
+            </button> */}
           </div>
           <div className={css.recipeBlok}>
             <div>
