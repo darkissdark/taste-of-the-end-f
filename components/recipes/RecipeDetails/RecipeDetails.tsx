@@ -31,6 +31,7 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
             width={1226}
             height={624}
             sizes="(max-width: 768px) 361px, (max-width: 1440px) 704px, 1226px"
+            priority
           />
         </div>
         <div className={css.describe}>

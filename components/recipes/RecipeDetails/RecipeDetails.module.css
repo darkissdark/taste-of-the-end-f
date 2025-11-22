@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 361px;
+  max-width: 361px;
+  width: 100%;
 }
 
 .titleBlok {
@@ -18,11 +19,12 @@
   flex-direction: column-reverse;
   gap: 32px;
   margin-bottom: 32px;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
   .containerRecipe {
-    width: 702px;
+    max-width: 702px;
   }
   .titleBlok {
     flex-direction: column;
@@ -41,6 +43,9 @@
     gap: 24px;
     width: 1224px;
   }
+  .thumb {
+    aspect-ratio: 1226 / 624;
+  }
 }
 .thumb {
   width: 100%;
@@ -51,13 +56,16 @@
 
 @media (max-width: 767px) {
   .thumb {
-    width: 361px;
+    width: 100%;
+    max-width: 361px;
+    aspect-ratio: 361 / 361;
   }
 }
 
 @media (min-width: 768px) {
   .thumb {
     width: 704px;
+    aspect-ratio: 702 / 702;
   }
 }
 
@@ -126,7 +134,8 @@
   border-radius: 8px;
   background: var(--light-brown);
   padding: 16px;
-  width: 361px;
+  max-width: 361px;
+  width: 100%;
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 18px;

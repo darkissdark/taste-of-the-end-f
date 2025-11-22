@@ -19,7 +19,8 @@
   border-radius: 8px;
   background: var(--light-brown);
   padding: 16px;
-  width: 361px;
+  max-width: 361px;
+  width: 100%;
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 18px;
