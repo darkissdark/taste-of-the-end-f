@@ -9,9 +9,9 @@ import { useAuthDialogStore } from '@/lib/store/authDialogStore';
 import { usePathname } from 'next/navigation';
 
 export function Footer() {
+  const pathname = usePathname();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const openAuthDialog = useAuthDialogStore((state) => state.open);
-  const pathname = usePathname();
 
   const isAuthPage = pathname === '/auth/login' || pathname === '/auth/register';
   const isRecipesActive = pathname === '/' || pathname.startsWith('/recipes');
