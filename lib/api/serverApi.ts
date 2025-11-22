@@ -63,16 +63,23 @@ export const getServerOwnRecipes = async (): Promise<RecipesRes> => {
   return data;
 };
 
-export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
+export const getRecipeById = async (recipeId: string): Promise<Recipe | null> => {
   const cookieStore = await cookies();
-  const { data } = await api.get<Recipe>(`/recipes/${recipeId}`, {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-
-  return data;
+  try {
+    const { data } = await api.get<Recipe>(`/recipes/${recipeId}`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+    return data;
+  } catch (error: any) {
+    if (error.response?.status === 400 || error.response?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
 };
+
 export const getServerCategories = async () => {
   const cookieStore = await cookies();
   const { data } = await api.get<string[]>(`/categories`, {

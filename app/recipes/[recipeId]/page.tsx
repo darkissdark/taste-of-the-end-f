@@ -7,10 +7,26 @@ type Props = { params: Promise<{ recipeId: string }> };
 
 export const generateMetadata = async ({ params }: Props) => {
   const { recipeId } = await params;
-  return pageMeta({
-    title: `Recipe #${recipeId}`,
-    path: `/recipes/${recipeId}`,
-  });
+  const recipe = await getRecipeById(recipeId);
+
+  if (!recipe) {
+    return pageMeta({
+      title: `Recipe Not Found`,
+      path: `/recipes/${recipeId}`,
+    });
+  }
+
+  return {
+    title: recipe.title,
+    description: recipe.description,
+    other: [
+      {
+        rel: 'preload',
+        as: 'image',
+        href: recipe.thumb,
+      },
+    ],
+  };
 };
 
 export default async function RecipePage({ params }: Props) {
