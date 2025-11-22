@@ -1,0 +1,53 @@
+.favoriteActive {
+  fill: var(--white);
+  stroke-width: 1px;
+  stroke: var(--white);
+}
+
+.noFavorite {
+  stroke-width: 1px;
+  stroke: var(--white);
+  fill: transparent;
+}
+
+.favoriteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--light-brown);
+  padding: 16px;
+  width: 361px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--white);
+}
+.favoriteButton:hover,
+.favoriteButton:focus {
+  background: var(--brown);
+}
+.favoriteButton:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-brown);
+}
+.favoriteButton:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-brown);
+  opacity: 0.3;
+}
+
+@media (min-width: 768px) {
+  .favoriteButton {
+    width: 249px;
+    height: 56px;
+  }
+}
+@media (min-width: 1440px) {
+  .favoriteButton {
+    width: 393px;
+    height: 56px;
+  }
+}

@@ -153,16 +153,16 @@
     height: 56px;
   }
 }
-/* .icon {
+.icon {
   stroke-width: 1px;
   stroke: var(--white);
   fill: transparent;
-} */
-.icon {
+}
+/* .icon {
   fill: var(--white);
   stroke-width: 1px;
   stroke: var(--white);
-}
+} */
 
 .ingredientsList {
   list-style: none; /* убираем стандартный большой маркер */

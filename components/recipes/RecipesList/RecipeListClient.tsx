@@ -5,8 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import css from './RecipesList.module.css';
-import FavoriteButton from '../FavoriteButton/FavoriteButton';
+import FavoriteButton from '../FavoriteButtons/FavoriteButton';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+// import { Recipe } from '@/types/recipe';
 import { RecipesRes } from '@/lib/api/clientApi';
 
 interface recipesListClientProps {
@@ -57,7 +58,7 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
                 </div>
               </div>
 
-              <p className={css.describtion}>{recipe.description}</p>
+              <p className={css.description}>{recipe.description}</p>
               <p className={css.calories}>{`~${recipe.calories} cals`}</p>
 
               <div className={css.buttonsWrapper}>
@@ -68,13 +69,13 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
                 <FavoriteButton
                   recipeId={recipe._id}
                   initialIsFavorite={isFavorite}
-                  onUnlike={handleUnlike}
-                />
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </>
+                  variant="icon"
+                onUnlike={handleUnlike}
+              />
+            </div>
+          </li>
+        );
+      })}
+    </ul></>
   );
 }
