@@ -18,10 +18,14 @@ interface SelectedIngredient {
 interface IngredientsProps {
   selectedIngredients: SelectedIngredient[];
   setSelectedIngredients: React.Dispatch<React.SetStateAction<SelectedIngredient[]>>;
+  errors?: { [key: string]: any };
+  touched?: { [key: string]: any };
 }
 const Ingredients: React.FC<IngredientsProps> = ({
   selectedIngredients,
   setSelectedIngredients,
+  errors,
+  touched,
 }) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [selectedIngredientId, setSelectedIngredientId] = useState<string>('');
@@ -48,11 +52,6 @@ const Ingredients: React.FC<IngredientsProps> = ({
       alert('Ingredient amount is required');
       return;
     }
-    const quantityNumber = Number(quantity);
-    if (isNaN(quantityNumber) || quantityNumber < 2 || quantityNumber > 16) {
-      alert('Ingredient amount must be at least 2 and at most 16');
-      return;
-    }
 
     const ingredient = ingredients.find((ing) => ing.id === selectedIngredientId);
     if (!ingredient) return;
@@ -76,7 +75,9 @@ const Ingredients: React.FC<IngredientsProps> = ({
           <label className={css.label}>Name</label>
           <div>
             <select
-              className={css.field}
+              className={`${css.field} ${
+                errors?.selectedIngredients && touched?.selectedIngredients ? css.fieldError : ''
+              }`}
               value={selectedIngredientId}
               onChange={(e) => setSelectedIngredientId(e.target.value)}
             >
@@ -95,7 +96,9 @@ const Ingredients: React.FC<IngredientsProps> = ({
         <div className={css.amount}>
           <label className={css.label}>Amount</label>
           <input
-            className={css.field}
+            className={`${css.field} ${
+              errors?.quantity && touched?.quantity ? css.fieldError : ''
+            }`}
             type="text"
             value={quantity}
             placeholder="100g"

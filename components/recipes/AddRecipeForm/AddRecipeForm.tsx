@@ -88,11 +88,14 @@ const AddRecipeForm = () => {
   }, []);
 
   const handleSubmit = async (values: AddRecipeFormValues) => {
-    if (selectedIngredients.length === 0) {
-      alert('Please add at least one ingredient');
+    if (selectedIngredients.length < 2) {
+      alert('You need to select at least 2 ingredients');
       return;
     }
-
+    if (selectedIngredients.length > 16) {
+      alert('You can select at most 16 ingredients');
+      return;
+    }
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
@@ -161,7 +164,7 @@ const AddRecipeForm = () => {
         validationSchema={ValidationSchema}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, errors, touched, values, setFieldTouched }) => (
           <Form className={css.form}>
             <div className={css.photoContainer}>
               <p className={css.subtitle}>Upload Photo</p>
@@ -180,7 +183,9 @@ const AddRecipeForm = () => {
                       name="title"
                       type="text"
                       placeholder="Enter the name of your recipe"
-                      className={css.field}
+                      className={`${css.field} ${
+                        errors.title && touched.title ? css.fieldError : ''
+                      }`}
                     />
                     <ErrorMessage name="title" component="div" className={css.errorMessage} />
                   </div>
@@ -193,7 +198,9 @@ const AddRecipeForm = () => {
                       name="description"
                       as="textarea"
                       placeholder="Enter a brief description of your recipe"
-                      className={css.fieldDescription}
+                      className={`${css.fieldDescription} ${
+                        errors.description && touched.description ? css.fieldError : ''
+                      }`}
                     />
                     <ErrorMessage name="description" component="div" className={css.errorMessage} />
                   </div>
@@ -206,7 +213,9 @@ const AddRecipeForm = () => {
                       name="time"
                       type="number"
                       placeholder="10"
-                      className={css.field}
+                      className={`${css.field} ${
+                        errors.time && touched.time ? css.fieldError : ''
+                      }`}
                     />
                     <ErrorMessage name="time" component="div" className={css.errorMessage} />
                   </div>
@@ -221,7 +230,9 @@ const AddRecipeForm = () => {
                         name="calories"
                         type="number"
                         placeholder="150 cals"
-                        className={css.calories}
+                        className={`${css.calories} ${
+                          errors.calories && touched.calories ? css.fieldError : ''
+                        }`}
                       />
                       <ErrorMessage name="calories" component="div" className={css.errorMessage} />
                     </div>
@@ -229,19 +240,27 @@ const AddRecipeForm = () => {
                       <label htmlFor="category" className={css.label}>
                         Category
                       </label>
-                      <Field id="category" as="select" name="category" className={css.calories}>
+                      <Field
+                        as="select"
+                        name="category"
+                        id="category"
+                        value={values.category}
+                        className={`${css.calories} ${
+                          errors.category && touched.category ? css.fieldError : ''
+                        }`}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                          setFieldValue('category', e.target.value);
+                          setFieldTouched('category', true);
+                        }}
+                      >
                         <option value="" disabled>
                           Soup
                         </option>
-                        {categories.length === 0 ? (
-                          <option disabled>Soup</option>
-                        ) : (
-                          categories.map((cat) => (
-                            <option key={cat} value={cat}>
-                              {cat}
-                            </option>
-                          ))
-                        )}
+                        {categories.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
                       </Field>
                       <SvgIcon name="open_dropdown" aria-hidden className={css.arrowIcon} />
                       <ErrorMessage name="category" component="div" className={css.errorMessage} />
@@ -253,6 +272,8 @@ const AddRecipeForm = () => {
               <Ingredients
                 selectedIngredients={selectedIngredients}
                 setSelectedIngredients={setSelectedIngredients}
+                errors={errors}
+                touched={touched}
               />
               {
                 <div className={css.instructions}>
@@ -262,7 +283,9 @@ const AddRecipeForm = () => {
                     name="instructions"
                     as="textarea"
                     placeholder="Enter a text"
-                    className={`${css.fieldDescription} ${css.fieldInstructions}`}
+                    className={`${css.fieldDescription} ${css.fieldInstructions} ${
+                      errors.instructions && touched.instructions ? css.fieldError : ''
+                    }`}
                   />
                   <ErrorMessage name="instructions" component="div" className={css.errorMessage} />
                 </div>

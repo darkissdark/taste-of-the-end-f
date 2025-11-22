@@ -72,9 +72,11 @@
   margin-top: 16px;
 }
 .fieldError {
-  border-color: var(--red);
+  border: 1px solid red;
   color: var(--red);
-  background-color: #fff0f0;
+}
+.fieldError::placeholder {
+  color: var(--red);
 }
 .errorMessage {
   color: var(--red);
