@@ -1,0 +1,19 @@
+.profTitle {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 40px;
+  color: var(--black);
+  margin-top: 46px;
+  margin-bottom: 16px;
+}
+.nav {
+  display: flex;
+  gap: 38px;
+}
+.tab {
+  margin-bottom: 16px;
+}
+.active {
+  padding: 0px 0px 4px;
+  border-bottom: 1px solid var(--black);
+}

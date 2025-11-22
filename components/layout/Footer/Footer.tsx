@@ -40,7 +40,7 @@ export function Footer() {
           <ul>
             <li>
               <Link href="/profile/own" className={styles.link} onClick={handleProfileClick}>
-                Profile
+                Account
               </Link>
             </li>
           </ul>

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import styles from './AuthDialog.module.css';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import { useEffect } from 'react';
 
 type Props = {
   open: boolean;
@@ -12,6 +13,20 @@ type Props = {
 
 export function AuthDialog({ open, onClose }: Props) {
   const router = useRouter();
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   const handleSignIn = () => {
@@ -25,9 +40,17 @@ export function AuthDialog({ open, onClose }: Props) {
   };
 
   return (
-    <div className={styles.backdrop} role="dialog" aria-modal="true" onClick={onClose}>
+    <div
+      className={styles.backdrop}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-dialog-title"
+      onClick={onClose}
+    >
       <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
-        <h3 className={styles.title}>Sign in to continue</h3>
+        <h3 id="auth-dialog-title" className={styles.title}>
+          Log in to continue
+        </h3>
         <p className={styles.text}>Choose an option:</p>
 
         <div className={styles.actions}>
@@ -38,7 +61,7 @@ export function AuthDialog({ open, onClose }: Props) {
             className={styles.actionButton}
             onClick={handleSignIn}
           >
-            Login
+            Log in
           </Button>
 
           <Button

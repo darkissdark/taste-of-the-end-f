@@ -63,20 +63,13 @@ export const fetchIngredients = async () => {
   return data;
 };
 
-export type RecipeDto = {
-  _id: string;
-  title: string;
-  desc: string;
-  img: string;
-  category: string;
-  difficulty: string;
-  cookTime: number;
-};
-
-export const fetchRecipesWithParam = async () => {
-  const { data } = await api.get<RecipeDto[]>('/recipes');
-  return data;
-};
+export interface FetchRecipesParams {
+  page?: number;
+  perPage?: number;
+  category?: string;
+  ingredient?: string;
+  search?: string;
+}
 
 export interface RecipesRes {
   page: number;
@@ -85,9 +78,18 @@ export interface RecipesRes {
   totalPages: number;
   recipes: Recipe[];
 }
+export const fetchRecipes = async ({
+  search,
+  category,
+  ingredient,
+  page = 1,
+}: FetchRecipesParams) => {
+  const params: any = { page, perPage: 12 };
+  if (search) params.search = search;
+  if (category) params.category = category;
+  if (ingredient) params.ingredient = ingredient;
 
-export const fetchRecipes = async () => {
-  const { data } = await api.get<RecipesRes>('/recipes');
+  const { data } = await api.get('/recipes', { params });
   return data;
 };
 
@@ -104,5 +106,10 @@ export const removeFromFavorites = async (id: string) => {
 export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
   const { data } = await api.get<Recipe>(`/recipes/${recipeId}`);
 
+  return data;
+};
+
+export const addRecipe = async (formData: FormData) => {
+  const { data } = await api.post('/recipes', formData);
   return data;
 };

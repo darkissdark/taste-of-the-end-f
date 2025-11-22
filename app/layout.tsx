@@ -23,8 +23,8 @@ export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={montserrat.variable}>
+    <html lang="en" className={montserrat.variable}>
+      <body>
         <TanStackProvider>
           <AuthProvider>
             <IconsSprite />
@@ -33,8 +33,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
             <AuthDialogGate />
             <Toaster position="top-right" />
-            {/* toast.success("Saved successfully!");
-        toast.error("Something went wrong!"); */}
           </AuthProvider>
         </TanStackProvider>
       </body>

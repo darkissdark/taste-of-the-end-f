@@ -1,12 +1,12 @@
 .addRecipeContainer {
   padding: 0px 16px;
   width: 100%;
-  max-width: 393px;
+  max-width: 100%;
   margin: 48px auto;
   box-sizing: border-box;
 }
 .recipeContainer {
-  width: 361px;
+  width: 100%;
 }
 .addRecipe {
   font-family: var(--font-family);
@@ -27,7 +27,7 @@
 }
 .form {
   width: 100%;
-  max-width: 361px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -112,7 +112,7 @@
 .categoryForm {
   position: relative;
   width: 100%;
-  max-width: 392px;
+  max-width: 100%;
 }
 .arrowIcon {
   stroke: black;
@@ -122,9 +122,33 @@
 
   position: absolute;
   right: 12px;
-  top: 85%;
+  top: 80%;
   transform: translateY(-50%);
   pointer-events: none;
+}
+.instructions {
+  margin-top: 40px;
+}
+.button {
+  margin-top: 40px;
+  width: 361px;
+  height: 44px;
+}
+/* MOBILE 393px */
+
+.addRecipeContainer {
+  max-width: 393px;
+}
+.recipeContainer {
+  width: 361px;
+}
+
+.form {
+  max-width: 361px;
+}
+
+.categoryForm {
+  max-width: 392px;
 }
 
 /* TABLET */
@@ -164,6 +188,9 @@
   .calories {
     width: 340px;
   }
+  .button {
+    width: 704px;
+  }
 }
 
 /* DESKTOP */
@@ -177,6 +204,7 @@
     flex-direction: row-reverse;
     gap: 34px;
     width: 1226px;
+    margin: 0 auto;
   }
   .photoContainer {
     width: 391px;
@@ -191,5 +219,8 @@
   }
   .calories {
     width: 392px;
+  }
+  .button {
+    width: 809px;
   }
 }

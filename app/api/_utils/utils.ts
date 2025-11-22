@@ -31,7 +31,7 @@ export async function proxyRequest(
 ): Promise<NextResponse> {
   try {
     // SSR-aware куки
-    const cookieStore = nextCookies();
+    const cookieStore = await nextCookies();
     const cookiesHeader = cookieStore.toString();
 
     // Виконуємо запит на бекенд
@@ -63,9 +63,9 @@ export async function proxyRequest(
       const cookieArray = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders];
       for (const cookieStr of cookieArray) {
         const parsed = parse(cookieStr);
-        if (parsed.accessToken) (await cookieStore).set('accessToken', parsed.accessToken);
-        if (parsed.refreshToken) (await cookieStore).set('refreshToken', parsed.refreshToken);
-        if (parsed.sessionId) (await cookieStore).set('sessionId', parsed.sessionId);
+        if (parsed.accessToken) cookieStore.set('accessToken', parsed.accessToken);
+        if (parsed.refreshToken) cookieStore.set('refreshToken', parsed.refreshToken);
+        if (parsed.sessionId) cookieStore.set('sessionId', parsed.sessionId);
       }
     }
 
