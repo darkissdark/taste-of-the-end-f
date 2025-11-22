@@ -1,11 +1,12 @@
 'use client';
 
 import useAuthStore from '@/lib/store/authStore';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import Link from 'next/link';
 import { login } from '@/lib/api/clientApi';
 import { loginValidationSchema } from '@/lib/validation/authSchemas';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.css';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import Button from '@/components/buttons/Buttons';
@@ -15,9 +16,8 @@ interface LoginFormValues {
   password: string;
 }
 
-const LoginPage = () => {
+const LoginForm = () => {
   const setUser = useAuthStore((s) => s.setUser);
-
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues: LoginFormValues = {
@@ -25,16 +25,24 @@ const LoginPage = () => {
     password: '',
   };
 
-  const handleSubmit = async (values: LoginFormValues, { setSubmitting }: any) => {
+  const handleSubmit = async (
+    values: LoginFormValues,
+    { setSubmitting }: FormikHelpers<LoginFormValues>
+  ) => {
     try {
       const user = await login(values);
       setUser(user);
+      // не треба це міняти...
+      // треба повне перезавантаження щоб мідлвера
+      // працювала при деплої
       window.location.href = '/';
     } catch (err: any) {
+      const message = err?.response?.data?.message || 'Login error. Please check your credentials.';
+
       import('izitoast').then((iziToast) => {
         iziToast.default.error({
           title: 'Error',
-          message: err?.response?.data?.message || 'Login error. Please check your credentials.',
+          message,
           position: 'topRight',
         });
       });
@@ -131,4 +139,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginForm;

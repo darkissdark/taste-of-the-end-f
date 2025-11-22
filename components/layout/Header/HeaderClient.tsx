@@ -21,7 +21,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
 
   const storeUser = useAuthStore((state) => state.user);
   const storeIsAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const effectiveIsAuthenticated = storeUser ? true : storeIsAuthenticated ?? isAuthenticated;
+  const effectiveIsAuthenticated = !!storeUser || storeIsAuthenticated || isAuthenticated;
   const effectiveUserName = storeUser?.name ?? userName ?? '';
 
   useEffect(() => {

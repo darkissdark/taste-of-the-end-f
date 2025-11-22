@@ -63,13 +63,43 @@ export async function proxyRequest(
       const cookieArray = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders];
       for (const cookieStr of cookieArray) {
         const parsed = parse(cookieStr);
-        if (parsed.accessToken) cookieStore.set('accessToken', parsed.accessToken);
-        if (parsed.refreshToken) cookieStore.set('refreshToken', parsed.refreshToken);
-        if (parsed.sessionId) cookieStore.set('sessionId', parsed.sessionId);
+        if (Object.prototype.hasOwnProperty.call(parsed, 'accessToken')) {
+          if (parsed.accessToken) {
+            cookieStore.set('accessToken', parsed.accessToken);
+          } else {
+            cookieStore.delete('accessToken');
+          }
+        }
+
+        if (Object.prototype.hasOwnProperty.call(parsed, 'refreshToken')) {
+          if (parsed.refreshToken) {
+            cookieStore.set('refreshToken', parsed.refreshToken);
+          } else {
+            cookieStore.delete('refreshToken');
+          }
+        }
+
+        if (Object.prototype.hasOwnProperty.call(parsed, 'sessionId')) {
+          if (parsed.sessionId) {
+            cookieStore.set('sessionId', parsed.sessionId);
+          } else {
+            cookieStore.delete('sessionId');
+          }
+        }
       }
     }
 
     // Повертаємо відповідь з оновленими куками
+
+    if (response.status === 204) {
+      return new NextResponse(null, {
+        status: 204,
+        headers: {
+          'set-cookie': cookieStore.toString(),
+        },
+      });
+    }
+
     return NextResponse.json(response.data, {
       status: response.status,
       headers: {
