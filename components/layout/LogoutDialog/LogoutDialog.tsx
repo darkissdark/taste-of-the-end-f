@@ -70,7 +70,11 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
         <div className={styles.actionsWrapper}>
           <div className={styles.actionsColumn}>
             <form className={styles.actions} onSubmit={handleLogout}>
-              <Button type="submit" variant="white" className={styles.actionButton}>
+              <Button
+                type="submit"
+                variant="white"
+                className={`${styles.actionButton} ${styles.actionButtonRed}`}
+              >
                 Log out
               </Button>
             </form>
