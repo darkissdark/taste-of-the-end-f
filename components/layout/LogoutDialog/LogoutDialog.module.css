@@ -59,7 +59,7 @@
   justify-content: center;
 }
 
-.actionButton {
+.actions .actionButton {
   border: none;
   color: var(--white);
   background-color: var(--red);

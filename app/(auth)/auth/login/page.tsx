@@ -1,6 +1,5 @@
 'use client';
 
-import useAuthStore from '@/lib/store/authStore';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import Link from 'next/link';
 import { login } from '@/lib/api/clientApi';
@@ -17,7 +16,6 @@ interface LoginFormValues {
 }
 
 const LoginForm = () => {
-  const setUser = useAuthStore((s) => s.setUser);
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues: LoginFormValues = {
@@ -30,8 +28,7 @@ const LoginForm = () => {
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const user = await login(values);
-      setUser(user);
+      await login(values);
       // не треба це міняти...
       // треба повне перезавантаження щоб мідлвера
       // працювала при деплої
