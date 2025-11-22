@@ -107,6 +107,14 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.fieldError {
+  border: 1px solid red;
+  color: red;
+}
+
+.fieldError::placeholder {
+  color: red;
+}
 /* TABLET */
 @media screen and (min-width: 767px) {
   .field {
