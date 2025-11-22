@@ -4,6 +4,8 @@ import css from './Ingredients.module.css';
 import { fetchIngredients, type IngredientDto } from '@/lib/api/clientApi';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Ingredient {
   id: string;
@@ -45,11 +47,11 @@ const Ingredients: React.FC<IngredientsProps> = ({
 
   const addIngredient = () => {
     if (!selectedIngredientId) {
-      alert('Ingredient is required');
+      toast.error('Ingredient is required');
       return;
     }
     if (!quantity.trim()) {
-      alert('Ingredient amount is required');
+      toast.error('Ingredient amount is required');
       return;
     }
 
@@ -63,6 +65,8 @@ const Ingredients: React.FC<IngredientsProps> = ({
       }
       return [...prev, { id: ingredient.id, name: ingredient.name, quantity }];
     });
+    setSelectedIngredientId('');
+    setQuantity('');
   };
 
   const removeIngredient = (id: string) => {
@@ -77,7 +81,7 @@ const Ingredients: React.FC<IngredientsProps> = ({
             <select
               className={`${css.field} ${
                 errors?.selectedIngredients && touched?.selectedIngredients ? css.fieldError : ''
-              }`}
+              } ${selectedIngredientId ? css.hasValue : ''}`}
               value={selectedIngredientId}
               onChange={(e) => setSelectedIngredientId(e.target.value)}
             >
@@ -136,6 +140,7 @@ const Ingredients: React.FC<IngredientsProps> = ({
           </ul>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
