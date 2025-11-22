@@ -4,18 +4,22 @@ import { useState } from 'react';
 import { addToFavorites, removeFromFavorites } from '@/lib/api/clientApi';
 import { useAuthDialogStore } from '@/lib/store/authDialogStore';
 import useAuthStore from '@/lib/store/authStore';
-import css from './FavoriteButton.module.css';
-import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import { FavoriteButtonIcon } from './ButtonIcon/FavoriteButtonIcon';
+import { FavoriteButtonWide } from './ButtonWide/FavoriteButtonWide';
+
+type Variant = 'icon' | 'wide';
 
 interface favoriteButtonProps {
   recipeId: string;
   initialIsFavorite: boolean;
-  onUnlike: (recipeId: string) => void;
+  variant: Variant;
+  onUnlike?: (recipeId: string) => void;
 }
 
 export default function FavoriteButton({
   recipeId,
   initialIsFavorite,
+  variant,
   onUnlike,
 }: favoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
@@ -37,12 +41,11 @@ export default function FavoriteButton({
     try {
       if (isFavorite) {
         await removeFromFavorites(recipeId);
-        setIsFavorite(false);
-        onUnlike?.(recipeId); // <— ВАЖЛИВО: прибираємо картку зі списку
+        onUnlike?.(recipeId);
       } else {
         await addToFavorites(recipeId);
-        setIsFavorite(true);
       }
+      setIsFavorite(!isFavorite);
     } catch (err) {
       console.error(err);
     } finally {
@@ -50,13 +53,15 @@ export default function FavoriteButton({
     }
   };
 
+  if (variant === 'icon')
+    return (
+      <FavoriteButtonIcon
+        isFavorite={isFavorite}
+        loading={loading}
+        toggleFavorite={toggleFavorite}
+      />
+    );
   return (
-    <button
-      className={isFavorite ? css.favoriteButton : css.notFavoriteButton}
-      disabled={loading}
-      onClick={toggleFavorite}
-    >
-      <SvgIcon name="save_tooth" />
-    </button>
+    <FavoriteButtonWide isFavorite={isFavorite} loading={loading} toggleFavorite={toggleFavorite} />
   );
 }

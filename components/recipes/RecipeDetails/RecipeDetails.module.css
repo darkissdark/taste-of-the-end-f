@@ -1,0 +1,199 @@
+.recipeDetailsSection {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 48px;
+  background: var(--background);
+}
+
+.containerRecipe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 361px;
+}
+
+.titleBlok {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .containerRecipe {
+    width: 702px;
+  }
+  .titleBlok {
+    flex-direction: column;
+  }
+}
+@media (min-width: 1440px) {
+  .containerRecipe {
+    width: 1224px;
+  }
+  .titleBlok {
+    width: 1224px;
+  }
+  .describe {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+    width: 1224px;
+  }
+}
+.thumb {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .thumb {
+    width: 361px;
+  }
+}
+
+@media (min-width: 768px) {
+  .thumb {
+    width: 704px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .thumb {
+    width: 1224px;
+    background: #000;
+    padding-left: calc((1224px - 704px) / 2);
+    padding-right: calc((1224px - 704px) / 2);
+  }
+}
+
+.title {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 40px;
+  color: var(--black);
+  margin: 0;
+}
+
+.subTitle {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--black);
+  margin: 0 0 8px;
+}
+
+.infoBlok {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.textBlok {
+  background: var(--light-beige);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.generalInfo {
+  font-size: 24px;
+}
+
+.textSpan {
+  font-family: var(--font-family);
+  font-weight: 600;
+  color: var(--black);
+}
+
+.text {
+  font-family: var(--font-family);
+  line-height: 1.55;
+  color: var(--black);
+  margin: 0;
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--light-brown);
+  padding: 16px;
+  width: 361px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--white);
+}
+
+@media (min-width: 768px) {
+  .infoBlok {
+    flex-direction: row;
+    gap: 24px;
+  }
+  .saveButton {
+    width: 249px;
+    height: 56px;
+  }
+}
+@media (min-width: 1440px) {
+  .infoBlok {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .saveButton {
+    width: 393px;
+    height: 56px;
+  }
+}
+.icon {
+  stroke-width: 1px;
+  stroke: var(--white);
+  fill: transparent;
+}
+/* .icon {
+  fill: var(--white);
+  stroke-width: 1px;
+  stroke: var(--white);
+} */
+
+.ingredientsList {
+  list-style: none; /* убираем стандартный большой маркер */
+  padding: 0;
+  margin: 0;
+}
+
+.ingredientsList .recipeIngredient {
+  position: relative;
+  padding-left: 6px; /* расстояние до текста, как в макете */
+  margin-bottom: 8px;
+}
+
+.ingredientsList .recipeIngredient::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em; /* выравниваем по центру строки */
+  width: 2.5px; /* настраиваем под макет */
+  height: 2.5px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+.recipeBlok {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.steps {
+  margin-bottom: 24px;
+}

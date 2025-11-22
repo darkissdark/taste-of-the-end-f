@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { register } from '@/lib/api/clientApi';
 import css from './SignUpPage.module.css';
 import { isAxiosError } from 'axios';
@@ -13,12 +12,15 @@ import { ValuesRegister } from '@/types/auth';
 
 const SignUpPage = () => {
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const setUser = useAuthStore((state) => state.setUser);
-  const router = useRouter();
 
   const handleSubmit = async (values: ValuesRegister, actions: FormikHelpers<ValuesRegister>) => {
+    setError('');
+
     try {
       const { email, name, password } = values;
+      setIsLoading(true);
       const res = await register({ email, name, password });
 
       if (res) {
@@ -34,6 +36,8 @@ const SignUpPage = () => {
       } else {
         setError('Unexpected error');
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -44,7 +48,7 @@ const SignUpPage = () => {
   return (
     <section className={css.sectionContent}>
       <div className={css.container}>
-        <RegistrationForm onSubmit={handleSubmit} />
+        <RegistrationForm onSubmit={handleSubmit} isLoading={isLoading} />
       </div>
     </section>
   );

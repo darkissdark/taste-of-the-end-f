@@ -33,8 +33,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
             <AuthDialogGate />
             <Toaster position="top-right" />
-            {/* toast.success("Saved successfully!");
-        toast.error("Something went wrong!"); */}
           </AuthProvider>
         </TanStackProvider>
       </body>

@@ -1,0 +1,47 @@
+.notFavoriteButton {
+  border: 1px solid var(--black);
+  border-radius: 8px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  stroke: black;
+  fill: transparent;
+}
+.notFavoriteButton:hover,
+.notFavoriteButton:focus {
+  background-color: var(--light-gray);
+}
+.notFavoriteButton:active {
+  border: none;
+  background-color: transparent;
+}
+.notFavoriteButton:disabled {
+  background-color: transparent;
+  border: var(--light-gray);
+  stroke: var(--light-gray);
+  fill: transparent;
+  opacity: 0.3;
+}
+.favoriteButton {
+  border-radius: 8px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--light-brown);
+  fill: transparent;
+  stroke: var(--white);
+}
+.favoriteButton:hover,
+.favoriteButton:focus {
+  background: var(--brown);
+}
+.favoriteButton:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-brown);
+}
+.favoriteButton:disabled {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  background: var(--light-brown);
+  opacity: 0.3;
+}

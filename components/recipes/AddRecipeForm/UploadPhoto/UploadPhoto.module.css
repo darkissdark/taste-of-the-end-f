@@ -1,0 +1,30 @@
+.upload {
+  cursor: pointer;
+  display: none;
+}
+.photo {
+  width: 100%;
+  max-width: 383px;
+  height: auto;
+  max-height: 361px;
+  margin-top: 4px;
+  object-fit: contain;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* TABLET */
+@media screen and (min-width: 767px) {
+  .photo {
+    max-width: 704px;
+    max-height: 383px;
+  }
+}
+
+/* DESKTOP */
+@media screen and (min-width: 1440px) {
+  .photo {
+    max-width: 391px;
+    max-height: 374px;
+  }
+}

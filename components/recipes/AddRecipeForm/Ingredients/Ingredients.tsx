@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import css from './AddRecipeForm.module.css';
+import css from './Ingredients.module.css';
 import { fetchIngredients, type IngredientDto } from '@/lib/api/clientApi';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
@@ -15,12 +15,17 @@ interface SelectedIngredient {
   quantity: string;
   desc?: string;
 }
-
-const Ingredients = () => {
+interface IngredientsProps {
+  selectedIngredients: SelectedIngredient[];
+  setSelectedIngredients: React.Dispatch<React.SetStateAction<SelectedIngredient[]>>;
+}
+const Ingredients: React.FC<IngredientsProps> = ({
+  selectedIngredients,
+  setSelectedIngredients,
+}) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [selectedIngredientId, setSelectedIngredientId] = useState<string>('');
   const [quantity, setQuantity] = useState<string>('');
-  const [selectedIngredients, setSelectedIngredients] = useState<SelectedIngredient[]>([]);
 
   useEffect(() => {
     fetchIngredients()
@@ -35,7 +40,19 @@ const Ingredients = () => {
   }, []);
 
   const addIngredient = () => {
-    if (!selectedIngredientId || !quantity.trim()) return;
+    if (!selectedIngredientId) {
+      alert('Ingredient is required');
+      return;
+    }
+    if (!quantity.trim()) {
+      alert('Ingredient amount is required');
+      return;
+    }
+    const quantityNumber = Number(quantity);
+    if (isNaN(quantityNumber) || quantityNumber < 2 || quantityNumber > 16) {
+      alert('Ingredient amount must be at least 2 and at most 16');
+      return;
+    }
 
     const ingredient = ingredients.find((ing) => ing.id === selectedIngredientId);
     if (!ingredient) return;
@@ -57,20 +74,23 @@ const Ingredients = () => {
       <div className={css.ingredientForm}>
         <div className={css.name}>
           <label className={css.label}>Name</label>
-          <select
-            className={css.field}
-            value={selectedIngredientId}
-            onChange={(e) => setSelectedIngredientId(e.target.value)}
-          >
-            <option value="" disabled>
-              Broccoli
-            </option>
-            {ingredients.map((ing) => (
-              <option key={ing.id} value={ing.id}>
-                {ing.name}
+          <div>
+            <select
+              className={css.field}
+              value={selectedIngredientId}
+              onChange={(e) => setSelectedIngredientId(e.target.value)}
+            >
+              <option value="" disabled>
+                Broccoli
               </option>
-            ))}
-          </select>
+              {ingredients.map((ing) => (
+                <option key={ing.id} value={ing.id}>
+                  {ing.name}
+                </option>
+              ))}
+            </select>
+            <SvgIcon name="open_dropdown" aria-hidden className={css.arrowIcon} />
+          </div>
         </div>
         <div className={css.amount}>
           <label className={css.label}>Amount</label>
@@ -93,24 +113,26 @@ const Ingredients = () => {
       >
         Add new Ingredient
       </Button>
-      <div className={css.addIngredients}>
-        <div className={css.selectedIngredientItem}>
-          <p className={css.selectedIngredientName}>Name:</p>
-          <p className={css.selectedIngredientName}>Amount:</p>
-        </div>
+      {selectedIngredients.length > 0 && (
+        <div className={css.addIngredients}>
+          <div className={css.addIngredientItem}>
+            <p className={css.selectedIngredientName}>Name:</p>
+            <p className={css.selectedIngredientName}>Amount:</p>
+          </div>
 
-        <ul className={css.selectedIngredientsList}>
-          {selectedIngredients.map((ing) => (
-            <li key={ing.id} className={css.selectedIngredientItem}>
-              <span className={css.selectedIngredient}>{ing.name}</span>
-              <span className={css.selectedIngredient}>{ing.quantity}</span>
-              <button className={css.deleteButton} onClick={() => removeIngredient(ing.id)}>
-                <SvgIcon name="basket" aria-hidden />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <ul className={css.selectedIngredientsList}>
+            {selectedIngredients.map((ing) => (
+              <li key={ing.id} className={css.selectedIngredientItem}>
+                <span className={css.selectedIngredient}>{ing.name}</span>
+                <span className={css.selectedIngredientQ}>{ing.quantity}</span>
+                <button className={css.deleteButton} onClick={() => removeIngredient(ing.id)}>
+                  <SvgIcon name="basket" aria-hidden />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

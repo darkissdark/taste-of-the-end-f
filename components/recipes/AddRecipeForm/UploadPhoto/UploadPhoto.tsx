@@ -1,18 +1,22 @@
+'use client';
 import { useState, ChangeEvent, useRef } from 'react';
-import css from './AddRecipeForm.module.css';
+import css from './UploadPhoto.module.css';
 
 const defaultImages = {
   mobile: '/default-image-mobile.jpg',
   tablet: '/default-image-tablet.jpg',
   desktop: '/default-image-desktop.jpg',
 };
-
-const UploadPhoto = () => {
+interface UploadPhotoProps {
+  setFieldValue: (field: string, value: any) => void;
+}
+const UploadPhoto = ({ setFieldValue }: UploadPhotoProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
+    setFieldValue('recipeImg', file);
     if (file) {
       setPreview(URL.createObjectURL(file));
     } else {
@@ -25,7 +29,7 @@ const UploadPhoto = () => {
   };
 
   return (
-    <form>
+    <div>
       <input
         ref={inputRef}
         type="file"
@@ -48,7 +52,7 @@ const UploadPhoto = () => {
           <img src={defaultImages.desktop} alt="default preview" className={css.photo} />
         </picture>
       )}
-    </form>
+    </div>
   );
 };
 
