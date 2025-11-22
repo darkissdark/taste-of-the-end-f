@@ -26,7 +26,10 @@ const SignUpPage = () => {
       if (res) {
         setUser(res);
         actions.resetForm();
-        router.push('/');
+        // не треба це міняти...
+        // треба повне перезавантаження щоб мідлвера
+        // працювала при деплої
+        window.location.href = '/';
       } else {
         setError('Invalid email or password');
       }

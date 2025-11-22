@@ -18,7 +18,6 @@ interface LoginFormValues {
 
 const LoginForm = () => {
   const setUser = useAuthStore((s) => s.setUser);
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues: LoginFormValues = {
@@ -33,11 +32,12 @@ const LoginForm = () => {
     try {
       const user = await login(values);
       setUser(user);
-      router.push('/');
+      // не треба це міняти...
+      // треба повне перезавантаження щоб мідлвера
+      // працювала при деплої
+      window.location.href = '/';
     } catch (err: any) {
-      const message =
-        err?.response?.data?.message ||
-        'Login error. Please check your credentials.';
+      const message = err?.response?.data?.message || 'Login error. Please check your credentials.';
 
       import('izitoast').then((iziToast) => {
         iziToast.default.error({
@@ -50,7 +50,6 @@ const LoginForm = () => {
       setSubmitting(false);
     }
   };
-
 
   return (
     <section className={styles.page}>
