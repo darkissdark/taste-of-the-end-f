@@ -8,6 +8,7 @@ import { Logo } from '@/components/ui/Logo/Logo';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import useAuthStore from '@/lib/store/authStore';
 import { LogoutDialog } from '@/components/layout/LogoutDialog/LogoutDialog';
+import { useAuthDialogStore } from '@/lib/store/authDialogStore';
 
 type HeaderClientProps = {
   isAuthenticated: boolean;
@@ -18,6 +19,9 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
   const [open, setOpen] = useState(false);
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   const pathname = usePathname();
+
+  const isAuthDialogOpen = useAuthDialogStore((state) => state.isOpen);
+  const hasOpenDialog = isAuthDialogOpen || isLogoutDialogOpen;
 
   const storeUser = useAuthStore((state) => state.user);
   const storeIsAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -143,7 +147,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
 
   return (
     <>
-      <header className={styles.header}>
+      <header className={`${styles.header} ${hasOpenDialog ? styles.headerDialogOpen : ''}`}>
         <div className={styles.inner}>
           <div className={styles.logo}>
             <Logo />
