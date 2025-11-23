@@ -22,19 +22,11 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
     setRecipes(data.recipes);
   }, [data]);
 
-  const handleUnlike = (recipeId: string) => {
-    // це тимчасове рішення треба інвалідувати апі щоб перезатягнути дані
-    // потрібло лише для сторінки улюблених рецептів
-    // закоментував бо при видаленні рецепта з обраного на головній
-    // він теж зникає з видачі
-    // якщо по іншому не вийде то треба пропс який буде це запускати
-    //лише у обраному
-    // setRecipes((prev) => prev.filter((r) => r._id !== recipeId));
-  };
+  const handleUnlike = (recipeId: string) => {};
 
   return (
     <>
-      <p className={css.recTotal}>{recipes.length} recipes</p>
+      <p className={css.recTotal}>{data.total} recipes found</p>
       <ul className={css.list}>
         {recipes.map((recipe) => {
           const isFavorite = favorites.includes(recipe._id);

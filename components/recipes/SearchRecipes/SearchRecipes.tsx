@@ -1,8 +1,8 @@
 'use client';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { fetchRecipes } from '@/lib/api/clientApi';
+import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect, useRef } from 'react';
+import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
 import Filters from '@/components/recipes/Filters/Filters';
@@ -17,11 +17,18 @@ interface FiltersState {
   ingredient: string;
 }
 
+interface InitialFilters {
+  search?: string;
+  category?: string;
+  ingredient?: string;
+}
+
 interface SearchRecipesProps {
   favorites: string[];
   categories: string[];
   ingredients: Ingredient[];
   initialPage?: number;
+  initialFilters?: InitialFilters;
 }
 
 export default function SearchRecipes({
@@ -29,25 +36,41 @@ export default function SearchRecipes({
   categories,
   ingredients,
   initialPage = 1,
+  initialFilters,
 }: SearchRecipesProps) {
   const [filters, setFilters] = useState<FiltersState>({
-    search: '',
-    category: '',
-    ingredient: '',
+    search: initialFilters?.search || '',
+    category: initialFilters?.category || '',
+    ingredient: initialFilters?.ingredient || '',
   });
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery<RecipesRes>({
     queryKey: ['recipes', filters.search, filters.category, filters.ingredient, currentPage],
     queryFn: async () =>
-      await fetchRecipes({
+      fetchRecipes({
         search: filters.search,
         category: filters.category,
         ingredient: filters.ingredient,
         page: currentPage,
       }),
-    // keepPreviousData: true,
   });
+
+  const router = require('next/navigation').useRouter();
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
+    const params = new URLSearchParams();
+    if (filters.search) params.set('search', filters.search);
+    if (filters.category) params.set('category', filters.category);
+    if (filters.ingredient) params.set('ingredient', filters.ingredient);
+    if (currentPage > 1) params.set('page', String(currentPage));
+    const qs = params.toString();
+    router.replace(qs ? `?${qs}` : '?', { scroll: false });
+  }, [filters.search, filters.category, filters.ingredient, currentPage, router]);
 
   const handleReset = () => {
     setFilters({ search: '', category: '', ingredient: '' });
@@ -110,14 +133,15 @@ export default function SearchRecipes({
           selectedCategory={filters.category}
           selectedIngredient={filters.ingredient}
         />
-
-        <button onClick={handleReset} style={{ margin: '10px 0' }}>
+        <button onClick={handleReset} style={{ margin: '10px 0' }} aria-label="Reset filters">
           Reset
         </button>
       </section>
 
       {isLoading && <p>Loading...</p>}
-      {data && <RecipesListClient data={data} favorites={favorites} />}
+      {isError && <p role="alert">Error loading recipes</p>}
+      {data && data.recipes.length === 0 && !isLoading && !isError && <p>No recipes found.</p>}
+      {data && data.recipes.length > 0 && <RecipesListClient data={data} favorites={favorites} />}
 
       {data && data.totalPages > 1 && (
         <Pagination
