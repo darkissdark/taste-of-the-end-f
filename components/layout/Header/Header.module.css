@@ -61,6 +61,16 @@
   transition: var(--transition-default);
 }
 
+.link:hover,
+.link:focus-visible {
+  color: var(--nav-link-hover-color);
+}
+
+.link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
 .linkOutlined {
   display: flex;
   justify-content: center;
@@ -69,6 +79,24 @@
   padding: 12px 16px;
   background-color: var(--light-brown);
   height: 44px;
+  transition: var(--transition-default);
+  border: 1px solid transparent;
+}
+
+.linkOutlined:hover,
+.linkOutlined:focus-visible {
+  background: var(--brown);
+  transform: translateY(-1px);
+}
+
+.linkOutlined:active {
+  background-color: transparent;
+  border-color: var(--white);
+}
+
+.linkOutlined:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .linkActive {
@@ -116,6 +144,20 @@
   cursor: pointer;
   border-left: 1px solid var(--white);
   padding-left: 16px;
+}
+
+.logoutButton svg {
+  transition: var(--transition-default);
+}
+
+.logoutButton:hover svg,
+.logoutButton:focus-visible svg {
+  transform: scale(var(--icon-hover-scale)) rotate(var(--icon-hover-rotate));
+}
+
+.logoutButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .navWrap {
@@ -273,6 +315,20 @@
   stroke: var(--white);
   fill: transparent;
   cursor: pointer;
+}
+
+.mobileClose svg {
+  transition: var(--transition-default);
+}
+
+.mobileClose:hover svg,
+.mobileClose:focus-visible svg {
+  transform: scale(var(--icon-hover-scale)) rotate(var(--icon-hover-rotate));
+}
+
+.mobileClose:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .mobileNav,

@@ -5,6 +5,7 @@
   display: grid;
   place-items: center;
   z-index: 100;
+  animation: auth-dialog-backdrop-fade-in var(--animation-duration-modal) var(--animation-ease-soft);
 }
 
 .panel {
@@ -17,6 +18,36 @@
   background: var(--light-beige);
   border-radius: 32px;
   padding: 56px 32px;
+  animation: auth-dialog-panel-pop-in var(--animation-duration-modal) var(--animation-ease-soft);
+}
+
+@keyframes auth-dialog-backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes auth-dialog-panel-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel {
+    animation: none;
+  }
 }
 
 @media (max-width: 393px) {
@@ -57,7 +88,26 @@
   position: absolute;
   top: 16px;
   right: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   background: transparent;
   cursor: pointer;
   stroke: var(--black);
+}
+
+.close svg {
+  transition: var(--transition-default);
+}
+
+.close:hover svg,
+.close:focus-visible svg {
+  transform: scale(var(--icon-hover-scale)) rotate(var(--icon-hover-rotate));
+}
+
+.close:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }

@@ -36,8 +36,25 @@
 
   --backdrop-overlay: rgba(0, 0, 0, 0.6);
 
+  /* Focus ring */
+  --focus-ring-width: 3px;
+  --focus-ring-color: var(--button);
+  --focus-ring-offset: 2px;
+
+  /* Hover color for nav links */
+  --nav-link-hover-color: var(--white-80);
+
+  /* Icon hover animation */
+  --icon-hover-scale: 1.05;
+  --icon-hover-rotate: -6deg;
+
+  /* Transition & Animation */
   --transition-default: background-color 200ms ease, box-shadow 150ms ease, transform 120ms ease,
-    opacity 150ms ease, border-color 200ms ease;
+    opacity 150ms ease, border-color 200ms ease, color 150ms ease;
+
+  --animation-duration-page: 320ms;
+  --animation-duration-modal: 260ms;
+  --animation-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Fonts custom propertie */
   --font-family-base: var(
