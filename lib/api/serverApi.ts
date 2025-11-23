@@ -1,13 +1,21 @@
 import { cookies } from 'next/headers';
-import { api } from './api';
+import axios from 'axios';
 import type { User } from '@/types/user';
 import type { Ingredient, Recipe } from '@/types/recipe';
 import type { RecipesRes } from './clientApi';
 
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL || 'https://taste-of-the-end-b.onrender.com';
+
+const serverApi = axios.create({
+  baseURL: BACKEND_URL,
+  withCredentials: true,
+});
+
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
 
-  return api.post('/auth/refresh', null, {
+  return serverApi.post('/auth/refresh', null, {
     headers: { Cookie: cookieStore.toString() },
   });
 };
@@ -15,7 +23,7 @@ export const checkServerSession = async () => {
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
 
-  const { data } = await api.get('/users/me', {
+  const { data } = await serverApi.get('/users/me', {
     headers: { Cookie: cookieStore.toString() },
   });
 
@@ -33,7 +41,7 @@ type GetRecipesParams = {
 export const getServerRecipes = async (params: GetRecipesParams = {}): Promise<RecipesRes> => {
   const cookieStore = await cookies();
 
-  const { data } = await api.get<RecipesRes>('/recipes', {
+  const { data } = await serverApi.get<RecipesRes>('/recipes', {
     params,
     headers: {
       Cookie: cookieStore.toString(),
@@ -45,7 +53,7 @@ export const getServerRecipes = async (params: GetRecipesParams = {}): Promise<R
 
 export const getServerFavoriteRecipes = async (): Promise<RecipesRes> => {
   const cookieStore = await cookies();
-  const { data } = await api.get(`/recipes/favorites`, {
+  const { data } = await serverApi.get(`/recipes/favorites`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -55,7 +63,7 @@ export const getServerFavoriteRecipes = async (): Promise<RecipesRes> => {
 
 export const getServerOwnRecipes = async (): Promise<RecipesRes> => {
   const cookieStore = await cookies();
-  const { data } = await api.get(`/recipes/personal`, {
+  const { data } = await serverApi.get(`/recipes/personal`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -66,7 +74,7 @@ export const getServerOwnRecipes = async (): Promise<RecipesRes> => {
 export const getRecipeById = async (recipeId: string): Promise<Recipe | null> => {
   const cookieStore = await cookies();
   try {
-    const { data } = await api.get<Recipe>(`/recipes/${recipeId}`, {
+    const { data } = await serverApi.get<Recipe>(`/recipes/${recipeId}`, {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -82,7 +90,7 @@ export const getRecipeById = async (recipeId: string): Promise<Recipe | null> =>
 
 export const getServerCategories = async () => {
   const cookieStore = await cookies();
-  const { data } = await api.get<string[]>(`/categories`, {
+  const { data } = await serverApi.get<string[]>(`/categories`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -92,7 +100,7 @@ export const getServerCategories = async () => {
 };
 export const getServerIngredients = async () => {
   const cookieStore = await cookies();
-  const { data } = await api.get<Ingredient[]>(`/ingredients`, {
+  const { data } = await serverApi.get<Ingredient[]>(`/ingredients`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
