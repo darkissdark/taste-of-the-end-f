@@ -4,8 +4,7 @@ import css from './Ingredients.module.css';
 import { fetchIngredients, type IngredientDto } from '@/lib/api/clientApi';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
 
 interface Ingredient {
   id: string;
@@ -140,7 +139,6 @@ const Ingredients: React.FC<IngredientsProps> = ({
           </ul>
         </div>
       )}
-      <ToastContainer />
     </div>
   );
 };

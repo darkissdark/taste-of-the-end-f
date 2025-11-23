@@ -10,8 +10,7 @@ import UploadPhoto from './UploadPhoto/UploadPhoto';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import { useRouter } from 'next/navigation';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
 
 interface AddRecipeFormValues {
   title: string;
@@ -307,7 +306,6 @@ const AddRecipeForm = () => {
           </Form>
         )}
       </Formik>
-      <ToastContainer />
     </div>
   );
 };

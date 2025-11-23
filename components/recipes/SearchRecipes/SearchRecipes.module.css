@@ -23,16 +23,23 @@
   object-fit: cover;
   object-position: center;
   z-index: -1;
+  width: 393px;
+  height: 513px;
 }
 
 .heroTitle {
   position: relative;
   z-index: 2;
   font-size: clamp(32px, 8vw, 56px);
-  font-weight: 700;
   line-height: 1.2;
-  margin: 0 0 24px 0;
   max-width: 500px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  color: var(--white);
+  margin-top: 128px;
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 40px;
 }
 
 .searchBox {
@@ -67,29 +74,6 @@
   justify-content: center;
 }
 
-/* 393px+ */
-@media (min-width: 393px) {
-  .container {
-    padding: 0 24px;
-  }
-
-  .filters {
-    padding: 28px 24px;
-  }
-
-  .recipes {
-    padding: 36px 24px;
-  }
-
-  .pagination {
-    padding: 0 24px 56px;
-  }
-
-  .heroTitle {
-    font-size: 40px;
-  }
-}
-
 /* 768px+ Tablet */
 @media (min-width: 768px) {
   .hero {
@@ -99,6 +83,11 @@
   .container {
     max-width: 1440px;
     padding: 0 32px;
+  }
+
+  .heroImage {
+    width: 768px;
+    height: 443px;
   }
 
   .heroTitle {
@@ -122,17 +111,23 @@
 
 /* 1440px+ Desktop */
 @media (min-width: 1440px) {
-  .hero {
-    height: 550px;
-  }
-
   .container {
     padding: 0 100px;
   }
 
+  .heroImage {
+    height: 443px;
+    width: 100%;
+  }
+
   .heroTitle {
-    font-size: 56px;
-    max-width: 700px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 48px;
+    color: var(--white);
+    margin-top: 128px;
+    margin-bottom: 24px;
+    width: 500px;
   }
 
   .filters {
@@ -141,9 +136,5 @@
 
   .recipes {
     padding: 56px 100px;
-  }
-
-  .pagination {
-    padding: 0 100px 72px;
   }
 }

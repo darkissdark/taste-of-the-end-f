@@ -2,54 +2,40 @@
 import css from './SearchBox.module.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useEffect } from 'react';
 
 const validationSchema = Yup.object({
-  search: Yup.string().min(2, 'Мінімум 2 символи').optional(),
+  search: Yup.string().min(2, 'Мінімум 2 символи'),
 });
 
 export function SearchBox({ onSearch, value }: { onSearch: (v: string) => void; value: string }) {
   const formik = useFormik({
-    initialValues: { search: value || '' },
-    enableReinitialize: false,
+    initialValues: { search: value },
     validationSchema,
     onSubmit(values) {
       onSearch(values.search.trim());
     },
   });
 
-  useEffect(() => {
-    if (value !== formik.values.search) {
-      formik.setFieldValue('search', value);
-    }
-  }, [value, formik]);
-
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className={css.form}
-      role="search"
-      aria-label="Recipe search form"
-    >
-      <label htmlFor="search" className={css.label}>
-        Search
-      </label>
+    <form onSubmit={formik.handleSubmit} className={css.searchForm}>
       <input
-        id="search"
         type="text"
         name="search"
         value={formik.values.search}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         placeholder="Search recipes..."
-        aria-invalid={formik.touched.search && !!formik.errors.search}
-        aria-describedby={formik.errors.search ? 'search-error' : undefined}
+        className={`${css.searchInput} ${
+          formik.touched.search && formik.errors.search ? css.inputError : ''
+        }`}
       />
-      <button type="submit">Search</button>
+
+      <button type="submit" className={css.searchButton}>
+        Search
+      </button>
+
       {formik.touched.search && formik.errors.search && (
-        <div id="search-error" role="alert">
-          {formik.errors.search}
-        </div>
+        <div className={css.errorMessage}>{formik.errors.search}</div>
       )}
     </form>
   );

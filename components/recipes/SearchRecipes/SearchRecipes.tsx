@@ -1,7 +1,7 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect, useRef } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
@@ -38,6 +38,7 @@ export default function SearchRecipes({
   initialPage = 1,
   initialFilters,
 }: SearchRecipesProps) {
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<FiltersState>({
     search: initialFilters?.search || '',
     category: initialFilters?.category || '',
@@ -48,29 +49,13 @@ export default function SearchRecipes({
   const { data, isLoading, isError } = useQuery<RecipesRes>({
     queryKey: ['recipes', filters.search, filters.category, filters.ingredient, currentPage],
     queryFn: async () =>
-      fetchRecipes({
+      await fetchRecipes({
         search: filters.search,
         category: filters.category,
         ingredient: filters.ingredient,
         page: currentPage,
       }),
   });
-
-  const router = require('next/navigation').useRouter();
-  const mountedRef = useRef(false);
-  useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-    const params = new URLSearchParams();
-    if (filters.search) params.set('search', filters.search);
-    if (filters.category) params.set('category', filters.category);
-    if (filters.ingredient) params.set('ingredient', filters.ingredient);
-    if (currentPage > 1) params.set('page', String(currentPage));
-    const qs = params.toString();
-    router.replace(qs ? `?${qs}` : '?', { scroll: false });
-  }, [filters.search, filters.category, filters.ingredient, currentPage, router]);
 
   const handleReset = () => {
     setFilters({ search: '', category: '', ingredient: '' });
@@ -79,6 +64,7 @@ export default function SearchRecipes({
 
   return (
     <>
+      {/* Hero */}
       <div className={styles.mainPage}>
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
@@ -122,6 +108,7 @@ export default function SearchRecipes({
         </section>
       </div>
 
+      {/* Filters */}
       <section>
         <h2 className={styles.sectionTitle}>Recipes</h2>
         <Filters
@@ -137,18 +124,20 @@ export default function SearchRecipes({
         />
       </section>
 
+      {/* Recipes */}
       {isLoading && <p>Loading...</p>}
       {isError && <p role="alert">Error loading recipes</p>}
       {data && data.recipes.length === 0 && !isLoading && !isError && <p>No recipes found.</p>}
       {data && data.recipes.length > 0 && <RecipesListClient data={data} favorites={favorites} />}
 
-      {data && data.totalPages > 1 && (
-        <Pagination
-          totalPages={data.totalPages}
-          currentPage={currentPage}
-          onPageChange={(selected) => setCurrentPage(selected.selected + 1)}
-        />
-      )}
+      {/* Pagination */}
+     {data && data.totalPages > 1 && (
+  <Pagination
+    pageCount={data.totalPages}
+    currentPage={currentPage}
+    onPageChange={(e) => setCurrentPage(e.selected + 1)}
+  />
+)}
     </>
   );
 }
