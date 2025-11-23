@@ -35,7 +35,7 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
             <li key={recipe._id} className={css.listItem}>
               <Image
                 src={recipe.thumb}
-                alt={recipe.description}
+                alt={recipe.description || 'recipe image'}
                 width={264}
                 height={178}
                 className={css.image}
