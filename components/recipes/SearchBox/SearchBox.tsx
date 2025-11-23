@@ -9,7 +9,7 @@ const validationSchema = Yup.object({
 
 export function SearchBox({ onSearch, value }: { onSearch: (v: string) => void; value: string }) {
   const formik = useFormik({
-    initialValues: { search: '' },
+    initialValues: { search: value },
     validationSchema,
     onSubmit(values) {
       onSearch(values.search.trim());
@@ -17,7 +17,7 @@ export function SearchBox({ onSearch, value }: { onSearch: (v: string) => void; 
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className={css.form}>
+    <form onSubmit={formik.handleSubmit} className={css.searchForm}>
       <input
         type="text"
         name="search"
@@ -25,11 +25,18 @@ export function SearchBox({ onSearch, value }: { onSearch: (v: string) => void; 
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         placeholder="Search recipes..."
+        className={`${css.searchInput} ${
+          formik.touched.search && formik.errors.search ? css.inputError : ''
+        }`}
       />
 
-      <button type="submit">Search</button>
+      <button type="submit" className={css.searchButton}>
+        Search
+      </button>
 
-      {formik.touched.search && formik.errors.search && <div>{formik.errors.search}</div>}
+      {formik.touched.search && formik.errors.search && (
+        <div className={css.errorMessage}>{formik.errors.search}</div>
+      )}
     </form>
   );
 }

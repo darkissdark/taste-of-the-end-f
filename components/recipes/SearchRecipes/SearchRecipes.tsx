@@ -30,6 +30,7 @@ export default function SearchRecipes({
   ingredients,
   initialPage = 1,
 }: SearchRecipesProps) {
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<FiltersState>({
     search: '',
     category: '',
@@ -46,7 +47,6 @@ export default function SearchRecipes({
         ingredient: filters.ingredient,
         page: currentPage,
       }),
-    // keepPreviousData: true,
   });
 
   const handleReset = () => {
@@ -56,6 +56,7 @@ export default function SearchRecipes({
 
   return (
     <>
+      {/* Hero */}
       <div className={styles.mainPage}>
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
@@ -99,6 +100,7 @@ export default function SearchRecipes({
         </section>
       </div>
 
+      {/* Filters */}
       <section>
         <Filters
           categories={categories}
@@ -111,21 +113,24 @@ export default function SearchRecipes({
           selectedIngredient={filters.ingredient}
         />
 
+        {/* Reset */}
         <button onClick={handleReset} style={{ margin: '10px 0' }}>
           Reset
         </button>
       </section>
 
+      {/* Recipes */}
       {isLoading && <p>Loading...</p>}
       {data && <RecipesListClient data={data} favorites={favorites} />}
 
-      {data && data.totalPages > 1 && (
-        <Pagination
-          totalPages={data.totalPages}
-          currentPage={currentPage}
-          onPageChange={(selected) => setCurrentPage(selected.selected + 1)}
-        />
-      )}
+      {/* Pagination */}
+     {data && data.totalPages > 1 && (
+  <Pagination
+    pageCount={data.totalPages}
+    currentPage={currentPage}
+    onPageChange={(e) => setCurrentPage(e.selected + 1)}
+  />
+)}
     </>
   );
 }
