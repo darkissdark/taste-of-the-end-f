@@ -13,7 +13,7 @@ interface DesktopFiltersProps {
   openIngr: boolean;
   setOpenCats: (v: boolean) => void;
   setOpenIngr: (v: boolean) => void;
-  onChange: (filters: { category?: string; ingredient?: string }) => void;
+  onChange: (filters: { category?: string; ingredient?: string; search?: string }) => void;
 }
 
 export function DesktopFilters({
@@ -36,7 +36,7 @@ export function DesktopFilters({
         type="button"
         className={css.resetDesktop}
         onClick={() => {
-          onChange({ category: '', ingredient: '' });
+          onChange({ category: '', ingredient: '', search: '' });
           setOpenCats(false);
           setOpenIngr(false);
         }}

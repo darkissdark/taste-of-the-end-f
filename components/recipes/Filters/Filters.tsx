@@ -7,7 +7,7 @@ import { DesktopFilters } from './DesktopFilters';
 import { MobileFiltersForm } from './MobileFiltersForm';
 
 interface FiltersProps {
-  onChange: (filters: { category?: string; ingredient?: string }) => void;
+  onChange: (filters: { category?: string; ingredient?: string; search?: string }) => void;
   categories: string[];
   ingredients: Ingredient[];
   selectedCategory?: string;

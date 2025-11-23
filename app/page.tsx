@@ -9,7 +9,7 @@ export const generateMetadata = (): Metadata =>
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const [categories, ingredients] = await Promise.all([
     getServerCategories(),
@@ -22,16 +22,11 @@ export default async function Page({
     favorites = me.favorites ?? [];
   } catch {}
 
-  const pageRaw = Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page;
-  const searchRaw = Array.isArray(searchParams.search)
-    ? searchParams.search[0]
-    : searchParams.search;
-  const categoryRaw = Array.isArray(searchParams.category)
-    ? searchParams.category[0]
-    : searchParams.category;
-  const ingredientRaw = Array.isArray(searchParams.ingredient)
-    ? searchParams.ingredient[0]
-    : searchParams.ingredient;
+  const params = await searchParams;
+  const pageRaw = Array.isArray(params.page) ? params.page[0] : params.page;
+  const searchRaw = Array.isArray(params.search) ? params.search[0] : params.search;
+  const categoryRaw = Array.isArray(params.category) ? params.category[0] : params.category;
+  const ingredientRaw = Array.isArray(params.ingredient) ? params.ingredient[0] : params.ingredient;
 
   const initialPage = Number(pageRaw) || 1;
   const initialFilters = {

@@ -13,7 +13,7 @@ interface MobileFiltersFormProps {
   ingredients: Ingredient[];
   selectedCategory: string;
   selectedIngredient: string;
-  onChange: (filters: { category?: string; ingredient?: string }) => void;
+  onChange: (filters: { category?: string; ingredient?: string; search?: string }) => void;
 }
 
 export function MobileFiltersForm({
@@ -65,7 +65,7 @@ export function MobileFiltersForm({
           type="button"
           className={css.reset}
           onClick={() => {
-            onChange({ category: '', ingredient: '' });
+            onChange({ category: '', ingredient: '', search: '' });
           }}
         >
           Reset filters
