@@ -16,7 +16,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
       pageRangeDisplayed={5}
       marginPagesDisplayed={1}
       onPageChange={onPageChange}
-      forcePage={currentPage - 1} 
+      forcePage={currentPage - 1}
       containerClassName={css.pagination}
       activeClassName={css.active}
       nextLabel="→"

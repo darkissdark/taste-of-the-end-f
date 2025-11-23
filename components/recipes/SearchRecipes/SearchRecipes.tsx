@@ -123,6 +123,7 @@ export default function SearchRecipes({
       </div>
 
       <section>
+        <h2 className={styles.sectionTitle}>Recipes</h2>
         <Filters
           categories={categories}
           ingredients={ingredients}
@@ -132,10 +133,8 @@ export default function SearchRecipes({
           }}
           selectedCategory={filters.category}
           selectedIngredient={filters.ingredient}
+          total={data?.total || 0}
         />
-        <button onClick={handleReset} style={{ margin: '10px 0' }} aria-label="Reset filters">
-          Reset
-        </button>
       </section>
 
       {isLoading && <p>Loading...</p>}

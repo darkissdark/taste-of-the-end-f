@@ -26,7 +26,6 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
 
   return (
     <>
-      <p className={css.recTotal}>{data.total} recipes found</p>
       <ul className={css.list}>
         {recipes.map((recipe) => {
           const isFavorite = favorites.includes(recipe._id);
