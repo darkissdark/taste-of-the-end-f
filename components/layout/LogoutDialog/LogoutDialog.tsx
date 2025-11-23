@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, type FormEvent } from 'react';
+import { useEffect, useRef, type FormEvent } from 'react';
 import styles from './LogoutDialog.module.css';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
@@ -17,6 +17,17 @@ type LogoutDialogProps = {
 export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
   const router = useRouter();
   const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated);
+  const primaryActionRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const timer = window.setTimeout(() => {
+      primaryActionRef.current?.focus();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -70,7 +81,12 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
         <div className={styles.actionsWrapper}>
           <div className={styles.actionsColumn}>
             <form className={styles.actions} onSubmit={handleLogout}>
-              <Button type="submit" variant="white" className={styles.actionButton}>
+              <Button
+                ref={primaryActionRef}
+                type="submit"
+                variant="white"
+                className={styles.actionButton}
+              >
                 Log out
               </Button>
             </form>

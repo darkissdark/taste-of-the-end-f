@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import styles from './AuthDialog.module.css';
 import Button from '@/components/buttons/Buttons';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type Props = {
   open: boolean;
@@ -13,6 +13,17 @@ type Props = {
 
 export function AuthDialog({ open, onClose }: Props) {
   const router = useRouter();
+  const primaryActionRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const timer = window.setTimeout(() => {
+      primaryActionRef.current?.focus();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -55,6 +66,7 @@ export function AuthDialog({ open, onClose }: Props) {
 
         <div className={styles.actions}>
           <Button
+            ref={primaryActionRef}
             type="button"
             variant="white"
             size="md"
@@ -67,7 +79,6 @@ export function AuthDialog({ open, onClose }: Props) {
           <Button
             type="button"
             variant="brown"
-            size="md"
             className={styles.actionButtonSecondary}
             onClick={handleSignUp}
           >

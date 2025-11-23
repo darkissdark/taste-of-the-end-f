@@ -12,38 +12,39 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-export default function Button({
-  children,
-  variant = 'brown',
-  size = 'md',
-  iconLeft,
-  iconRight,
-  className = '',
-  ...rest
-}: ButtonProps) {
-  // Map variant to CSS class
-  const variantClass =
-    variant === 'brown' ? css.btnBrown : variant === 'white' ? css.btnWhite : css.btnTransparent;
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    { children, variant = 'brown', size = 'md', iconLeft, iconRight, className = '', ...rest },
+    ref
+  ) => {
+    const variantClass =
+      variant === 'brown' ? css.btnBrown : variant === 'white' ? css.btnWhite : css.btnTransparent;
 
-  // Map size to CSS class
-  const sizeClass =
-    size === 'sm' ? css.btnSm : size === 'md' ? css.btnMd : size === 'lg' ? css.btnLg : css.btnXl;
+    const realSize: Size | null = variant === 'transparent' ? null : size;
 
-  const realSize = variant === 'transparent' ? null : size;
+    const sizeClass =
+      realSize === 'sm'
+        ? css.btnSm
+        : realSize === 'md'
+        ? css.btnMd
+        : realSize === 'lg'
+        ? css.btnLg
+        : realSize === 'xl'
+        ? css.btnXl
+        : '';
 
-  const classes = `
-  ${css.btn}
-  ${css[variant]}
-  ${realSize ? css[realSize] : ''}
-`;
+    const buttonClasses = [css.btn, variantClass, sizeClass, className].filter(Boolean).join(' ');
 
-  const buttonClasses = [css.btn, variantClass, sizeClass, className].filter(Boolean).join(' ');
+    return (
+      <button ref={ref} className={buttonClasses} {...rest}>
+        {iconLeft && <span className={css.iconLeft}>{iconLeft}</span>}
+        <span className={css.buttonText}>{children}</span>
+        {iconRight && <span className={css.iconRight}>{iconRight}</span>}
+      </button>
+    );
+  }
+);
 
-  return (
-    <button className={buttonClasses} {...rest}>
-      {iconLeft && <span className={css.iconLeft}>{iconLeft}</span>}
-      <span className={css.buttonText}>{children}</span>
-      {iconRight && <span className={css.iconRight}>{iconRight}</span>}
-    </button>
-  );
-}
+Button.displayName = 'Button';
+
+export default Button;

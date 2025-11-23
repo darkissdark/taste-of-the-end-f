@@ -7,6 +7,14 @@
   width: 165px;
   height: 46px;
   gap: 5px;
+  transition: transform var(--animation-duration-modal) var(--animation-ease-soft),
+    opacity var(--animation-duration-modal) var(--animation-ease-soft);
+}
+
+.logo:hover,
+.logo:focus-visible {
+  transform: translateY(-1px) scale(1.02);
+  opacity: 0.96;
 }
 
 .wordmark {
