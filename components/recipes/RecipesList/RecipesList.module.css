@@ -9,14 +9,13 @@
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  gap: 24px;
   width: 100%;
   max-width: 1225px;
 }
 .listItem {
   width: 288px;
   border-radius: 16px;
-  padding: 12px;
+  margin-bottom: 24px;
   background-color: var(--light-beige);
 }
 .image {
@@ -89,4 +88,10 @@
 .buttonsWrapper {
   display: flex;
   gap: 8px;
+}
+
+@media (min-width: 1440px) {
+  .list {
+    gap: 24px;
+  }
 }
