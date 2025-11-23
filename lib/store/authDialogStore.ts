@@ -2,12 +2,18 @@ import { create } from 'zustand';
 
 type AuthDialogState = {
   isOpen: boolean;
-  open: () => void;
+  lastTrigger: HTMLElement | null;
+  open: (trigger?: HTMLElement | null) => void;
   close: () => void;
 };
 
 export const useAuthDialogStore = create<AuthDialogState>((set) => ({
   isOpen: false,
-  open: () => set({ isOpen: true }),
+  lastTrigger: null,
+  open: (trigger) =>
+    set({
+      isOpen: true,
+      lastTrigger: trigger ?? null,
+    }),
   close: () => set({ isOpen: false }),
 }));

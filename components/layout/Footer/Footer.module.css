@@ -37,6 +37,7 @@
   color: inherit;
   background-color: inherit;
   font: var(--font-600-16);
+  transition: var(--transition-default);
 }
 
 @media (max-width: 767px) {

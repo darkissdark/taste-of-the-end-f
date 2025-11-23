@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
@@ -19,6 +19,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
   const [open, setOpen] = useState(false);
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   const pathname = usePathname();
+  const logoutButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const isAuthDialogOpen = useAuthDialogStore((state) => state.isOpen);
   const hasOpenDialog = isAuthDialogOpen || isLogoutDialogOpen;
@@ -130,16 +131,17 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
 
         <div className={styles.buttonWrapper}>
           <button
+            ref={logoutButtonRef}
             className={`${styles.link} ${styles.logoutButton}`}
             type="button"
-            aria-label="Sign out"
+            aria-label="Log out"
             onClick={() => {
               setOpen(false);
               setIsLogoutDialogOpen(true);
             }}
           >
             <SvgIcon name="logout" aria-hidden />
-            <span className="visually-hidden">Sign out</span>
+            <span className="visually-hidden">Log out</span>
           </button>
         </div>
       </div>
@@ -236,7 +238,13 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
           </div>
         </div>
       </header>
-      <LogoutDialog open={isLogoutDialogOpen} onClose={() => setIsLogoutDialogOpen(false)} />
+      <LogoutDialog
+        open={isLogoutDialogOpen}
+        onClose={() => {
+          setIsLogoutDialogOpen(false);
+          logoutButtonRef.current?.focus();
+        }}
+      />
     </>
   );
 }

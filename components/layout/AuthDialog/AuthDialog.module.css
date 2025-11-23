@@ -48,7 +48,8 @@
   height: 36px;
 }
 
-.actions .actionButton {
+.panel .actions .actionButton {
+  background-color: transparent;
   border: 1px solid var(--black);
 }
 

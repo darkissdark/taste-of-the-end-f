@@ -20,7 +20,7 @@ export function Footer() {
   const handleProfileClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!isAuthenticated) {
       e.preventDefault();
-      openAuthDialog();
+      openAuthDialog(e.currentTarget);
     }
   };
 

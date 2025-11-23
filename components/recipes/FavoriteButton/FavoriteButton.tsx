@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { addToFavorites, removeFromFavorites } from '@/lib/api/clientApi';
 import { useAuthDialogStore } from '@/lib/store/authDialogStore';
 import useAuthStore from '@/lib/store/authStore';
@@ -24,11 +24,11 @@ export default function FavoriteButton({
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const openAuthDialog = useAuthDialogStore((s) => s.open);
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = async (event: MouseEvent<HTMLButtonElement>) => {
     if (loading) return;
 
     if (!isAuthenticated) {
-      openAuthDialog();
+      openAuthDialog(event.currentTarget);
       return;
     }
 
