@@ -5,9 +5,11 @@ import { useState } from 'react';
 import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
+import RecipeNotFound from '@/components/recipes/RecipeNotFound/RecipeNotFound';
 import Filters from '@/components/recipes/Filters/Filters';
 import Pagination from '@/components/recipes/Pagination/Pagination';
 import { Ingredient } from '@/types/recipe';
+import PanLoader from '@/components/ui/loaders/PanLoader';
 // import Image from 'next/image';
 import styles from './SearchRecipes.module.css';
 import Container from '@/components/layout/Container/Container';
@@ -128,12 +130,16 @@ export default function SearchRecipes({
         </section>
 
         {/* Recipes */}
-        {isLoading && <p>Loading...</p>}
+        {isLoading && (
+          <div className={styles.recipesLoader} aria-busy="true" aria-live="polite">
+            <PanLoader size="large" />
+          </div>
+        )}
         {isError && <p role="alert">Error loading recipes</p>}
-        {data && data.recipes.length === 0 && !isLoading && !isError && <p>No recipes found.</p>}
+        {data && data.recipes.length === 0 && !isLoading && !isError && <RecipeNotFound />}
         {data && data.recipes.length > 0 && (
-        <RecipesListClient data={data} favorites={favorites} variant="home" />
-      )}
+          <RecipesListClient data={data} favorites={favorites} variant="home" />
+        )}
 
         {/* Pagination */}
         {data && data.totalPages > 1 && (

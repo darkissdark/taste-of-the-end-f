@@ -16,7 +16,7 @@ interface FilterDropdownProps {
   onToggle: () => void;
   onSelect: (value: string) => void;
   listAriaLabel: string;
-  wrapperClassName?: string; // e.g. desktopCategory / desktopIngredient / dropdownWrap
+  wrapperClassName?: string; 
 }
 
 export function FilterDropdown({
@@ -41,7 +41,12 @@ export function FilterDropdown({
         <span className={selected ? css['dropdownButtonValue--selected'] : undefined}>
           {selected || label}
         </span>
-        <svg className={css.selectArrowInline} width={16} height={16} aria-hidden>
+        <svg
+          className={`${css.selectArrowInline} ${isOpen ? css.selectArrowInlineOpen : ''}`}
+          width={16}
+          height={16}
+          aria-hidden
+        >
           <use
             href="/svg-filter/icons.svg#icon-arrow"
             fill="none"
