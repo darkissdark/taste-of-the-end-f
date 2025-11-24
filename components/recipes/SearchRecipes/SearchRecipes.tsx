@@ -131,7 +131,9 @@ export default function SearchRecipes({
         {isLoading && <p>Loading...</p>}
         {isError && <p role="alert">Error loading recipes</p>}
         {data && data.recipes.length === 0 && !isLoading && !isError && <p>No recipes found.</p>}
-        {data && data.recipes.length > 0 && <RecipesListClient data={data} favorites={favorites} />}
+        {data && data.recipes.length > 0 && (
+        <RecipesListClient data={data} favorites={favorites} variant="home" />
+      )}
 
         {/* Pagination */}
         {data && data.totalPages > 1 && (

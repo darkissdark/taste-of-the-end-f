@@ -15,8 +15,6 @@ export async function proxy(request: NextRequest) {
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
   const isPrivateRoute = privateRoutes.some((route) => pathname.startsWith(route));
 
-  console.log('accessToken:', accessToken, 'refreshToken:', refreshToken, 'pathname:', pathname);
-
   if (!accessToken) {
     if (refreshToken) {
       try {
@@ -24,33 +22,28 @@ export async function proxy(request: NextRequest) {
         const setCookie = sessionResponse.headers['set-cookie'];
         const isAuthorized = sessionResponse.data?.authorized === true;
 
-        console.log('Session check result:', {
-          authorized: sessionResponse.data?.authorized,
-          hasSetCookie: !!setCookie,
-          status: sessionResponse.status,
-        });
-
         if (isAuthorized && setCookie) {
           const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
           const isProduction = process.env.NODE_ENV === 'production';
-          
+
           // Створюємо response для встановлення cookies
           const nextResponse: NextResponse = isPublicRoute
             ? NextResponse.redirect(new URL('/', request.url))
             : NextResponse.next();
-          
+
           for (const cookieStr of cookieArray) {
             const parsed = parse(cookieStr);
             const options: Parameters<typeof cookieStore.set>[2] = {};
             if (parsed.Expires) options.expires = new Date(parsed.Expires);
             if (parsed.Path) options.path = parsed.Path;
             if (parsed['Max-Age']) options.maxAge = Number(parsed['Max-Age']);
-            
+
             // Для cross-domain (фронтенд на Vercel, бекенд на Render) потрібні Secure та SameSite=None
             // Secure обов'язковий для SameSite=None
             options.secure = isProduction || parsed.Secure === 'true';
             // Для cross-domain використовуємо SameSite=None (обов'язково з Secure=true)
-            options.sameSite = (parsed.SameSite as 'lax' | 'strict' | 'none') || (isProduction ? 'none' : 'lax');
+            options.sameSite =
+              (parsed.SameSite as 'lax' | 'strict' | 'none') || (isProduction ? 'none' : 'lax');
 
             if (parsed.accessToken) {
               cookieStore.set('accessToken', parsed.accessToken, options);
@@ -65,7 +58,7 @@ export async function proxy(request: NextRequest) {
               nextResponse.cookies.set('sessionId', parsed.sessionId, options);
             }
           }
-          
+
           return nextResponse;
         }
 
@@ -73,17 +66,16 @@ export async function proxy(request: NextRequest) {
           cookieStore.delete('accessToken');
           cookieStore.delete('refreshToken');
           cookieStore.delete('sessionId');
-          console.log('Session not authorized, clearing cookies');
-          
+
           // Створюємо response для очищення cookies
-          const clearResponse = isPublicRoute 
-            ? NextResponse.next() 
+          const clearResponse = isPublicRoute
+            ? NextResponse.next()
             : NextResponse.redirect(new URL('/auth/login', request.url));
-          
+
           clearResponse.cookies.delete('accessToken');
           clearResponse.cookies.delete('refreshToken');
           clearResponse.cookies.delete('sessionId');
-          
+
           if (!isPublicRoute && !isPrivateRoute) {
             return clearResponse;
           }

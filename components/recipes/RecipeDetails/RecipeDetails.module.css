@@ -43,7 +43,7 @@
     gap: 24px;
     width: 1224px;
   }
-  .thumb {
+  img.thumb {
     aspect-ratio: 1226 / 624;
   }
 }
