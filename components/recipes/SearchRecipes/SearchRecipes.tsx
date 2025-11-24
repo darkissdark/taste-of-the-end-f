@@ -6,12 +6,15 @@ import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
 import Filters from '@/components/recipes/Filters/Filters';
-import Pagination from '@/components/recipes/Pagination/Pagination';
+import dynamic from 'next/dynamic';
 import { Ingredient } from '@/types/recipe';
 // import Image from 'next/image';
 import styles from './SearchRecipes.module.css';
 import Container from '@/components/layout/Container/Container';
 
+const Pagination = dynamic(() => import('@/components/recipes/Pagination/Pagination'), {
+  ssr: false,
+});
 interface FiltersState {
   search: string;
   category: string;
@@ -132,8 +135,8 @@ export default function SearchRecipes({
         {isError && <p role="alert">Error loading recipes</p>}
         {data && data.recipes.length === 0 && !isLoading && !isError && <p>No recipes found.</p>}
         {data && data.recipes.length > 0 && (
-        <RecipesListClient data={data} favorites={favorites} variant="home" />
-      )}
+          <RecipesListClient data={data} favorites={favorites} variant="home" />
+        )}
 
         {/* Pagination */}
         {data && data.totalPages > 1 && (

@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header/Header';
 import { Footer } from '@/components/layout/Footer/Footer';
 import { Montserrat } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
+import { ToasterClient } from '@/components/ui/ToasterClient/ToasterClient';
 import type { Metadata } from 'next';
 import 'modern-normalize/modern-normalize.css';
 import './globals.css';
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main>{children}</main>
             <Footer />
             <AuthDialogGate />
-            <Toaster position="top-right" />
+            <ToasterClient />
           </AuthProvider>
         </TanStackProvider>
       </body>
