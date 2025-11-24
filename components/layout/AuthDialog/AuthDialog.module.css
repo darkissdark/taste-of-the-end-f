@@ -73,15 +73,8 @@
   width: 100%;
 }
 
-.actionButton,
-.actionButtonSecondary {
+.actions button {
   flex: 1;
-  height: 36px;
-}
-
-.panel .actions .actionButton {
-  background-color: transparent;
-  border: 1px solid var(--black);
 }
 
 .close {

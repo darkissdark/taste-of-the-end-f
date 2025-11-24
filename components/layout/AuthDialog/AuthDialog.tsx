@@ -68,20 +68,14 @@ export function AuthDialog({ open, onClose }: Props) {
           <Button
             ref={primaryActionRef}
             type="button"
-            variant="white"
-            size="md"
-            className={styles.actionButton}
+            variant="whiteDialog"
+            size="lg"
             onClick={handleSignIn}
           >
             Log in
           </Button>
 
-          <Button
-            type="button"
-            variant="brown"
-            className={styles.actionButtonSecondary}
-            onClick={handleSignUp}
-          >
+          <Button type="button" variant="brown" size="lg" onClick={handleSignUp}>
             Register
           </Button>
         </div>

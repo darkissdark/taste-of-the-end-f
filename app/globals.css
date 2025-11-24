@@ -44,6 +44,13 @@
   /* Hover color for nav links */
   --nav-link-hover-color: var(--white-80);
 
+  /* Nav link states */
+  --nav-link-hover-opacity: 0.5;
+  --nav-link-disabled-opacity: 0.2;
+  --nav-link-active-padding-bottom: 4px;
+  --nav-link-underline-offset: 8px;
+  --nav-link-underline-thickness: 1px;
+
   /* Icon hover animation */
   --icon-hover-scale: 1.05;
   --icon-hover-rotate: -6deg;
@@ -52,8 +59,8 @@
   --transition-default: background-color 200ms ease, box-shadow 150ms ease, transform 120ms ease,
     opacity 150ms ease, border-color 200ms ease, color 150ms ease;
 
-  --animation-duration-page: 320ms;
-  --animation-duration-modal: 260ms;
+  --animation-duration-page: 1000ms;
+  --animation-duration-modal: 1300ms;
   --animation-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Fonts custom propertie */
