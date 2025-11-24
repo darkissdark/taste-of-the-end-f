@@ -209,3 +209,75 @@
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
 }
+
+/* ==========================================
+   DANGER VARIANT (Logout dialog)
+   ========================================== */
+
+.btnDanger {
+  background: var(--red);
+  color: var(--white);
+  border: 1px solid transparent;
+}
+
+/* Hover / Focus */
+.btnDanger:hover:not(:disabled) {
+  background: var(--light-brown);
+  transform: translateY(-1px);
+}
+
+.btnDanger:focus-visible:not(:disabled) {
+  background: var(--red);
+}
+
+/* Active */
+.btnDanger:active:not(:disabled) {
+  background: transparent;
+  border-color: var(--white);
+  transform: translateY(0);
+}
+
+/* Disabled */
+.btnDanger:disabled {
+  background: var(--red);
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- WHITE VARIANT FOR DIALOGS (Auth / Logout) --- */
+
+.btnWhiteDialog {
+  background: transparent;
+  color: var(--main);
+  border: 1px solid var(--black);
+}
+
+/* Hover/Focus */
+.btnWhiteDialog:hover:not(:disabled) {
+  background: var(--light-gray);
+  border-color: var(--black);
+  transform: translateY(-1px);
+}
+
+.btnWhiteDialog:focus-visible:not(:disabled) {
+  background: transparent;
+  border-color: var(--black);
+  transform: none;
+}
+
+/* Active */
+.btnWhiteDialog:active:not(:disabled) {
+  background: var(--light-gray);
+  border-color: var(--black);
+  transform: translateY(0);
+}
+
+/* Disabled */
+.btnWhiteDialog:disabled {
+  background: transparent;
+  border-color: var(--black);
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}

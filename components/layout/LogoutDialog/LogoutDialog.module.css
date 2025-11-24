@@ -82,23 +82,12 @@
   width: 100%;
 }
 
-.actionButton,
-.actionButtonSecondary {
+.actionsColumn button {
   width: 100%;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.actionsWrapper .actionsColumn .actionButton {
-  border: none;
-  color: var(--white);
-  background-color: var(--red);
-}
-
-.actionsWrapper .actionsColumn .actionButtonSecondary {
-  border: 1px solid var(--black);
+.actions {
+  width: 100%;
 }
 
 .close {

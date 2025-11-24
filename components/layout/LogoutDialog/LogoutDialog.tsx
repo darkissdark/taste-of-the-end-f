@@ -81,23 +81,13 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
         <div className={styles.actionsWrapper}>
           <div className={styles.actionsColumn}>
             <form className={styles.actions} onSubmit={handleLogout}>
-              <Button
-                ref={primaryActionRef}
-                type="submit"
-                variant="white"
-                className={styles.actionButton}
-              >
+              <Button ref={primaryActionRef} type="submit" variant="danger" size="lg">
                 Log out
               </Button>
             </form>
           </div>
           <div className={styles.actionsColumn}>
-            <Button
-              type="button"
-              variant="white"
-              className={styles.actionButtonSecondary}
-              onClick={handleCancel}
-            >
+            <Button type="button" variant="whiteDialog" size="lg" onClick={handleCancel}>
               Cancel
             </Button>
           </div>
