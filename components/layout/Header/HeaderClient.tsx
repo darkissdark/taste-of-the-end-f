@@ -42,7 +42,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [open]);
 
-  const isRecipesActive = pathname === '/' || pathname.startsWith('/recipes');
+  const isRecipesActive = pathname === '/';
   const isProfileActive = pathname.startsWith('/profile');
   const isLoginActive = pathname === '/auth/login';
 
