@@ -4,6 +4,7 @@ import RecipesList from '@/components/recipes/RecipesList/RecipesList';
 import { getServerFavoriteRecipes, getServerOwnRecipes } from '@/lib/api/serverApi';
 import { pageMeta } from '@/lib/seo';
 import { string } from 'yup';
+import Container from '@/components/layout/Container/Container';
 
 type Props = { params: Promise<{ recipeType: 'own' | 'favorites' }> };
 
@@ -25,20 +26,20 @@ export default async function ProfilePage({ params }: Props) {
   }
   if (!data?.recipes || data.recipes.length === 0) {
     return (
-      <section>
+      <Container>
         <h1>My Profile</h1>
         <ProfileNavigation />
         <p>No recipes found.</p>
-      </section>
+      </Container>
     );
   }
 
   // Якщо рецепти є → рендеримо список
   return (
-    <section>
+    <Container>
       <h1 className={css.profTitle}>My Profile</h1>
       <ProfileNavigation />
       <RecipesList data={data} />
-    </section>
+    </Container>
   );
 }

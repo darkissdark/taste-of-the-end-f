@@ -36,14 +36,12 @@ export default async function Page({
   };
 
   return (
-    <div>
-      <SearchRecipes
-        favorites={favorites}
-        categories={categories}
-        ingredients={ingredients}
-        initialPage={initialPage}
-        initialFilters={initialFilters}
-      />
-    </div>
+    <SearchRecipes
+      favorites={favorites}
+      categories={categories}
+      ingredients={ingredients}
+      initialPage={initialPage}
+      initialFilters={initialFilters}
+    />
   );
 }
