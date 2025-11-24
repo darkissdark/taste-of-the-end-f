@@ -13,19 +13,37 @@ import { RecipesRes } from '@/lib/api/clientApi';
 interface recipesListClientProps {
   data: RecipesRes;
   favorites: string[];
+  variant?: 'my-recipes' | 'saved-recipes'; // Add this prop
+  onLoadMore?: () => void; // Adding this for load more functionality
+  hasMore?: boolean; // Are more recipes to load???
+  isLoading?: boolean; // To show loading state
 }
 
-export default function RecipesListClient({ data, favorites }: recipesListClientProps) {
+export default function RecipesListClient({
+  data,
+  favorites,
+  variant = 'saved-recipes',
+  onLoadMore,
+  hasMore = false,
+  isLoading = false,
+}: recipesListClientProps) {
   const [recipes, setRecipes] = useState(data.recipes);
 
   useEffect(() => {
     setRecipes(data.recipes);
   }, [data]);
 
-  const handleUnlike = (recipeId: string) => {};
+  const handleUnlike = (recipeId: string) => {
+    // Remove recipe from the list when unliked (for saved recipes page only!!)
+    if (variant === 'saved-recipes') {
+      setRecipes((prev) => prev.filter((r) => r._id !== recipeId));
+    }
+  };
+
+  const isMyRecipes = variant === 'my-recipes';
 
   return (
-    <>
+    <div className={css.container}>
       <ul className={css.list}>
         {recipes.map((recipe) => {
           const isFavorite = favorites.includes(recipe._id);
@@ -50,24 +68,37 @@ export default function RecipesListClient({ data, favorites }: recipesListClient
               </div>
 
               <p className={css.description}>{recipe.description}</p>
-              <p className={css.calories}>{recipe.calories ? `~${recipe.calories} cals` : ''}</p>
+              <p className={css.calories}>
+                {recipe.calories ? `~${recipe.calories} cals` : '\u00A0'}
+              </p>
 
               <div className={css.buttonsWrapper}>
                 <Link href={`/recipes/${recipe._id}`} className={css.link}>
                   <button className={css.button}>Learn more</button>
                 </Link>
 
-                <FavoriteButton
-                  recipeId={recipe._id}
-                  initialIsFavorite={isFavorite}
-                  variant="icon"
-                  onUnlike={handleUnlike}
-                />
+                {/* Only show FavoriteButton for saved recipes */}
+                {!isMyRecipes && (
+                  <FavoriteButton
+                    recipeId={recipe._id}
+                    initialIsFavorite={isFavorite}
+                    variant="icon"
+                    onUnlike={handleUnlike}
+                  />
+                )}
               </div>
             </li>
           );
         })}
       </ul>
-    </>
+      {/* Load More Button */}
+      {hasMore && (
+        <div className={css.loadMoreWrapper}>
+          <button className={css.loadMoreButton} onClick={onLoadMore} disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
