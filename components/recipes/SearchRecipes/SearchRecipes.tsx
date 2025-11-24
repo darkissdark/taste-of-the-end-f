@@ -92,6 +92,8 @@ export default function SearchRecipes({
               src="/banner/banner-mob.jpg"
               alt="Fallback image for the banner"
               className={styles.heroImage}
+              fetchPriority="high"
+              loading="eager"
             />
           </picture>
 

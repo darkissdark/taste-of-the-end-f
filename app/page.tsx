@@ -3,8 +3,17 @@ import { getServerCategories, getServerIngredients, getServerMe } from '@/lib/ap
 import type { Metadata } from 'next';
 import SearchRecipes from '@/components/recipes/SearchRecipes/SearchRecipes';
 
-export const generateMetadata = (): Metadata =>
-  pageMeta({ title: 'Home', description: 'Browse all recipes' });
+export const generateMetadata = () => ({
+  ...pageMeta({ title: 'Home', description: 'Browse all recipes' }),
+  other: [
+    {
+      rel: 'preload',
+      as: 'image',
+      href: '/banner/banner-mob@2x.webp',
+      imagesrcset: '/banner/banner-mob.webp 1x, /banner/banner-mob@2x.webp 2x',
+    },
+  ],
+});
 
 export default async function Page({
   searchParams,
@@ -36,15 +45,12 @@ export default async function Page({
   };
 
   return (
-    <>
-      <link rel="preload" as="image" href="/banner/banner-mob@2x.webp" type="image/webp" />
-      <SearchRecipes
-        favorites={favorites}
-        categories={categories}
-        ingredients={ingredients}
-        initialPage={initialPage}
-        initialFilters={initialFilters}
-      />
-    </>
+    <SearchRecipes
+      favorites={favorites}
+      categories={categories}
+      ingredients={ingredients}
+      initialPage={initialPage}
+      initialFilters={initialFilters}
+    />
   );
 }
