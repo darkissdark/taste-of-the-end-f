@@ -1,4 +1,5 @@
 import { pageMeta } from '@/lib/seo';
+import Container from '@/components/layout/Container/Container';
 
 export const generateMetadata = () => {
   return pageMeta({
@@ -8,5 +9,5 @@ export const generateMetadata = () => {
 };
 
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <Container>{children}</Container>;
 }

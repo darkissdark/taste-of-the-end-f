@@ -81,7 +81,6 @@ const AddRecipeForm = () => {
   useEffect(() => {
     fetchCategories()
       .then((data) => {
-        console.log('Categories:', data);
         setCategories(data);
       })
       .catch((error) => {

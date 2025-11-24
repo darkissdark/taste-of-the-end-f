@@ -9,6 +9,7 @@ import styles from './LoginForm.module.css';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import Button from '@/components/buttons/Buttons';
 import toast from 'react-hot-toast';
+import Container from '@/components/layout/Container/Container';
 
 interface LoginFormValues {
   email: string;
@@ -42,90 +43,92 @@ const LoginForm = () => {
   };
 
   return (
-    <section className={styles.page}>
-      <div className={styles.formWrapper}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={loginValidationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ errors, touched, isSubmitting }) => (
-            <Form className={styles.form}>
-              <h1 className={styles.formTitle}>Login</h1>
-              <p className={styles.formDecription}>
-                Welcome back! Log in to access your saved recipes and exclusive features.
-              </p>
+    <Container>
+      <section className={styles.page}>
+        <div className={styles.formWrapper}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={loginValidationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched, isSubmitting }) => (
+              <Form className={styles.form}>
+                <h1 className={styles.formTitle}>Login</h1>
+                <p className={styles.formDecription}>
+                  Welcome back! Log in to access your saved recipes and exclusive features.
+                </p>
 
-              <div className={styles.wrapper}>
-                <div className={styles.wrapperInputs}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor={`login-email`}>Enter your email address</label>
-                    <Field
-                      className={`${styles.input} ${
-                        errors.email && touched.email ? styles.errorInput : ''
-                      }`}
-                      id={`login-email`}
-                      type="email"
-                      name="email"
-                      placeholder="email@gmail.com"
-                      required
-                    />
-                    <ErrorMessage name="email" component="span" className={styles.errorMessage} />
-                  </div>
-
-                  <div className={`${styles.formGroup} ${styles.formGroupPassword}`}>
-                    <label htmlFor={`login-password`}>Enter your password</label>
-                    <Field
-                      className={`${styles.input} ${styles.inputPassword} ${
-                        errors.password && touched.password ? styles.errorInput : ''
-                      }`}
-                      id={`login-password`}
-                      type={showPassword ? 'text' : 'password'}
-                      name="password"
-                      placeholder="********"
-                      required
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="span"
-                      className={styles.errorMessage}
-                    />
-
-                    <button
-                      className={styles.iconBtn}
-                      type="button"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      <SvgIcon
-                        className={styles.icon}
-                        name={showPassword ? 'eye_opened' : 'eye_closed'}
+                <div className={styles.wrapper}>
+                  <div className={styles.wrapperInputs}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor={`login-email`}>Enter your email address</label>
+                      <Field
+                        className={`${styles.input} ${
+                          errors.email && touched.email ? styles.errorInput : ''
+                        }`}
+                        id={`login-email`}
+                        type="email"
+                        name="email"
+                        placeholder="email@gmail.com"
+                        required
                       />
-                    </button>
+                      <ErrorMessage name="email" component="span" className={styles.errorMessage} />
+                    </div>
+
+                    <div className={`${styles.formGroup} ${styles.formGroupPassword}`}>
+                      <label htmlFor={`login-password`}>Enter your password</label>
+                      <Field
+                        className={`${styles.input} ${styles.inputPassword} ${
+                          errors.password && touched.password ? styles.errorInput : ''
+                        }`}
+                        id={`login-password`}
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        placeholder="********"
+                        required
+                      />
+                      <ErrorMessage
+                        name="password"
+                        component="span"
+                        className={styles.errorMessage}
+                      />
+
+                      <button
+                        className={styles.iconBtn}
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                      >
+                        <SvgIcon
+                          className={styles.icon}
+                          name={showPassword ? 'eye_opened' : 'eye_closed'}
+                        />
+                      </button>
+                    </div>
                   </div>
+
+                  <Button
+                    type="submit"
+                    variant="brown"
+                    size="md"
+                    className={styles.submitButton}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Loading...' : 'Login'}
+                  </Button>
                 </div>
 
-                <Button
-                  type="submit"
-                  variant="brown"
-                  size="md"
-                  className={styles.submitButton}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Loading...' : 'Login'}
-                </Button>
-              </div>
-
-              <p className={styles.qusetionLogIn}>
-                Don't have an account?{' '}
-                <Link className={styles.qusetionLogInAccent} href={'/auth/register'}>
-                  Register
-                </Link>
-              </p>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </section>
+                <p className={styles.qusetionLogIn}>
+                  Don't have an account?{' '}
+                  <Link className={styles.qusetionLogInAccent} href={'/auth/register'}>
+                    Register
+                  </Link>
+                </p>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </section>
+    </Container>
   );
 };
 

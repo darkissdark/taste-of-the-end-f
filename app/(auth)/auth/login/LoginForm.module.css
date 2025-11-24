@@ -12,6 +12,7 @@
   padding: 48px 32px;
   background-color: var(--light-beige);
   border-radius: 32px;
+  margin: 0 auto;
 }
 
 .formTitle {

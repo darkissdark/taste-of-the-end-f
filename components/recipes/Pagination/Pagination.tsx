@@ -1,8 +1,8 @@
 'use client';
 
 import ReactPaginate from 'react-paginate';
+import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import css from './Pagination.module.css';
-
 interface PaginationProps {
   pageCount: number;
   currentPage: number;
@@ -19,8 +19,9 @@ export default function Pagination({
       pageCount={pageCount}
       pageRangeDisplayed={6}
       marginPagesDisplayed={0}
-      onPageChange={onPageChange}
       breakLabel={null}
+      breakClassName=""
+      onPageChange={onPageChange}
       forcePage={currentPage - 1}
       containerClassName={css.pagination}
       pageClassName={css.pageItem}
@@ -28,8 +29,8 @@ export default function Pagination({
       previousClassName={css.arrow}
       nextClassName={css.arrow}
       disabledClassName={css.disabled}
-      previousLabel="←"
-      nextLabel="→"
+      previousLabel={<SvgIcon name="pagination_left" />}
+      nextLabel={<SvgIcon name="pagination_right" />}
     />
   );
 }
