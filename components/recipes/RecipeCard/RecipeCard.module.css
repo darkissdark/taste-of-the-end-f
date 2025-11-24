@@ -1,0 +1,146 @@
+.card {
+  border-radius: 16px;
+  background-color: var(--light-beige);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.image {
+  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 264 / 178;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.titleWrapper {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.title {
+  flex: 1;
+  font-weight: 700;
+  font-size: 24px;
+  height: 58px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* fallback */
+  -webkit-box-orient: vertical;
+  margin: 0;
+}
+.timeWrapper {
+  border-radius: 8px;
+  padding: 2px 8px 2px 4px;
+  width: 53px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--black);
+  font-weight: 500;
+}
+.icon {
+  fill: none;
+  stroke: black;
+  flex-shrink: 0;
+}
+.description {
+  font-size: 16px;
+  line-height: 1.55;
+  height: 49px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* fallback */
+  -webkit-box-orient: vertical;
+  color: var(--black);
+  margin: 0 0 8px;
+}
+.calories {
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 17px;
+  margin: 0;
+}
+.buttonsWrapper {
+  display: flex;
+  gap: 8px;
+}
+.learnMoreBtn {
+  width: 100%;
+  height: 40px;
+  color: var(--black);
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.learnMoreBtn:hover,
+.learnMoreBtn:focus {
+  background: var(--light-gray-2);
+}
+
+/* Mobile */
+@media (min-width: 320px) and (max-width: 425px) {
+  .image {
+    aspect-ratio: 361 / 239;
+  }
+  .title {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .timeWrapper {
+    font-size: 13px;
+    padding: 2px 6px;
+    height: 26px;
+  }
+}
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1439px) {
+  .image {
+    aspect-ratio: 288 / 200;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .timeWrapper {
+    font-size: 13px;
+  }
+}
+/* Desktop */
+@media (min-width: 1440px) {
+  .card {
+    width: 288px;
+  }
+  .image {
+    width: 264px;
+    height: 178px;
+    aspect-ratio: auto;
+  }
+  .title {
+    font-size: 24px;
+  }
+}
