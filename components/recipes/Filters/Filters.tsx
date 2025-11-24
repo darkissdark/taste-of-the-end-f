@@ -28,7 +28,6 @@ export default function Filters({
   const [openIngr, setOpenIngr] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  // Взаимоисключающие тогглеры: открытие одного закрывает другой
   const toggleCats = () => {
     setOpenCats((prev) => {
       const next = !prev;

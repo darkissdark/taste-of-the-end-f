@@ -6,6 +6,7 @@ import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
 import RecipeNotFound from '@/components/recipes/RecipeNotFound/RecipeNotFound';
+import SearchEmpty from '@/components/recipes/SearchRecipes/SearchEmpty';
 import Filters from '@/components/recipes/Filters/Filters';
 import Pagination from '@/components/recipes/Pagination/Pagination';
 import { Ingredient } from '@/types/recipe';
@@ -136,7 +137,20 @@ export default function SearchRecipes({
           </div>
         )}
         {isError && <p role="alert">Error loading recipes</p>}
-        {data && data.recipes.length === 0 && !isLoading && !isError && <RecipeNotFound />}
+        {data &&
+          data.recipes.length === 0 &&
+          !isLoading &&
+          !isError &&
+          (filters.search ? (
+            <SearchEmpty
+              onReset={() => {
+                setFilters({ search: '', category: '', ingredient: '' });
+                setCurrentPage(1);
+              }}
+            />
+          ) : (
+            <RecipeNotFound />
+          ))}
         {data && data.recipes.length > 0 && (
           <RecipesListClient data={data} favorites={favorites} variant="home" />
         )}
