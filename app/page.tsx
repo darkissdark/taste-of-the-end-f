@@ -1,5 +1,5 @@
 import { pageMeta } from '@/lib/seo';
-import { getServerCategories, getServerIngredients, getServerMe } from '@/lib/api/serverApi';
+import { getServerCategories, getServerIngredients, getServerMe, getServerRecipes } from '@/lib/api/serverApi';
 import type { Metadata } from 'next';
 import SearchRecipes from '@/components/recipes/SearchRecipes/SearchRecipes';
 
@@ -11,17 +11,6 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const [categories, ingredients] = await Promise.all([
-    getServerCategories(),
-    getServerIngredients(),
-  ]);
-
-  let favorites: string[] = [];
-  try {
-    const me = await getServerMe();
-    favorites = me.favorites ?? [];
-  } catch {}
-
   const params = await searchParams;
   const pageRaw = Array.isArray(params.page) ? params.page[0] : params.page;
   const searchRaw = Array.isArray(params.search) ? params.search[0] : params.search;
@@ -35,6 +24,24 @@ export default async function Page({
     ingredient: ingredientRaw || '',
   };
 
+  const [categories, ingredients, initialRecipes] = await Promise.all([
+    getServerCategories(),
+    getServerIngredients(),
+    getServerRecipes({
+      page: initialPage,
+      perPage: 12,
+      ...(initialFilters.search && { search: initialFilters.search }),
+      ...(initialFilters.category && { category: initialFilters.category }),
+      ...(initialFilters.ingredient && { ingredient: initialFilters.ingredient }),
+    }),
+  ]);
+
+  let favorites: string[] = [];
+  try {
+    const me = await getServerMe();
+    favorites = me.favorites ?? [];
+  } catch {}
+
   return (
     <SearchRecipes
       favorites={favorites}
@@ -42,6 +49,7 @@ export default async function Page({
       ingredients={ingredients}
       initialPage={initialPage}
       initialFilters={initialFilters}
+      initialRecipes={initialRecipes}
     />
   );
 }

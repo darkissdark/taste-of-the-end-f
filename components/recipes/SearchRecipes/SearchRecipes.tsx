@@ -32,6 +32,7 @@ interface SearchRecipesProps {
   ingredients: Ingredient[];
   initialPage?: number;
   initialFilters?: InitialFilters;
+  initialRecipes?: RecipesRes;
 }
 
 export default function SearchRecipes({
@@ -40,6 +41,7 @@ export default function SearchRecipes({
   ingredients,
   initialPage = 1,
   initialFilters,
+  initialRecipes,
 }: SearchRecipesProps) {
   const queryClient = useQueryClient();
   const [filters, setFilters] = useState<FiltersState>({
@@ -58,6 +60,13 @@ export default function SearchRecipes({
         ingredient: filters.ingredient,
         page: currentPage,
       }),
+    initialData:
+      filters.search === initialFilters?.search &&
+      filters.category === initialFilters?.category &&
+      filters.ingredient === initialFilters?.ingredient &&
+      currentPage === initialPage
+        ? initialRecipes
+        : undefined,
   });
 
   return (
