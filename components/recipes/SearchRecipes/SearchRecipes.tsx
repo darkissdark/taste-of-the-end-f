@@ -5,9 +5,11 @@ import { useState } from 'react';
 import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
+import RecipeNotFound from '@/components/recipes/RecipeNotFound/RecipeNotFound';
 import Filters from '@/components/recipes/Filters/Filters';
 import dynamic from 'next/dynamic';
 import { Ingredient } from '@/types/recipe';
+import PanLoader from '@/components/ui/loaders/PanLoader';
 // import Image from 'next/image';
 import styles from './SearchRecipes.module.css';
 import Container from '@/components/layout/Container/Container';
@@ -86,10 +88,17 @@ export default function SearchRecipes({
               media="(min-width: 768px)"
               srcSet="/banner/banner-tab.jpg 1x, /banner/banner-tab@2x.jpg 2x"
             />
+            <source
+              media="(max-width: 767px)"
+              type="image/webp"
+              srcSet="/banner/banner-mob.webp 1x, /banner/banner-mob@2x.webp 2x"
+            />
             <img
               src="/banner/banner-mob.jpg"
               alt="Fallback image for the banner"
               className={styles.heroImage}
+              fetchPriority="high"
+              loading="eager"
             />
           </picture>
 
@@ -131,9 +140,13 @@ export default function SearchRecipes({
         </section>
 
         {/* Recipes */}
-        {isLoading && <p>Loading...</p>}
+        {isLoading && (
+          <div className={styles.recipesLoader} aria-busy="true" aria-live="polite">
+            <PanLoader size="large" />
+          </div>
+        )}
         {isError && <p role="alert">Error loading recipes</p>}
-        {data && data.recipes.length === 0 && !isLoading && !isError && <p>No recipes found.</p>}
+        {data && data.recipes.length === 0 && !isLoading && !isError && <RecipeNotFound />}
         {data && data.recipes.length > 0 && (
           <RecipesListClient data={data} favorites={favorites} variant="home" />
         )}

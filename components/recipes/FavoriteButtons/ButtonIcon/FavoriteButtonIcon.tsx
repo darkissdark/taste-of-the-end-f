@@ -15,6 +15,7 @@ export function FavoriteButtonIcon({ isFavorite, loading, toggleFavorite }: Prop
   return (
     <button
       className={isFavorite ? css.favoriteButton : css.notFavoriteButton}
+      title={isFavorite ? 'Unsave recipe' : 'Save recipe'}
       disabled={loading}
       onClick={toggleFavorite}
     >

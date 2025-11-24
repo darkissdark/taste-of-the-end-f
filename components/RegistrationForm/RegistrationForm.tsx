@@ -107,8 +107,8 @@ const RegistrationForm = ({ onSubmit, isLoading }: Props) => {
                       <SvgIcon className={css.icon} name="eye_closed" />
                     )}
                   </button>
-                  <ErrorMessage name="password" component="span" className={css.errorMessage} />
                 </div>
+                <ErrorMessage name="password" component="span" className={css.errorMessage} />
               </div>
 
               <div className={css.formGroup}>

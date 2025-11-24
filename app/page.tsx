@@ -3,7 +3,7 @@ import { getServerCategories, getServerIngredients, getServerMe } from '@/lib/ap
 import type { Metadata } from 'next';
 import SearchRecipes from '@/components/recipes/SearchRecipes/SearchRecipes';
 
-export const generateMetadata = (): Metadata =>
+export const generateMetadata = () =>
   pageMeta({ title: 'Home', description: 'Browse all recipes' });
 
 export default async function Page({

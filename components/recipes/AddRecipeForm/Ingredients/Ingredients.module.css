@@ -21,6 +21,15 @@
   font-weight: 400;
   font-size: 18px;
   box-sizing: border-box;
+  transition: var(--transition-default);
+  background-color: var(--white);
+}
+.field:focus,
+.field:hover,
+.field:active {
+  border: 1.5px solid var(--light-brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  outline: none;
 }
 .arrowIcon {
   stroke: black;
@@ -30,7 +39,7 @@
 
   position: absolute;
   right: 12px;
-  top: 73%;
+  top: 72%;
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -50,7 +59,8 @@
   gap: 24px;
 }
 .addIngredients {
-  width: 332px;
+  width: 100%;
+  max-width: 332px;
 }
 .addIngredientItem {
   display: flex;
@@ -118,6 +128,51 @@
 .hasValue {
   color: black;
 }
+
+.optionList {
+  position: absolute;
+  z-index: 99;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  height: 262px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
+  background: var(--white);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.optionItem {
+  border-radius: 8px;
+  padding: 8px 8px 8px 12px;
+  width: 100%;
+  height: 41px;
+}
+
+.optionItem:hover {
+  background: var(--light-gray-2);
+  border-radius: 4px;
+}
+@media (max-width: 374px) {
+  .addIngredientItem {
+    width: 256px;
+    max-width: 100%;
+  }
+  .selectedIngredientsList {
+    width: 256px;
+    max-width: 100%;
+  }
+  .selectedIngredientItem {
+    width: 256px;
+    max-width: 100%;
+    gap: 1px;
+  }
+  .selectedIngredientQ {
+    width: 96px;
+  }
+}
+
 /* TABLET */
 @media screen and (min-width: 767px) {
   .field {

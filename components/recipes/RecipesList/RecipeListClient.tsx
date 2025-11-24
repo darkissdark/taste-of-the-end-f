@@ -14,19 +14,9 @@ interface recipesListClientProps {
   data: RecipesRes;
   favorites: string[];
   variant?: 'my-recipes' | 'saved-recipes' | 'home'; // Add this prop
-  onLoadMore?: () => void; // Adding this for load more functionality
-  hasMore?: boolean; // Are more recipes to load???
-  isLoading?: boolean; // To show loading state
 }
 
-export default function RecipesListClient({
-  data,
-  favorites,
-  variant = 'saved-recipes',
-  onLoadMore,
-  hasMore = false,
-  isLoading = false,
-}: recipesListClientProps) {
+export default function RecipesListClient({ data, favorites, variant }: recipesListClientProps) {
   const [recipes, setRecipes] = useState(data.recipes);
 
   useEffect(() => {
@@ -44,6 +34,10 @@ export default function RecipesListClient({
 
   return (
     <div className={css.container}>
+      {/* Recipe Count - only show for profile pages */}
+      {(variant === 'my-recipes' || variant === 'saved-recipes') && (
+        <p className={css.recTotal}>{data.total} recipes</p>
+      )}
       <ul className={css.list}>
         {recipes.map((recipe) => {
           const isFavorite = favorites.includes(recipe._id);
@@ -56,6 +50,8 @@ export default function RecipesListClient({
                 width={264}
                 height={178}
                 className={css.image}
+                quality={65}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
               <div className={css.titleWrapper}>
@@ -74,7 +70,9 @@ export default function RecipesListClient({
 
               <div className={css.buttonsWrapper}>
                 <Link href={`/recipes/${recipe._id}`} className={css.link}>
-                  <button className={css.button}>Learn more</button>
+                  <button className={css.button} aria-label={`Learn more about ${recipe.title}`}>
+                    Learn more
+                  </button>
                 </Link>
 
                 {/* Only show FavoriteButton for saved recipes */}

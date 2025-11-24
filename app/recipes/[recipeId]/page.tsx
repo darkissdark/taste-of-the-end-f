@@ -20,13 +20,6 @@ export const generateMetadata = async ({ params }: Props) => {
   return {
     title: recipe.title,
     description: recipe.description,
-    other: [
-      {
-        rel: 'preload',
-        as: 'image',
-        href: recipe.thumb,
-      },
-    ],
     openGraph: {
       title: recipe.title,
       description: recipe.description,

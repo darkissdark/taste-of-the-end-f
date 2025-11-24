@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { setNestedObjectValues } from 'formik';
 import { fetchCategories, addRecipe } from '@/lib/api/clientApi';
 import Ingredients from './Ingredients/Ingredients';
 import UploadPhoto from './UploadPhoto/UploadPhoto';
 import Button from '@/components/buttons/Buttons';
-import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+import CategorySelect from './CategoryDropdown';
+import PanLoader from '@/components/ui/loaders/PanLoader';
 
 interface AddRecipeFormValues {
   title: string;
@@ -77,7 +77,7 @@ const AddRecipeForm = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedIngredients, setSelectedIngredients] = useState<SelectedIngredient[]>([]);
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   useEffect(() => {
     fetchCategories()
       .then((data) => {
@@ -92,9 +92,7 @@ const AddRecipeForm = () => {
     const { setTouched, setSubmitting, validateForm } = formikHelpers;
 
     const errors = await validateForm();
-
     if (Object.keys(errors).length > 0) {
-      setTouched(setNestedObjectValues(errors, true));
       toast.error('Please fill in all required fields');
       setSubmitting(false);
       return;
@@ -169,9 +167,11 @@ const AddRecipeForm = () => {
       <Formik
         initialValues={{ ...initialValues, recipeImg: null }}
         validationSchema={ValidationSchema}
-        onSubmit={(values, formikHelpers) => handleSubmit(values, formikHelpers)}
+        validateOnBlur={true}
+        validateOnChange={false}
+        onSubmit={handleSubmit}
       >
-        {({ setFieldValue, errors, touched, values, setFieldTouched }) => (
+        {({ setFieldValue, errors, touched, values, setFieldTouched, isSubmitting }) => (
           <Form className={css.formWithPhoto}>
             <div className={css.photoContainer}>
               <p className={css.subtitlePhoto}>Upload Photo</p>
@@ -205,7 +205,7 @@ const AddRecipeForm = () => {
                     as="textarea"
                     placeholder="Enter a brief description of your recipe"
                     className={`${css.fieldDescription} ${
-                      errors.description && touched.description ? css.fieldError : ''
+                      errors.description && touched.description ? css.fieldDescriptionError : ''
                     }`}
                   />
                   <ErrorMessage name="description" component="div" className={css.errorMessage} />
@@ -225,7 +225,7 @@ const AddRecipeForm = () => {
                 </div>
 
                 <div className={css.caloriesCategory}>
-                  <div className={css.categoryForm}>
+                  <div className={css.caloriesForm}>
                     <label htmlFor="calories" className={css.label}>
                       Calories
                     </label>
@@ -241,33 +241,14 @@ const AddRecipeForm = () => {
                     <ErrorMessage name="calories" component="div" className={css.errorMessage} />
                   </div>
                   <div className={css.categoryForm}>
-                    <label htmlFor="category" className={css.label}>
-                      Category
-                    </label>
-                    <Field
-                      as="select"
-                      name="category"
-                      id="category"
+                    <CategorySelect
+                      categories={categories}
                       value={values.category}
-                      className={`${css.calories} ${
-                        errors.category && touched.category ? css.fieldError : ''
-                      } ${values.category ? css.hasValue : ''}`}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        setFieldValue('category', e.target.value);
-                        setFieldTouched('category', true);
-                      }}
-                    >
-                      <option value="" disabled>
-                        Soup
-                      </option>
-                      {categories.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                    </Field>
-                    <SvgIcon name="open_dropdown" aria-hidden className={css.arrowIcon} />
-                    <ErrorMessage name="category" component="div" className={css.errorMessage} />
+                      error={errors.category}
+                      touched={touched.category}
+                      onChange={(val) => setFieldValue('category', val)}
+                      onBlur={() => setFieldTouched('category', true)}
+                    />
                   </div>
                 </div>
               </div>
@@ -287,7 +268,7 @@ const AddRecipeForm = () => {
                   as="textarea"
                   placeholder="Enter a text"
                   className={`${css.fieldDescription} ${css.fieldInstructions} ${
-                    errors.instructions && touched.instructions ? css.fieldError : ''
+                    errors.instructions && touched.instructions ? css.fieldDescriptionError : ''
                   }`}
                 />
                 <ErrorMessage name="instructions" component="div" className={css.errorMessage} />
@@ -299,7 +280,7 @@ const AddRecipeForm = () => {
                 size="xl"
                 className={`${'myCustomClass'} ${css.button}`}
               >
-                Publish Recipe
+                {isSubmitting ? <PanLoader size="small" /> : 'Publish Recipe'}
               </Button>
             </div>
           </Form>

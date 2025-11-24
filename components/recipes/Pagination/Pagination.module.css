@@ -10,6 +10,18 @@
   font-family: var(--font-family);
   text-align: center;
   transition: var(--transition-default);
+  width: 32px;
+  height: 32px;
+  font-weight: 600;
+  line-height: 155%;
+  color: var(--black);
+  border-radius: 8px;
+}
+
+.pagination a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Mobile First: 320px+ */
@@ -22,21 +34,10 @@
   margin-bottom: 48px;
 }
 
-/* Цифри сторінок */
-.pageItem {
-  width: 40px;
-  height: 40px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 155%;
-  color: var(--black);
-  border-radius: 8px;
-}
-
 .pageItem:hover:not(.disabled),
 .pageItem:focus:not(.disabled) {
   background: var(--brown);
-  border-radius: 8px;
+  color: var(--white);
 }
 
 .pageItem:active:not(.disabled) {
@@ -46,13 +47,8 @@
 
 /* Активна цифра */
 .active {
-  width: 40px;
-  height: 40px;
-  font-weight: 600;
-  font-size: 16px;
   color: var(--white);
   background: var(--light-brown);
-  border-radius: 8px;
 }
 
 .active:hover:not(.disabled),
@@ -62,13 +58,8 @@
 
 /* Стрілки */
 .arrow {
-  width: 40px;
-  height: 40px;
   background: var(--light-brown);
   color: var(--white);
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 16px;
 }
 
 .arrow:hover:not(.disabled),
@@ -83,31 +74,12 @@
 }
 
 /* 1440px+ Desktop */
-@media (min-width: 1440px) {
-  .pageItem {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-    border-radius: 4px;
-  }
-
+@media (min-width: 375px) {
+  .pageItem,
+  .arrow,
   .active {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
   }
-
-  .arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-  }
-}
-
-/* Стрілки SVG всередині елементів */
-.arrow svg {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
