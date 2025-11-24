@@ -9,6 +9,8 @@ interface MobileFiltersFormProps {
   openIngr: boolean;
   setOpenCats: (v: boolean) => void;
   setOpenIngr: (v: boolean) => void;
+  onToggleCats: () => void;
+  onToggleIngr: () => void;
   categories: string[];
   ingredients: Ingredient[];
   selectedCategory: string;
@@ -21,6 +23,8 @@ export function MobileFiltersForm({
   openIngr,
   setOpenCats,
   setOpenIngr,
+  onToggleCats,
+  onToggleIngr,
   categories,
   ingredients,
   selectedCategory,
@@ -37,7 +41,7 @@ export function MobileFiltersForm({
         selected={selectedCategory}
         options={categoryOptions}
         isOpen={openCats}
-        onToggle={() => setOpenCats(!openCats)}
+        onToggle={onToggleCats}
         onSelect={(val) => {
           onChange({ category: val });
           setOpenCats(false);
@@ -51,7 +55,7 @@ export function MobileFiltersForm({
         selected={selectedIngredient}
         options={ingredientOptions}
         isOpen={openIngr}
-        onToggle={() => setOpenIngr(!openIngr)}
+        onToggle={onToggleIngr}
         onSelect={(val) => {
           onChange({ ingredient: val });
           setOpenIngr(false);
