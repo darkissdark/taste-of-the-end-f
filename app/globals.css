@@ -59,8 +59,8 @@
   --transition-default: background-color 200ms ease, box-shadow 150ms ease, transform 120ms ease,
     opacity 150ms ease, border-color 200ms ease, color 150ms ease;
 
-  --animation-duration-page: 1000ms;
-  --animation-duration-modal: 1300ms;
+  --animation-duration-page: 900ms;
+  --animation-duration-modal: 1100ms;
   --animation-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Fonts custom propertie */
