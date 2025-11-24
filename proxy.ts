@@ -148,18 +148,17 @@ export async function proxy(request: NextRequest) {
         return clearResponse;
       }
     } catch (error: any) {
-      // Помилка перевірки сесії - очищаємо куки і дозволяємо доступ до публічних маршрутів
+      // Помилка перевірки сесії - для публічних маршрутів дозволяємо доступ
+      // (може бути тимчасова помилка або сесія ще не синхронізована після логіну)
+      if (isPublicRoute) {
+        // Дозволяємо доступ до публічних маршрутів навіть якщо перевірка сесії не вдалася
+        return NextResponse.next();
+      }
+
+      // Для приватних маршрутів очищаємо куки і редіректимо на логін
       cookieStore.delete('accessToken');
       cookieStore.delete('refreshToken');
       cookieStore.delete('sessionId');
-
-      if (isPublicRoute) {
-        const clearResponse = NextResponse.next();
-        clearResponse.cookies.delete('accessToken');
-        clearResponse.cookies.delete('refreshToken');
-        clearResponse.cookies.delete('sessionId');
-        return clearResponse;
-      }
 
       if (isPrivateRoute) {
         const clearResponse = NextResponse.redirect(new URL('/auth/login', request.url));
