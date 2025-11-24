@@ -162,6 +162,7 @@
 
 .logoutButton svg {
   transition: var(--transition-default);
+  min-width: 24px;
 }
 
 .logoutButton:hover svg,
