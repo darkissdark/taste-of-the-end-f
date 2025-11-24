@@ -104,7 +104,7 @@ main {
 body {
   font-family: var(--font-family-base);
   color: var(--black);
-  background: var(--white);
+  background: var(--background);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   display: flex;
