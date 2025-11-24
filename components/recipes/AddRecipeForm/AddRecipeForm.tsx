@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react';
 import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { setNestedObjectValues } from 'formik';
 import { fetchCategories, addRecipe } from '@/lib/api/clientApi';
 import Ingredients from './Ingredients/Ingredients';
 import UploadPhoto from './UploadPhoto/UploadPhoto';
 import Button from '@/components/buttons/Buttons';
-import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import CategorySelect from './CategoryDropdown';
+import PanLoader from '@/components/ui/loaders/PanLoader';
 
 interface AddRecipeFormValues {
   title: string;
@@ -172,7 +171,7 @@ const AddRecipeForm = () => {
         validateOnChange={false}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue, errors, touched, values, setFieldTouched }) => (
+        {({ setFieldValue, errors, touched, values, setFieldTouched, isSubmitting }) => (
           <Form className={css.formWithPhoto}>
             <div className={css.photoContainer}>
               <p className={css.subtitlePhoto}>Upload Photo</p>
@@ -226,7 +225,7 @@ const AddRecipeForm = () => {
                 </div>
 
                 <div className={css.caloriesCategory}>
-                  <div className={css.categoryForm}>
+                  <div className={css.caloriesForm}>
                     <label htmlFor="calories" className={css.label}>
                       Calories
                     </label>
@@ -281,7 +280,7 @@ const AddRecipeForm = () => {
                 size="xl"
                 className={`${'myCustomClass'} ${css.button}`}
               >
-                Publish Recipe
+                {isSubmitting ? <PanLoader size="small" /> : 'Publish Recipe'}
               </Button>
             </div>
           </Form>
