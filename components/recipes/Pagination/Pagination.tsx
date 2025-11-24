@@ -11,22 +11,25 @@ interface PaginationProps {
 
 export default function Pagination({ pageCount, currentPage, onPageChange }: PaginationProps) {
   return (
-    <ReactPaginate
-      pageCount={pageCount}
-      pageRangeDisplayed={6}
-      marginPagesDisplayed={0}
-      breakLabel={null}
-      breakClassName=""
-      onPageChange={onPageChange}
-      forcePage={currentPage - 1}
-      containerClassName={css.pagination}
-      pageClassName={css.pageItem}
-      activeClassName={css.active}
-      previousClassName={css.arrow}
-      nextClassName={css.arrow}
-      disabledClassName={css.disabled}
-      previousLabel={<SvgIcon name="pagination_left" />}
-      nextLabel={<SvgIcon name="pagination_right" />}
-    />
+    <nav aria-label="Pagination">
+      <ReactPaginate
+        pageCount={pageCount}
+        pageRangeDisplayed={6}
+        marginPagesDisplayed={0}
+        breakLabel={null}
+        breakClassName=""
+        onPageChange={onPageChange}
+        forcePage={currentPage - 1}
+        containerClassName={css.pagination}
+        pageClassName={css.pageItem}
+        activeClassName={css.active}
+        previousClassName={css.arrow}
+        nextClassName={css.arrow}
+        disabledClassName={css.disabled}
+        previousLabel={<SvgIcon name="pagination_left" />}
+        nextLabel={<SvgIcon name="pagination_right" />}
+        hrefBuilder={(page) => (page === 1 ? '#' : `#page-${page}`)}
+      />
+    </nav>
   );
 }
