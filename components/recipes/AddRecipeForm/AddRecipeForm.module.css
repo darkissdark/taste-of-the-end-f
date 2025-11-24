@@ -180,17 +180,24 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-  box-sizing: border-box;
   min-height: 82px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-
+.caloriesForm {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 .arrowIcon {
   position: absolute;
   right: 12px;
-  top: 73%;
+  top: 72%;
   transform: translateY(-50%);
   pointer-events: none;
   stroke: black;
@@ -236,6 +243,25 @@
 .placeholderText {
   color: var(--gray);
 }
+@media (max-width: 374px) {
+  .button {
+    width: 100%;
+    max-width: 361px;
+    box-sizing: border-box;
+  }
+  .caloriesCategory {
+    gap: 6px;
+  }
+  .categoryForm {
+    max-width: 145px;
+  }
+  .caloriesForm {
+    max-width: 105px;
+  }
+  .calories {
+    max-width: 105px;
+  }
+}
 /* TABLET */
 @media screen and (min-width: 767px) {
   .addRecipeContainer {
@@ -262,6 +288,11 @@
     flex-direction: column;
     gap: 8px;
   }
+  .caloriesForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
   .subtitle {
     font-size: 32px;
     margin-bottom: 0px;
@@ -279,7 +310,9 @@
     width: 340px;
   }
   .button {
-    width: 704px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 

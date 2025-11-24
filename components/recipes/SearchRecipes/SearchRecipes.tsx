@@ -86,10 +86,17 @@ export default function SearchRecipes({
               media="(min-width: 768px)"
               srcSet="/banner/banner-tab.jpg 1x, /banner/banner-tab@2x.jpg 2x"
             />
+            <source
+              media="(max-width: 767px)"
+              type="image/webp"
+              srcSet="/banner/banner-mob.webp 1x, /banner/banner-mob@2x.webp 2x"
+            />
             <img
               src="/banner/banner-mob.jpg"
               alt="Fallback image for the banner"
               className={styles.heroImage}
+              fetchPriority="high"
+              loading="eager"
             />
           </picture>
 
