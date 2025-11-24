@@ -107,7 +107,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
             <li>
               <Link
                 href="/add-recipe"
-                className={`${styles.link} ${styles.linkOutlined}`}
+                className={`${styles.link} ${styles.linkOutlined} ${styles.addRecipeLink}`}
                 onClick={onNavigate}
               >
                 Add recipe

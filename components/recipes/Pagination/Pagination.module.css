@@ -1,3 +1,17 @@
+/* Загальні налаштування для всіх елементів */
+.pageItem,
+.arrow,
+.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: var(--font-family);
+  text-align: center;
+  transition: var(--transition-default);
+}
+
 /* Mobile First: 320px+ */
 .pagination {
   display: flex;
@@ -8,63 +22,59 @@
   margin-bottom: 48px;
 }
 
+/* Цифри сторінок */
 .pageItem {
-  min-width: 36px;
-  height: 36px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: var(--transition-default);
-  font-family: var(--font-family);
+  width: 40px;
+  height: 40px;
   font-weight: 400;
   font-size: 16px;
   line-height: 155%;
-  text-align: center;
   color: var(--black);
-}
-
-.arrow {
   border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  background: var(--light-brown);
-  font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 16px;
-  text-align: center;
-  color: var(--white);
-  padding: 8px;
-}
-
-.active {
-  border-radius: 8px;
-  padding: 16px;
-  width: 40px;
-  height: 40px;
-  background: var(--light-brown);
-  font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 16px;
-  text-align: center;
-  color: var(--white);
 }
 
 .pageItem:hover:not(.disabled),
-.arrow:hover:not(.disabled) {
+.pageItem:focus:not(.disabled) {
   background: var(--brown);
+  border-radius: 8px;
 }
 
-.pageItem:focus:not(.disabled),
-.arrow:focus:not(.disabled) {
-  background: var(--brown);
-}
-
-.pageItem:active:not(.disabled),
-.arrow:active:not(.disabled) {
+.pageItem:active:not(.disabled) {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
   background: var(--light-brown);
+}
+
+/* Активна цифра */
+.active {
+  width: 40px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--white);
+  background: var(--light-brown);
+  border-radius: 8px;
+}
+
+.active:hover:not(.disabled),
+.active:focus:not(.disabled) {
+  background: var(--brown);
+}
+
+/* Стрілки */
+.arrow {
+  width: 40px;
+  height: 40px;
+  background: var(--light-brown);
+  color: var(--white);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.arrow:hover:not(.disabled),
+.arrow:focus:not(.disabled),
+.arrow:active:not(.disabled) {
+  background: var(--brown);
 }
 
 .disabled {
@@ -75,23 +85,29 @@
 /* 1440px+ Desktop */
 @media (min-width: 1440px) {
   .pageItem {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
     border-radius: 4px;
-    padding: 4px 12px;
-    width: 32px;
-    height: 32px;
-  }
-
-  .arrow {
-    border-radius: 8px;
-    padding: 4px 8px;
-    width: 32px;
-    height: 32px;
   }
 
   .active {
-    border-radius: 8px;
-    padding: 4px 12px;
     width: 32px;
     height: 32px;
+    font-size: 14px;
+    border-radius: 8px;
   }
+
+  .arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+/* Стрілки SVG всередині елементів */
+.arrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }

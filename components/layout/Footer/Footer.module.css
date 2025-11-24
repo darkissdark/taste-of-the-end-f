@@ -34,20 +34,32 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: inherit;
-  background-color: inherit;
+  color: var(--white);
+  background-color: transparent;
+  border: none;
+  padding-bottom: 0;
+  opacity: 1;
   font: var(--font-600-16);
   transition: var(--transition-default);
 }
 
-.link:hover,
-.link:focus-visible {
-  color: var(--nav-link-hover-color);
+.navList .link:hover,
+.navList .link:focus-visible {
+  opacity: var(--nav-link-hover-opacity);
+}
+
+.navList .link:active {
+  opacity: 1;
 }
 
 .link:focus-visible {
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
+}
+
+.link[aria-disabled='true'] {
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 @media (max-width: 767px) {

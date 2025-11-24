@@ -48,7 +48,7 @@
 }
 
 .searchButton:hover:not(:disabled) {
-  background-color: #a66840;
+  background: var(--brown);
 }
 
 .searchButton:active:not(:disabled) {
@@ -71,7 +71,7 @@
 
 /* Focus states */
 .searchInput:focus-visible {
-  outline: 2px solid #c17a4f;
+  outline: 2px solid var(--light-brown);
   outline-offset: 2px;
 }
 

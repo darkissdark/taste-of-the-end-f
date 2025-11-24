@@ -2,6 +2,7 @@ import RecipeDetails from '@/components/recipes/RecipeDetails/RecipeDetails';
 import RecipeNotFound from '@/components/recipes/RecipeNotFound/RecipeNotFound';
 import { getRecipeById } from '@/lib/api/serverApi';
 import { pageMeta } from '@/lib/seo';
+import Container from '@/components/layout/Container/Container';
 
 type Props = { params: Promise<{ recipeId: string }> };
 
@@ -49,7 +50,11 @@ export default async function RecipePage({ params }: Props) {
       return <RecipeNotFound />;
     }
 
-    return <RecipeDetails data={data} />;
+    return (
+      <Container>
+        <RecipeDetails data={data} />
+      </Container>
+    );
   } catch (err) {
     return <RecipeNotFound />;
   }

@@ -1,6 +1,5 @@
 import { Header } from '@/components/layout/Header/Header';
 import { Footer } from '@/components/layout/Footer/Footer';
-import { Outlet } from '@/components/layout/Outlet/Outlet';
 import { Montserrat } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import type { Metadata } from 'next';
@@ -29,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AuthProvider>
             <IconsSprite />
             <Header />
-            <Outlet children={children} />
+            <main>{children}</main>
             <Footer />
             <AuthDialogGate />
             <Toaster position="top-right" />

@@ -3,7 +3,7 @@ import css from '@/components/profile/ProfileNavigation/ProfileNavigation.module
 import RecipesList from '@/components/recipes/RecipesList/RecipesList';
 import { getServerFavoriteRecipes, getServerOwnRecipes } from '@/lib/api/serverApi';
 import { pageMeta } from '@/lib/seo';
-import { string } from 'yup';
+import Container from '@/components/layout/Container/Container';
 
 type Props = { params: Promise<{ recipeType: 'own' | 'favorites' }> };
 
@@ -18,30 +18,28 @@ export const generateMetadata = async ({ params }: Props) => {
 export default async function ProfilePage({ params }: Props) {
   const { recipeType } = await params;
   let data;
+
   if (recipeType === 'favorites') {
     data = await getServerFavoriteRecipes();
   } else {
     data = await getServerOwnRecipes();
   }
-  if (!data?.recipes || data.recipes.length === 0) {
-    return (
-      <section>
-        <h1>My Profile</h1>
-        <ProfileNavigation />
-        <p>No recipes found.</p>
-      </section>
-    );
-  }
 
   // Determine variant based on recipeType
   const variant = recipeType === 'own' ? 'my-recipes' : 'saved-recipes';
 
-  // Якщо рецепти є → рендеримо список
   return (
-    <section>
+    <Container>
+    <section className={css.profileSection}>
       <h1 className={css.profTitle}>My Profile</h1>
       <ProfileNavigation />
-      <RecipesList data={data} variant={variant} />
-    </section>
+
+      {!data?.recipes || data.recipes.length === 0 ? (
+        <p className={css.noRecipes}>No recipes found.</p>
+      ) : (
+        <RecipesList data={data} variant={variant} />
+      )}
+      </section>
+    </Container>
   );
 }
