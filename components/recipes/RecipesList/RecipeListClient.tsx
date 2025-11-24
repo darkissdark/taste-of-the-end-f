@@ -70,7 +70,9 @@ export default function RecipesListClient({ data, favorites, variant }: recipesL
 
               <div className={css.buttonsWrapper}>
                 <Link href={`/recipes/${recipe._id}`} className={css.link}>
-                  <button className={css.button}>Learn more</button>
+                  <button className={css.button} aria-label={`Learn more about ${recipe.title}`}>
+                    Learn more
+                  </button>
                 </Link>
 
                 {/* Only show FavoriteButton for saved recipes */}
