@@ -153,6 +153,24 @@
   background: var(--light-gray-2);
   border-radius: 4px;
 }
+@media (max-width: 374px) {
+  .addIngredientItem {
+    width: 256px;
+    max-width: 100%;
+  }
+  .selectedIngredientsList {
+    width: 256px;
+    max-width: 100%;
+  }
+  .selectedIngredientItem {
+    width: 256px;
+    max-width: 100%;
+    gap: 1px;
+  }
+  .selectedIngredientQ {
+    width: 96px;
+  }
+}
 
 /* TABLET */
 @media screen and (min-width: 767px) {
