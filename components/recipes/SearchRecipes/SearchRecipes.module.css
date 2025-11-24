@@ -1,9 +1,6 @@
-.mainPage {
-  min-height: 100vh;
-}
 .hero {
   width: 100%;
-  height: clamp(450px, 60vw, 550px);
+  margin-bottom: 48px;
 }
 
 .container {
@@ -20,7 +17,7 @@
 }
 
 .heroImage {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   z-index: -1;
   width: 393px;
@@ -76,10 +73,6 @@
 
 /* 768px+ Tablet */
 @media (min-width: 768px) {
-  .hero {
-    height: clamp(500px, 50vw, 600px);
-  }
-
   .container {
     max-width: 1440px;
     padding: 0 32px;
@@ -117,7 +110,7 @@
 
   .heroImage {
     height: 443px;
-    width: 100%;
+    width: auto;
   }
 
   .heroTitle {

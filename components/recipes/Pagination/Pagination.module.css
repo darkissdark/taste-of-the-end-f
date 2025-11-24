@@ -36,6 +36,7 @@
 .pageItem:hover:not(.disabled),
 .pageItem:focus:not(.disabled) {
   background: var(--brown);
+  border-radius: 8px;
 }
 
 .pageItem:active:not(.disabled) {
