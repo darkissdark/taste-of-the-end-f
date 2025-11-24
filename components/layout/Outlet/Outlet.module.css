@@ -5,6 +5,25 @@
   padding-left: var(--container-x);
   padding-right: var(--container-x);
   flex: 1;
+  animation: page-fade-in var(--animation-duration-page) var(--animation-ease-soft);
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main {
+    animation: none;
+  }
 }
 
 .loading {

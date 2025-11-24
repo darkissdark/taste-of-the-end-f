@@ -1,16 +1,16 @@
 import { pageMeta } from '@/lib/seo';
-import {
-  getServerCategories,
-  getServerIngredients,
-  getServerMe,
-} from '@/lib/api/serverApi';
+import { getServerCategories, getServerIngredients, getServerMe } from '@/lib/api/serverApi';
 import type { Metadata } from 'next';
 import SearchRecipes from '@/components/recipes/SearchRecipes/SearchRecipes';
 
 export const generateMetadata = (): Metadata =>
   pageMeta({ title: 'Home', description: 'Browse all recipes' });
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const [categories, ingredients] = await Promise.all([
     getServerCategories(),
     getServerIngredients(),
@@ -23,7 +23,17 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
   } catch {}
 
   const params = await searchParams;
-  const initialPage = Number(params?.page) || 1;
+  const pageRaw = Array.isArray(params.page) ? params.page[0] : params.page;
+  const searchRaw = Array.isArray(params.search) ? params.search[0] : params.search;
+  const categoryRaw = Array.isArray(params.category) ? params.category[0] : params.category;
+  const ingredientRaw = Array.isArray(params.ingredient) ? params.ingredient[0] : params.ingredient;
+
+  const initialPage = Number(pageRaw) || 1;
+  const initialFilters = {
+    search: searchRaw || '',
+    category: categoryRaw || '',
+    ingredient: ingredientRaw || '',
+  };
 
   return (
     <div>
@@ -32,6 +42,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
         categories={categories}
         ingredients={ingredients}
         initialPage={initialPage}
+        initialFilters={initialFilters}
       />
     </div>
   );

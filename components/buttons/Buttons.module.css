@@ -206,6 +206,6 @@
    ACCESSIBILITY & FOCUS STYLES
    ========================================== */
 .btn:focus-visible {
-  outline: 3px solid var(--button);
-  outline-offset: 2px;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }

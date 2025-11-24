@@ -44,7 +44,6 @@ export default function RecipesListClient({
 
   return (
     <div className={css.container}>
-      <p className={css.recTotal}>{recipes.length} recipes</p>
       <ul className={css.list}>
         {recipes.map((recipe) => {
           const isFavorite = favorites.includes(recipe._id);
@@ -53,7 +52,7 @@ export default function RecipesListClient({
             <li key={recipe._id} className={css.listItem}>
               <Image
                 src={recipe.thumb}
-                alt={recipe.description}
+                alt={recipe.description || 'recipe image'}
                 width={264}
                 height={178}
                 className={css.image}
