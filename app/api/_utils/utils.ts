@@ -58,9 +58,13 @@ export async function proxyRequest(
     }
 
     // Створюємо відповідь
-    const nextResponse = NextResponse.json(response.data, {
-      status: response.status,
-    });
+    // Для 204 No Content не можна використовувати JSON body
+    const nextResponse =
+      response.status === 204
+        ? new NextResponse(null, { status: 204 })
+        : NextResponse.json(response.data, {
+            status: response.status,
+          });
 
     // Обробляємо cookies з бекенду
     const setCookieHeaders = response.headers['set-cookie'];
