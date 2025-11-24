@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { fetchRecipes, RecipesRes } from '@/lib/api/clientApi';
 import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
-import RecipeNotFound from '@/components/recipes/RecipeNotFound/RecipeNotFound';
 import SearchEmpty from '@/components/recipes/SearchRecipes/SearchEmpty';
 import Filters from '@/components/recipes/Filters/Filters';
 import Pagination from '@/components/recipes/Pagination/Pagination';
@@ -123,7 +122,9 @@ export default function SearchRecipes({
       <Container>
         {/* Filters */}
         <section>
-          <h2 className={styles.sectionTitle}>Recipes</h2>
+          <h2 className={styles.sectionTitle}>
+            {filters.search ? `Search Results for "${filters.search}"` : 'Recipes'}
+          </h2>
           <Filters
             categories={categories}
             ingredients={ingredients}
@@ -148,16 +149,13 @@ export default function SearchRecipes({
           data.recipes.length === 0 &&
           !isLoading &&
           !isError &&
-          (filters.search ? (
-            <SearchEmpty
+          <SearchEmpty
               onReset={() => {
                 setFilters({ search: '', category: '', ingredient: '' });
                 setCurrentPage(1);
               }}
             />
-          ) : (
-            <RecipeNotFound />
-          ))}
+        }
         {data && data.recipes.length > 0 && (
           <RecipesListClient data={data} favorites={favorites} variant="home" />
         )}
