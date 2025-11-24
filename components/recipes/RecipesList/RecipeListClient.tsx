@@ -92,14 +92,6 @@ export default function RecipesListClient({
           );
         })}
       </ul>
-      {/* Load More Button */}
-      {hasMore && (
-        <div className={css.loadMoreWrapper}>
-          <button className={css.loadMoreButton} onClick={onLoadMore} disabled={isLoading}>
-            {isLoading ? 'Loading...' : 'Load More'}
-          </button>
-        </div>
-      )}
     </div>
   );
 }
