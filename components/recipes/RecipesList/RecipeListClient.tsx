@@ -14,19 +14,9 @@ interface recipesListClientProps {
   data: RecipesRes;
   favorites: string[];
   variant?: 'my-recipes' | 'saved-recipes' | 'home'; // Add this prop
-  onLoadMore?: () => void; // Adding this for load more functionality
-  hasMore?: boolean; // Are more recipes to load???
-  isLoading?: boolean; // To show loading state
 }
 
-export default function RecipesListClient({
-  data,
-  favorites,
-  variant = 'saved-recipes',
-  onLoadMore,
-  hasMore = false,
-  isLoading = false,
-}: recipesListClientProps) {
+export default function RecipesListClient({ data, favorites, variant }: recipesListClientProps) {
   const [recipes, setRecipes] = useState(data.recipes);
 
   useEffect(() => {

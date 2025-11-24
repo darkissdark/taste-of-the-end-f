@@ -1,0 +1,39 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.pages {
+  display: flex;
+  gap: 8px;
+}
+
+.pageNumber {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.pageNumber:hover {
+  background: #f4f4f4;
+}
+
+.activePage {
+  background: #0070f3;
+  color: white;
+  border-color: #0070f3;
+}
+
+.btn {
+  padding: 6px 10px;
+  border: 1px solid #888;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #eee;
+}
