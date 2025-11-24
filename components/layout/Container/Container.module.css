@@ -8,6 +8,18 @@
   animation: page-fade-in var(--animation-duration-page) var(--animation-ease-soft);
 }
 
+@media (min-width: 768px) and (max-width: 1439px) {
+  .main {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    max-width: 375px;
+  }
+}
+
 @keyframes page-fade-in {
   from {
     opacity: 0;

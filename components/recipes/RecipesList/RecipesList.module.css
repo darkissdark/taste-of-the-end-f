@@ -145,7 +145,7 @@
 @media (min-width: 768px) and (max-width: 1439px) {
   .list {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 800px;
+    max-width: 768px;
     margin: 0 auto;
   }
   .listItem {
