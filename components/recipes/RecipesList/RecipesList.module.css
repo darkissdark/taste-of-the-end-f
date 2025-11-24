@@ -93,6 +93,9 @@
   display: inline-block;
   flex-grow: 1;
 }
+.container {
+  margin-bottom: 24px;
+}
 
 .button {
   width: 100%;
@@ -110,9 +113,6 @@
 }
 /* Mobile: 320px - 425px (1 column) */
 @media (min-width: 320px) and (max-width: 425px) {
-  .container {
-    margin-bottom: 126px;
-  }
   .list {
     grid-template-columns: 1fr;
   }
@@ -143,9 +143,6 @@
 
 /* Tablet: 768px+ (2 columns) */
 @media (min-width: 768px) and (max-width: 1439px) {
-  .container {
-    margin-bottom: 126px;
-  }
   .list {
     grid-template-columns: repeat(2, 1fr);
     max-width: 800px;
@@ -177,9 +174,6 @@
 
 /* Desktop: 1440px+ (4 columns) */
 @media (min-width: 1440px) {
-  .container {
-    margin-bottom: 124px;
-  }
   .list {
     grid-template-columns: repeat(4, 1fr);
     max-width: 1400px;
