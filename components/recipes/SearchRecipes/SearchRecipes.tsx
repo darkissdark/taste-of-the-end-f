@@ -7,13 +7,16 @@ import { SearchBox } from '@/components/recipes/SearchBox/SearchBox';
 import RecipesListClient from '@/components/recipes/RecipesList/RecipeListClient';
 import SearchEmpty from '@/components/recipes/SearchRecipes/SearchEmpty';
 import Filters from '@/components/recipes/Filters/Filters';
-import Pagination from '@/components/recipes/Pagination/Pagination';
+import dynamic from 'next/dynamic';
 import { Ingredient } from '@/types/recipe';
 import PanLoader from '@/components/ui/loaders/PanLoader';
 // import Image from 'next/image';
 import styles from './SearchRecipes.module.css';
 import Container from '@/components/layout/Container/Container';
 
+const Pagination = dynamic(() => import('@/components/recipes/Pagination/Pagination'), {
+  ssr: false,
+});
 interface FiltersState {
   search: string;
   category: string;
