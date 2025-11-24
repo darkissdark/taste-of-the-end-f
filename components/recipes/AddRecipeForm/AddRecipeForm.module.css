@@ -38,7 +38,8 @@
   font-size: 24px;
   color: var(--black);
   margin: 0;
-  width: 361px;
+  width: 100%;
+  max-width: 361px;
   height: 29px;
 }
 
