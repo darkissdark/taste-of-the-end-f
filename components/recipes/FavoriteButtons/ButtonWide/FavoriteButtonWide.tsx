@@ -1,10 +1,10 @@
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
+import type { MouseEventHandler } from 'react';
 import css from './FavoriteButtonWide.module.css';
-
 interface Props {
   isFavorite: boolean;
   loading: boolean;
-  toggleFavorite: () => void;
+  toggleFavorite: MouseEventHandler<HTMLButtonElement>;
 }
 
 export function FavoriteButtonWide({ isFavorite, loading, toggleFavorite }: Props) {

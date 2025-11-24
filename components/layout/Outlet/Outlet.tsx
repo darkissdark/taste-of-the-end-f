@@ -1,4 +1,4 @@
-import { PropsWithChildren, Suspense } from 'react';
+import { PropsWithChildren } from 'react';
 import styles from './Outlet.module.css';
 
 export function Outlet({ children }: PropsWithChildren) {
