@@ -1,3 +1,12 @@
+/* Profile Section Container */
+.profileSection {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .profTitle {
   font-family: var(--font-family);
   font-weight: 600;
@@ -5,15 +14,53 @@
   color: var(--black);
   margin-top: 46px;
   margin-bottom: 16px;
+  align-self: flex-start;
 }
+
 .nav {
   display: flex;
   gap: 38px;
+  align-self: flex-start;
 }
+
 .tab {
   margin-bottom: 16px;
 }
+
 .active {
   padding: 0px 0px 4px;
   border-bottom: 1px solid var(--black);
+}
+
+.noRecipes {
+  font-family: var(--font-family);
+  font-size: 16px;
+  color: var(--black);
+  margin-top: 32px;
+  text-align: left;
+  align-self: flex-start;
+}
+
+/* Mobile: 320px - 425px */
+@media (min-width: 320px) and (max-width: 425px) {
+  .noRecipes {
+    font-size: 14px;
+    margin-top: 24px;
+  }
+}
+
+/* Tablet: 768px+ */
+@media (min-width: 768px) and (max-width: 1439px) {
+  .noRecipes {
+    font-size: 15px;
+    margin-top: 28px;
+  }
+}
+
+/* Desktop: 1440px+ */
+@media (min-width: 1440px) {
+  .noRecipes {
+    font-size: 16px;
+    margin-top: 32px;
+  }
 }
