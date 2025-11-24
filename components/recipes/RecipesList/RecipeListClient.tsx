@@ -13,7 +13,7 @@ import { RecipesRes } from '@/lib/api/clientApi';
 interface recipesListClientProps {
   data: RecipesRes;
   favorites: string[];
-  variant?: 'my-recipes' | 'saved-recipes'; // Add this prop
+  variant?: 'my-recipes' | 'saved-recipes' | 'home'; // Add this prop
   onLoadMore?: () => void; // Adding this for load more functionality
   hasMore?: boolean; // Are more recipes to load???
   isLoading?: boolean; // To show loading state
