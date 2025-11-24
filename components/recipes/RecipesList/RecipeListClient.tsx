@@ -50,6 +50,8 @@ export default function RecipesListClient({ data, favorites, variant }: recipesL
                 width={264}
                 height={178}
                 className={css.image}
+                quality={65}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
               <div className={css.titleWrapper}>
