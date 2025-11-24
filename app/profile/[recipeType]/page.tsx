@@ -3,6 +3,7 @@ import css from '@/components/profile/ProfileNavigation/ProfileNavigation.module
 import RecipesList from '@/components/recipes/RecipesList/RecipesList';
 import { getServerFavoriteRecipes, getServerOwnRecipes } from '@/lib/api/serverApi';
 import { pageMeta } from '@/lib/seo';
+import Container from '@/components/layout/Container/Container';
 
 type Props = { params: Promise<{ recipeType: 'own' | 'favorites' }> };
 
@@ -28,6 +29,7 @@ export default async function ProfilePage({ params }: Props) {
   const variant = recipeType === 'own' ? 'my-recipes' : 'saved-recipes';
 
   return (
+    <Container>
     <section className={css.profileSection}>
       <h1 className={css.profTitle}>My Profile</h1>
       <ProfileNavigation />
@@ -37,6 +39,7 @@ export default async function ProfilePage({ params }: Props) {
       ) : (
         <RecipesList data={data} variant={variant} />
       )}
-    </section>
+      </section>
+    </Container>
   );
 }
