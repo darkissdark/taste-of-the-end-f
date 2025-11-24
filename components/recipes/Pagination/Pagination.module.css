@@ -74,7 +74,7 @@
 }
 
 /* 1440px+ Desktop */
-@media (min-width: 1440px) {
+@media (min-width: 375px) {
   .pageItem,
   .arrow,
   .active {

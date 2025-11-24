@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import css from './Pagination.module.css';
+import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 
 interface NextPaginationProps {
   page: number;
@@ -34,7 +35,7 @@ export default function NextPagination({ page, totalPages, basePath }: NextPagin
       <div className={css.pagination}>
         {current > 1 && (
           <Link href={`${basePath}?page=${current - 1}`} className={css.btn}>
-            Previous
+            <SvgIcon name="pagination_left" />
           </Link>
         )}
 
@@ -53,7 +54,7 @@ export default function NextPagination({ page, totalPages, basePath }: NextPagin
 
         {current < totalPages && (
           <Link href={`${basePath}?page=${current + 1}`} className={css.btn}>
-            Next
+            <SvgIcon name="pagination_right" />
           </Link>
         )}
       </div>
