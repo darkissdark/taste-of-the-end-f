@@ -39,7 +39,7 @@ export function RecipeCard({ recipe, isFavorite, variant, onUnlike }: RecipeCard
       <p className={css.calories}>{recipe.calories ? `~${recipe.calories} cals` : '\u00A0'}</p>
 
       <div className={css.buttonsWrapper}>
-        <Link href={`/recipes/${recipe._id}`} className={css.learnMoreBtn}>
+        <Link href={`/recipes/${recipe._id}`} className={css.learnMoreBtn} aria-label={`Learn more about ${recipe.title}`}>
           {/* button styled as link container */}
           <span>Learn more</span>
         </Link>
