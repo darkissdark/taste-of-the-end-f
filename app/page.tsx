@@ -36,12 +36,15 @@ export default async function Page({
   };
 
   return (
-    <SearchRecipes
-      favorites={favorites}
-      categories={categories}
-      ingredients={ingredients}
-      initialPage={initialPage}
-      initialFilters={initialFilters}
-    />
+    <>
+      <link rel="preload" as="image" href="/banner/banner-mob@2x.webp" type="image/webp" />
+      <SearchRecipes
+        favorites={favorites}
+        categories={categories}
+        ingredients={ingredients}
+        initialPage={initialPage}
+        initialFilters={initialFilters}
+      />
+    </>
   );
 }
