@@ -34,6 +34,10 @@ export default function RecipesListClient({ data, favorites, variant }: recipesL
 
   return (
     <div className={css.container}>
+      {/* Recipe Count - only show for profile pages */}
+      {(variant === 'my-recipes' || variant === 'saved-recipes') && (
+        <p className={css.recTotal}>{data.total} recipes</p>
+      )}
       <ul className={css.list}>
         {recipes.map((recipe) => {
           const isFavorite = favorites.includes(recipe._id);
