@@ -33,12 +33,15 @@ export default async function ProfilePage({ params }: Props) {
     );
   }
 
+  // Determine variant based on recipeType
+  const variant = recipeType === 'own' ? 'my-recipes' : 'saved-recipes';
+
   // Якщо рецепти є → рендеримо список
   return (
     <section>
       <h1 className={css.profTitle}>My Profile</h1>
       <ProfileNavigation />
-      <RecipesList data={data} />
+      <RecipesList data={data} variant={variant} />
     </section>
   );
 }
