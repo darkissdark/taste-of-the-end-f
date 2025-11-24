@@ -69,13 +69,24 @@
   margin-top: 8px;
   cursor: pointer;
   appearance: none;
+
   -webkit-appearance: none;
   -moz-appearance: none;
   color: black;
   font-weight: 400;
   font-size: 18px;
   box-sizing: border-box;
+  transition: var(--transition-default);
+  background: var(--white);
 }
+.field:focus,
+.field:hover,
+.field:active {
+  border: 1.5px solid var(--light-brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  outline: none;
+}
+
 .fieldDescription {
   border: 1px solid var(--light-gray);
   border-radius: 8px;
@@ -85,15 +96,28 @@
   margin-top: 8px;
   cursor: pointer;
   box-sizing: border-box;
+  transition: var(--transition-default);
 }
-
+.fieldDescription:focus,
+.fieldDescription:hover,
+.fieldDescription:active {
+  border: 1.5px solid var(--light-brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  outline: none;
+}
 .fieldInstructions {
   margin-top: 16px;
 }
-
+.fieldDescriptionError {
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  box-sizing: border-box;
+}
 .fieldError {
   border: 1.5px solid var(--red);
   color: var(--red);
+  box-sizing: border-box;
+  height: 46px;
 }
 
 .fieldError::placeholder {
@@ -116,11 +140,14 @@
 .hasValue {
   color: black;
 }
-
+.calories.hasValue {
+  color: black;
+}
 .caloriesCategory {
   height: 78px;
   display: flex;
   gap: 16px;
+  box-sizing: border-box;
 }
 
 .calories {
@@ -139,24 +166,36 @@
   -moz-appearance: none;
   appearance: none;
   margin-top: 8px;
+  transition: var(--transition-default);
 }
-
+.calories:focus,
+.calories:hover,
+.calories:active {
+  border: 1.5px solid var(--light-brown);
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  outline: none;
+}
 .categoryForm {
   position: relative;
   width: 100%;
   max-width: 100%;
+  box-sizing: border-box;
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .arrowIcon {
+  position: absolute;
+  right: 12px;
+  top: 73%;
+  transform: translateY(-50%);
+  pointer-events: none;
   stroke: black;
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
-  position: absolute;
-  right: 12px;
-  top: 80%;
-  transform: translateY(-50%);
-  pointer-events: none;
 }
 
 .instructions {
@@ -168,7 +207,34 @@
   width: 361px;
   height: 44px;
 }
-
+.optionList {
+  position: absolute;
+  z-index: 99;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  height: 262px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
+  background: var(--white);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  top: 100%;
+  left: 0;
+}
+.optionItem {
+  border-radius: 8px;
+  padding: 8px 8px 8px 12px;
+  width: 100%;
+  height: 41px;
+}
+.optionItem:hover {
+  background: var(--light-gray-2);
+  border-radius: 4px;
+}
+.placeholderText {
+  color: var(--gray);
+}
 /* TABLET */
 @media screen and (min-width: 767px) {
   .addRecipeContainer {

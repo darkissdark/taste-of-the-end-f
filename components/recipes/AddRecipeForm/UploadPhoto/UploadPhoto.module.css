@@ -11,8 +11,14 @@
   object-fit: contain;
   box-sizing: border-box;
   cursor: pointer;
+  transition: var(--transition-default);
 }
-
+.photo:focus,
+.photo:hover {
+  border-radius: 18px;
+  box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
+  outline: none;
+}
 /* TABLET */
 @media screen and (min-width: 767px) {
   .photo {
