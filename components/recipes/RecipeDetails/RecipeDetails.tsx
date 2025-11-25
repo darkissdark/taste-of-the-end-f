@@ -1,7 +1,6 @@
 import { Recipe } from '@/types/recipe';
 import css from './RecipeDetails.module.css';
 import Image from 'next/image';
-// import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import FavoriteButton from '../FavoriteButtons/FavoriteButton';
 import { getServerMe } from '@/lib/api/serverApi';
 
@@ -21,7 +20,7 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
 
   return (
     <section className={css.recipeDetailsSection}>
-      <div className={`${css.container} ${css.containerRecipe}`}>
+      <div className={css.containerRecipe}>
         <div className={css.titleBlok}>
           <h1 className={css.title}>{data.title}</h1>
           <Image
@@ -52,14 +51,7 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
                 kcal per serving
               </p>
             </div>
-
             <FavoriteButton recipeId={data._id} initialIsFavorite={isFavorite} variant="wide" />
-
-            {/* <button className={css.saveButton}>
-              Save */}
-            {/* Unsave */}
-            {/* <SvgIcon name="save_tooth" className={css.icon} />
-            </button> */}
           </div>
           <div className={css.recipeBlok}>
             <div>

@@ -14,7 +14,7 @@
 
 @media (max-width: 767px) {
   .image {
-    min-width: 361px;
+    min-width: 343px;
     max-width: 600px;
   }
 }
@@ -54,7 +54,7 @@
   font-weight: 600;
   font-size: 18px;
   color: var(--white);
-  width: 361px;
+  width: 343px;
   text-decoration: none;
   margin-bottom: 79px;
 }

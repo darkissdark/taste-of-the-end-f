@@ -8,7 +8,7 @@ import Container from '@/components/layout/Container/Container';
 const RecipeNotFound = () => {
   return (
     <Container>
-      <div className={`${css.container} ${css.notFoundContainer}`}>
+      <div className={css.notFoundContainer}>
         <Image
           className={css.image}
           src="/recipeNF.jpg"
