@@ -1,12 +1,11 @@
 'use client';
-import React from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import FavoriteButton from '../FavoriteButtons/FavoriteButton';
 import css from './RecipeCard.module.css';
 import { RecipesRes } from '@/lib/api/clientApi';
-
 interface RecipeCardProps {
   recipe: RecipesRes['recipes'][number];
   isFavorite: boolean;
@@ -39,9 +38,14 @@ export function RecipeCard({ recipe, isFavorite, variant, onUnlike }: RecipeCard
       <p className={css.calories}>{recipe.calories ? `~${recipe.calories} cals` : '\u00A0'}</p>
 
       <div className={css.buttonsWrapper}>
-        <Link href={`/recipes/${recipe._id}`} className={css.learnMoreBtn} aria-label={`Learn more about ${recipe.title}`}>
+        <Link
+          href={`/recipes/${recipe._id}`}
+          className={css.learnMoreBtn}
+          // aria-label={`Learn more about ${recipe.title}`}
+        >
           {/* button styled as link container */}
           <span>Learn more</span>
+          <span className="visually-hidden"> about recipe: {recipe.title}</span>
         </Link>
         {!isMyRecipes && (
           <FavoriteButton
