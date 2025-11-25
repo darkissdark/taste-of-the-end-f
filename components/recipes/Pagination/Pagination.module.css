@@ -10,12 +10,13 @@
   font-family: var(--font-family);
   text-align: center;
   transition: var(--transition-default);
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   font-weight: 600;
   line-height: 155%;
   color: var(--black);
   border-radius: 8px;
+  border: 3px solid transparent;
 }
 
 .pagination a {
@@ -36,10 +37,11 @@
   margin-bottom: 48px;
 }
 
-.pageItem:hover:not(.disabled),
-.pageItem:focus:not(.disabled) {
+.pageItem:not(.active):hover:not(.disabled),
+.pageItem:not(.active):focus:not(.disabled) {
   background: var(--brown);
   color: var(--white);
+  opacity: 0.8;
 }
 
 .pageItem:active:not(.disabled) {
@@ -76,12 +78,12 @@
 }
 
 /* 1440px+ Desktop */
-@media (min-width: 375px) {
+@media (min-width: 1440px) {
   .pageItem,
   .arrow,
   .active {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     font-size: 16px;
   }
 }
