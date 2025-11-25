@@ -162,6 +162,7 @@
 
 .logoutButton svg {
   transition: var(--transition-default);
+  min-width: 24px;
 }
 
 .logoutButton:hover svg,
@@ -319,10 +320,6 @@
     background-color: var(--light-brown);
     font: var(--font-600-16);
     height: 44px;
-  }
-
-  .linkActive {
-    padding-bottom: 4px;
   }
 
   .mobileTop {

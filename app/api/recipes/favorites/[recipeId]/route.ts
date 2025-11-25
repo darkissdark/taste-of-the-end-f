@@ -10,7 +10,7 @@ export async function POST(
     request,
     'post',
     `/api/recipes/favorites/${recipeId}`,
-    undefined,
+    {},
     {
       errorMessage: 'Error proxying add to favorites request:',
     }

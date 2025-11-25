@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import css from './Pagination.module.css';
+import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 
 interface NextPaginationProps {
   page: number;
@@ -30,31 +31,33 @@ export default function NextPagination({ page, totalPages, basePath }: NextPagin
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className={css.pagination}>
-      {current > 1 && (
-        <Link href={`${basePath}?page=${current - 1}`} className={css.btn}>
-          Previous
-        </Link>
-      )}
-
-      {/* Номери сторінок */}
-      <div className={css.pages}>
-        {pageNumbers.map((p) => (
-          <Link
-            key={p}
-            href={`${basePath}?page=${p}`}
-            className={`${css.pageNumber} ${p === current ? css.activePage : ''}`}
-          >
-            {p}
+    <div className={css.paginationWrapper}>
+      <div className={css.pagination}>
+        {current > 1 && (
+          <Link href={`${basePath}?page=${current - 1}`} className={css.btn}>
+            <SvgIcon name="pagination_left" />
           </Link>
-        ))}
-      </div>
+        )}
 
-      {current < totalPages && (
-        <Link href={`${basePath}?page=${current + 1}`} className={css.btn}>
-          Next
-        </Link>
-      )}
+        {/* Номери сторінок */}
+        <div className={css.pages}>
+          {pageNumbers.map((p) => (
+            <Link
+              key={p}
+              href={`${basePath}?page=${p}`}
+              className={`${css.pageNumber} ${p === current ? css.activePage : ''}`}
+            >
+              {p}
+            </Link>
+          ))}
+        </div>
+
+        {current < totalPages && (
+          <Link href={`${basePath}?page=${current + 1}`} className={css.btn}>
+            <SvgIcon name="pagination_right" />
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

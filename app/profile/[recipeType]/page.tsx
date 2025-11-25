@@ -46,11 +46,13 @@ export default async function ProfilePage({ params, searchParams }: Props) {
           <>
             <RecipesList data={data} variant={variant} />
 
-            <NextPagination
-              page={data.page}
-              totalPages={data.totalPages}
-              basePath={`/profile/${recipeType}`}
-            />
+            {data.totalPages > 1 && (
+              <NextPagination
+                page={data.page}
+                totalPages={data.totalPages}
+                basePath={`/profile/${recipeType}`}
+              />
+            )}
           </>
         )}
       </section>

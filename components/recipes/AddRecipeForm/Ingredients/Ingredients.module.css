@@ -59,7 +59,8 @@
   gap: 24px;
 }
 .addIngredients {
-  width: 332px;
+  width: 100%;
+  max-width: 332px;
 }
 .addIngredientItem {
   display: flex;

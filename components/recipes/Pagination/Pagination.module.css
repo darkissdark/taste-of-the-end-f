@@ -22,6 +22,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 /* Mobile First: 320px+ */
@@ -74,7 +76,7 @@
 }
 
 /* 1440px+ Desktop */
-@media (min-width: 1440px) {
+@media (min-width: 375px) {
   .pageItem,
   .arrow,
   .active {

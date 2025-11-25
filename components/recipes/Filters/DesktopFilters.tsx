@@ -13,6 +13,8 @@ interface DesktopFiltersProps {
   openIngr: boolean;
   setOpenCats: (v: boolean) => void;
   setOpenIngr: (v: boolean) => void;
+  onToggleCats: () => void;
+  onToggleIngr: () => void;
   onChange: (filters: { category?: string; ingredient?: string; search?: string }) => void;
 }
 
@@ -25,6 +27,8 @@ export function DesktopFilters({
   openIngr,
   setOpenCats,
   setOpenIngr,
+  onToggleCats,
+  onToggleIngr,
   onChange,
 }: DesktopFiltersProps) {
   const categoryOptions = categories.map((c) => ({ key: c, label: c, value: c }));
@@ -49,7 +53,7 @@ export function DesktopFilters({
         selected={selectedCategory}
         options={categoryOptions}
         isOpen={openCats}
-        onToggle={() => setOpenCats(!openCats)}
+        onToggle={onToggleCats}
         onSelect={(val) => {
           onChange({ category: val });
           setOpenCats(false);
@@ -63,7 +67,7 @@ export function DesktopFilters({
         selected={selectedIngredient}
         options={ingredientOptions}
         isOpen={openIngr}
-        onToggle={() => setOpenIngr(!openIngr)}
+        onToggle={onToggleIngr}
         onSelect={(val) => {
           onChange({ ingredient: val });
           setOpenIngr(false);

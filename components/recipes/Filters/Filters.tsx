@@ -28,6 +28,22 @@ export default function Filters({
   const [openIngr, setOpenIngr] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
+  const toggleCats = () => {
+    setOpenCats((prev) => {
+      const next = !prev;
+      if (next) setOpenIngr(false);
+      return next;
+    });
+  };
+
+  const toggleIngr = () => {
+    setOpenIngr((prev) => {
+      const next = !prev;
+      if (next) setOpenCats(false);
+      return next;
+    });
+  };
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
@@ -82,6 +98,8 @@ export default function Filters({
           openIngr={openIngr}
           setOpenCats={setOpenCats}
           setOpenIngr={setOpenIngr}
+          onToggleCats={toggleCats}
+          onToggleIngr={toggleIngr}
           onChange={onChange}
         />
       </div>
@@ -92,6 +110,8 @@ export default function Filters({
           openIngr={openIngr}
           setOpenCats={setOpenCats}
           setOpenIngr={setOpenIngr}
+          onToggleCats={toggleCats}
+          onToggleIngr={toggleIngr}
           categories={categories}
           ingredients={ingredients}
           selectedCategory={selectedCategory}

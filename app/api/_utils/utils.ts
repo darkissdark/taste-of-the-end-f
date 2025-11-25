@@ -47,10 +47,12 @@ export async function proxyRequest(
         response = await api.get(url, requestConfig);
         break;
       case 'post':
-        response = await api.post(url, body ?? null, requestConfig);
+        // Use empty object instead of null to ensure Content-Type header is set
+        response = await api.post(url, body ?? {}, requestConfig);
         break;
       case 'patch':
-        response = await api.patch(url, body ?? null, requestConfig);
+        // Use empty object instead of null to ensure Content-Type header is set
+        response = await api.patch(url, body ?? {}, requestConfig);
         break;
       case 'delete':
         response = await api.delete(url, requestConfig);

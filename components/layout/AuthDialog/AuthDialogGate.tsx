@@ -1,7 +1,9 @@
 'use client';
 
-import { AuthDialog } from './AuthDialog';
+import dynamic from 'next/dynamic';
 import { useAuthDialogStore } from '@/lib/store/authDialogStore';
+
+const AuthDialog = dynamic(() => import('./AuthDialog').then((m) => m.AuthDialog), { ssr: false });
 
 export function AuthDialogGate() {
   const isOpen = useAuthDialogStore((state) => state.isOpen);

@@ -7,8 +7,13 @@ import styles from './Header.module.css';
 import { Logo } from '@/components/ui/Logo/Logo';
 import { SvgIcon } from '@/components/ui/icons/SvgIcon';
 import useAuthStore from '@/lib/store/authStore';
-import { LogoutDialog } from '@/components/layout/LogoutDialog/LogoutDialog';
 import { useAuthDialogStore } from '@/lib/store/authDialogStore';
+import dynamic from 'next/dynamic';
+
+const LogoutDialog = dynamic(
+  () => import('@/components/layout/LogoutDialog/LogoutDialog').then((m) => m.LogoutDialog),
+  { ssr: false }
+);
 
 type HeaderClientProps = {
   isAuthenticated: boolean;
@@ -140,7 +145,7 @@ export function HeaderClient({ isAuthenticated, userName }: HeaderClientProps) {
               setIsLogoutDialogOpen(true);
             }}
           >
-            <SvgIcon name="logout" aria-hidden />
+            <SvgIcon className={styles.logoutSvg} name="logout" aria-hidden />
             <span className="visually-hidden">Log out</span>
           </button>
         </div>

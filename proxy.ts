@@ -117,57 +117,12 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Якщо accessToken існує, перевіряємо валідність сесії
-  if (accessToken) {
-    try {
-      const sessionResponse = await checkServerSession();
-      const isAuthorized = sessionResponse.data?.authorized === true;
-
-      if (isAuthorized) {
-        // Сесія валідна
-        if (isPublicRoute) {
-          return NextResponse.redirect(new URL('/', request.url));
-        }
-        if (isPrivateRoute) {
-          return NextResponse.next();
-        }
-      } else {
-        // Сесія невалідна - очищаємо куки
-        cookieStore.delete('accessToken');
-        cookieStore.delete('refreshToken');
-        cookieStore.delete('sessionId');
-
-        const clearResponse = isPublicRoute
-          ? NextResponse.next()
-          : NextResponse.redirect(new URL('/auth/login', request.url));
-
-        clearResponse.cookies.delete('accessToken');
-        clearResponse.cookies.delete('refreshToken');
-        clearResponse.cookies.delete('sessionId');
-
-        return clearResponse;
-      }
-    } catch (error: any) {
-      // Помилка перевірки сесії - для публічних маршрутів дозволяємо доступ
-      // (може бути тимчасова помилка або сесія ще не синхронізована після логіну)
-      if (isPublicRoute) {
-        // Дозволяємо доступ до публічних маршрутів навіть якщо перевірка сесії не вдалася
-        return NextResponse.next();
-      }
-
-      // Для приватних маршрутів очищаємо куки і редіректимо на логін
-      cookieStore.delete('accessToken');
-      cookieStore.delete('refreshToken');
-      cookieStore.delete('sessionId');
-
-      if (isPrivateRoute) {
-        const clearResponse = NextResponse.redirect(new URL('/auth/login', request.url));
-        clearResponse.cookies.delete('accessToken');
-        clearResponse.cookies.delete('refreshToken');
-        clearResponse.cookies.delete('sessionId');
-        return clearResponse;
-      }
-    }
+  // Якщо accessToken існує:
+  if (isPublicRoute) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+  if (isPrivateRoute) {
+    return NextResponse.next();
   }
 }
 
