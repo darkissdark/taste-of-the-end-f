@@ -155,6 +155,11 @@
   border-radius: 4px;
 }
 @media (max-width: 374px) {
+  .addIngredients {
+    width: 256px;
+    max-width: 100%;
+  }
+
   .addIngredientItem {
     width: 256px;
     max-width: 100%;

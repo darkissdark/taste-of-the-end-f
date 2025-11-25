@@ -1,4 +1,4 @@
-/* Mobile First: 320-393px (гумово) */
+/* Mobile First: 320-393px */
 .searchForm {
   display: flex;
   flex-direction: column;
@@ -6,6 +6,7 @@
   width: 100%;
 }
 
+/* INPUT */
 .searchInput {
   width: 100%;
   padding: 14px 20px;
@@ -33,6 +34,13 @@
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
 
+/* INPUT focus-visible */
+.searchInput:focus-visible {
+  outline: 2px solid #c17a4f;
+  outline-offset: 2px;
+}
+
+/* BUTTON */
 .searchButton {
   width: 100%;
   padding: 14px 24px;
@@ -44,17 +52,30 @@
   font-weight: 600;
   font-family: var(--font-family);
   cursor: pointer;
-  transition: var(--transition-default);
+
+  /* iOS-like spring animation */
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.12s ease,
+    background 0.2s ease;
 }
 
+/* Hover */
 .searchButton:hover:not(:disabled) {
   background: var(--brown);
 }
 
+/* Tap (iOS-style) */
 .searchButton:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: scale(0.92);
+  filter: brightness(0.92);
 }
 
+/* Focus-visible */
+.searchButton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Disabled */
 .searchButton:disabled {
   position: relative;
   background-color: #d4a88a;
@@ -62,25 +83,7 @@
   opacity: 0.7;
 }
 
-.errorMessage {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #dc3545;
-  font-weight: 500;
-}
-
-/* Focus states */
-.searchInput:focus-visible {
-  outline: 2px solid var(--light-brown);
-  outline-offset: 2px;
-}
-
-.searchButton:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-/* Loading spinner */
+/* Spinner */
 .searchButton:disabled::after {
   content: '';
   position: absolute;
@@ -101,7 +104,7 @@
   }
 }
 
-/* 768px+ Tablet */
+/* Tablet 768px+ */
 @media (min-width: 768px) {
   .searchForm {
     flex-direction: row;
@@ -134,7 +137,7 @@
   }
 }
 
-/* 1440px+ Desktop */
+/* Desktop 1440px+ */
 @media (min-width: 1440px) {
   .searchForm {
     gap: 20px;
@@ -154,49 +157,10 @@
   }
 }
 
-/* Focus states з підвищеною видимістю */
-.searchInput:focus-visible {
-  outline: 2px solid #c17a4f;
-  outline-offset: 2px;
-}
-
-.searchButton:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-/* Додаткові стилі для loading стану */
-.searchButton:disabled {
-  position: relative;
-}
-
-/* Анімація для кнопки при завантаженні */
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.searchButton:disabled::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  border: 2px solid transparent;
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+/* Error message */
+.errorMessage {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #dc3545;
+  font-weight: 500;
 }

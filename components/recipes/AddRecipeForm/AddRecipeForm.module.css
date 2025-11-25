@@ -1,5 +1,5 @@
 .addRecipeContainer {
-  padding: 0px 16px;
+  /* padding: 0px 16px; */
   max-width: 393px;
   margin: 48px auto;
   box-sizing: border-box;
@@ -212,7 +212,7 @@
 
 .button {
   margin-top: 40px;
-  width: 361px;
+  width: 100%;
   height: 44px;
 }
 .optionList {
@@ -263,10 +263,10 @@
   }
 }
 /* TABLET */
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 768px) {
   .addRecipeContainer {
-    padding: 0px 32px;
-    max-width: 767px;
+    /* padding: 0px 32px; */
+    max-width: 768px;
   }
   .recipeContainer {
     width: 704px;
@@ -309,26 +309,26 @@
   .calories {
     width: 340px;
   }
-  .button {
+  /* .button {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-  }
+  } */
 }
 
 /* DESKTOP */
 @media screen and (min-width: 1440px) {
   .addRecipeContainer {
     padding: 0;
-    max-width: 1226px;
+    max-width: 1224px;
   }
   .subtitlePhoto {
     width: 391px;
   }
   .formWithPhoto {
     flex-direction: row-reverse;
-    gap: 34px;
-    width: 1226px;
+    gap: 24px;
+    width: 1224px;
     margin-top: 40px;
   }
 
@@ -346,7 +346,7 @@
   .calories {
     width: 392px;
   }
-  .button {
+  /* .button {
     width: 809px;
-  }
+  } */
 }
