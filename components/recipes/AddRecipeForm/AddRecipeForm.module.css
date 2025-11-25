@@ -1,5 +1,5 @@
 .addRecipeContainer {
-  padding: 0px 16px;
+  /* padding: 0px 16px; */
   max-width: 393px;
   margin: 48px auto;
   box-sizing: border-box;
@@ -265,8 +265,8 @@
 /* TABLET */
 @media screen and (min-width: 767px) {
   .addRecipeContainer {
-    padding: 0px 32px;
-    max-width: 767px;
+    /* padding: 0px 32px; */
+    max-width: 768px;
   }
   .recipeContainer {
     width: 704px;
