@@ -40,6 +40,7 @@
   .describe {
     display: flex;
     flex-direction: row-reverse;
+    justify-content: space-between;
     gap: 24px;
     width: 1224px;
   }
