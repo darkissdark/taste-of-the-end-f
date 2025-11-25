@@ -34,7 +34,11 @@ export default function NextPagination({ page, totalPages, basePath }: NextPagin
     <div className={css.paginationWrapper}>
       <div className={css.pagination}>
         {current > 1 && (
-          <Link href={`${basePath}?page=${current - 1}`} className={css.btn}>
+          <Link
+            href={`${basePath}?page=${current - 1}`}
+            className={css.btn}
+            aria-label="Previous page"
+          >
             <SvgIcon name="pagination_left" />
           </Link>
         )}
@@ -46,6 +50,7 @@ export default function NextPagination({ page, totalPages, basePath }: NextPagin
               key={p}
               href={`${basePath}?page=${p}`}
               className={`${css.pageNumber} ${p === current ? css.activePage : ''}`}
+              aria-label="Next page"
             >
               {p}
             </Link>

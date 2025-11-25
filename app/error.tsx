@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export default function GlobalError() {
   return (
@@ -8,3 +8,23 @@ export default function GlobalError() {
     </section>
   );
 }
+
+// 'use client';
+
+// import NotFoundLayout from '@/components/layout/NotFoundLayout/NotFoundLayout';
+
+// export default function GlobalError() {
+//   return (
+//     <html>
+//       <body>
+//         <NotFoundLayout
+//           code="500"
+//           message="Something went wrong"
+//           iconName="img-404"
+//           backHref="/"
+//           backLabel="Back to Home"
+//         />
+//       </body>
+//     </html>
+//   );
+// }

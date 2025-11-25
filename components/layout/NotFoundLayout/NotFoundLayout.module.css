@@ -9,12 +9,13 @@
   width: 100%;
   height: auto;
   object-fit: cover;
+  aspect-ratio: 600 / 438;
+  height: auto;
   margin: 79px 0 32px;
 }
 
 @media (max-width: 767px) {
   .image {
-    min-width: 343px;
     max-width: 600px;
   }
 }
@@ -54,22 +55,32 @@
   font-weight: 600;
   font-size: 18px;
   color: var(--white);
-  width: 343px;
+  width: 100%;
+  max-width: 343px;
   text-decoration: none;
   margin-bottom: 79px;
+  transition: var(--transition-default);
 }
 .backLink:hover,
-.backLink:focus {
+.backLink:focus,
+.backLink:focus-visible {
   background: var(--brown);
+  transform: translateY(-1px);
 }
 .backLink:active {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
+  transform: translateY(0);
   background: var(--light-brown);
 }
 .backLink:disabled {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
   background: var(--light-brown);
   opacity: 0.3;
+}
+
+.backLink:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .icon {
